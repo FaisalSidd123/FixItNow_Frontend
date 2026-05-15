@@ -126,7 +126,7 @@
 }
 
 .hero__stat-value {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gold);
