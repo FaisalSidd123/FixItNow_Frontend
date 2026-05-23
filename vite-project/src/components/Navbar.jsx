@@ -11,7 +11,8 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const Navbar = () => {
+
+  const Navbar = ({ setPage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -42,7 +43,28 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <a href="#contact" className="navbar__cta">Get Free Quote</a>
+      
+        <div className="navbar__actions">
+
+  <button
+    className="navbar__signin"
+    onClick={() => setPage("signin")}
+  >
+    Sign In
+  </button>
+
+  <button
+    className="navbar__signup"
+    onClick={() => setPage("signup")}
+  >
+    Sign Up
+  </button>
+
+  <a href="#contact" className="navbar__cta">
+    Get Free Quote
+  </a>
+
+</div>
 
         <button
           className="navbar__hamburger"
@@ -71,6 +93,25 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
+            <button
+  className="mobile-signin"
+  onClick={() => {
+    setPage("signin");
+    setMobileOpen(false);
+  }}
+>
+  Sign In
+</button>
+
+<button
+  className="mobile-signup"
+  onClick={() => {
+    setPage("signup");
+    setMobileOpen(false);
+  }}
+>
+  Sign Up
+</button>
             <a href="#contact" className="navbar__cta navbar__cta--mobile" onClick={() => setMobileOpen(false)}>
               Get Free Quote
             </a>
@@ -80,5 +121,4 @@ const Navbar = () => {
     </motion.nav>
   );
 };
-
 export default Navbar;

@@ -1,0 +1,128 @@
+.signin {
+  min-height: 100vh;
+  background: linear-gradient(
+      rgba(10, 14, 26, 0.9),
+      rgba(10, 14, 26, 0.9)
+    ),
+    url("https://images.unsplash.com/photo-1509391366360-2e959784a276");
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 420px;
+
+  background: rgba(15, 20, 35, 0.95);
+
+  border: 1px solid rgba(245, 166, 35, 0.2);
+
+  backdrop-filter: blur(14px);
+
+  border-radius: 24px;
+
+  padding: 40px;
+
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.signin-card h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.signin-card p {
+  color: #b0b7c3;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signin-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.signin-card input {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #2b3245;
+  background: #131a2a;
+  color: white;
+  font-size: 1rem;
+}
+
+.signin-card input:focus {
+  outline: none;
+  border-color: #f5a623;
+}
+
+.signin-card button {
+  padding: 14px;
+  border: none;
+  border-radius: 50px;
+
+  background: #f5a623;
+  color: #0a0e1a;
+
+  font-weight: 700;
+  font-size: 1rem;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.signin-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
+}
+.back-home {
+  color: var(--gold);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.signin-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 22px 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+}
+
+.google-btn {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: 1px solid #444;
+
+  background: transparent;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.google-btn:hover {
+  background: rgba(255,255,255,0.08);
+}

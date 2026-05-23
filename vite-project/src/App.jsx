@@ -1,4 +1,6 @@
 import './App.css';
+import { useState } from 'react';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -8,17 +10,32 @@ import Testimonials from './components/Testimonials';
 import CTABanner from './components/CTABanner';
 import Footer from './components/Footer';
 
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+
 function App() {
+
+  const [page, setPage] = useState("home");
+
   return (
     <>
-      <Navbar />
-      <Hero />
-      <Services />
-      <Stats />
-      <About />
-      <Testimonials />
-      <CTABanner />
-      <Footer />
+      <Navbar setPage={setPage} />
+
+      {page === "home" && (
+        <>
+          <Hero />
+          <Services />
+          <Stats />
+          <About />
+          <Testimonials />
+          <CTABanner />
+          <Footer />
+        </>
+      )}
+
+      {page === "signin" && <SignIn />}
+
+      {page === "signup" && <SignUp />}
     </>
   );
 }

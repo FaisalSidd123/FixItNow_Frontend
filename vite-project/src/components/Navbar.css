@@ -130,3 +130,68 @@
     padding: 16px 20px;
   }
 }
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar__signin {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.navbar__signin:hover {
+  color: var(--gold);
+}
+
+.navbar__signup {
+  padding: 10px 20px;
+
+  border-radius: 50px;
+
+  border: 1px solid var(--gold);
+
+  background: transparent;
+
+  color: var(--gold);
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+.navbar__signup:hover {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+@media (max-width: 900px) {
+
+  .navbar__actions {
+    display: none;
+  }
+
+}
+.mobile-signin {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.mobile-signup {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+}
