@@ -1,18 +1,18 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', route: '/' },
+  { label: 'Services', href: '/#services' },
+  { label: 'About', href: '/#about' },
+  { label: 'Testimonials', href: '/#testimonials' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
-
-  const Navbar = ({ setPage }) => {
+  const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -36,29 +36,28 @@ const navLinks = [
         </a>
 
         <ul className="navbar__links">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))}
+ {navLinks.map((link) => (
+  <li key={link.label}>
+
+    {link.route ? (
+      <Link to={link.route}>{link.label}</Link>
+    ) : (
+      <a href={link.href}>{link.label}</a>
+    )}
+
+  </li>
+))}
         </ul>
 
       
         <div className="navbar__actions">
 
-  <button
-    className="navbar__signin"
-    onClick={() => setPage("signin")}
-  >
-    Sign In
-  </button>
-
-  <button
-    className="navbar__signup"
-    onClick={() => setPage("signup")}
-  >
-    Sign Up
-  </button>
+  <Link to="/signin" className="navbar__signin">
+  Sign In
+</Link>
+  <Link to="/signup" className="navbar__signup">
+  Sign Up
+</Link>
 
   <a href="#contact" className="navbar__cta">
     Get Free Quote
@@ -93,25 +92,21 @@ const navLinks = [
                 {link.label}
               </a>
             ))}
-            <button
+            <Link
+  to="/signin"
   className="mobile-signin"
-  onClick={() => {
-    setPage("signin");
-    setMobileOpen(false);
-  }}
+  onClick={() => setMobileOpen(false)}
 >
   Sign In
-</button>
+</Link>
 
-<button
+<Link
+  to="/signup"
   className="mobile-signup"
-  onClick={() => {
-    setPage("signup");
-    setMobileOpen(false);
-  }}
+  onClick={() => setMobileOpen(false)}
 >
   Sign Up
-</button>
+</Link>
             <a href="#contact" className="navbar__cta navbar__cta--mobile" onClick={() => setMobileOpen(false)}>
               Get Free Quote
             </a>

@@ -1,14 +1,13 @@
+
 import "./SignUp.css";
+import { FcGoogle } from "react-icons/fc";
 
 const SignUp = () => {
   return (
     <div className="signup">
       <div className="signup-card">
 
-        <a href="/" className="back-home">
-          ← Back to Home
-        </a>
-
+       
         <h1>Create Account</h1>
 
         <p>Join FixItNow for smart solar solutions</p>
@@ -30,6 +29,7 @@ const SignUp = () => {
 </div>
 
 <button className="google-btn">
+  <FcGoogle size={22} />
   Continue with Google
 </button>
       </div>

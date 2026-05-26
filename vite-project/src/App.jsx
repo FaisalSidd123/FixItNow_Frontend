@@ -1,5 +1,6 @@
 import './App.css';
-import { useState } from 'react';
+
+import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -13,29 +14,34 @@ import Footer from './components/Footer';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
-function App() {
-
-  const [page, setPage] = useState("home");
-
+function HomePage() {
   return (
     <>
-      <Navbar setPage={setPage} />
+      <Hero />
+      <Services />
+      <Stats />
+      <About />
+      <Testimonials />
+      <CTABanner />
+      <Footer />
+    </>
+  );
+}
 
-      {page === "home" && (
-        <>
-          <Hero />
-          <Services />
-          <Stats />
-          <About />
-          <Testimonials />
-          <CTABanner />
-          <Footer />
-        </>
-      )}
+function App() {
+  return (
+    <>
+      <Navbar />
 
-      {page === "signin" && <SignIn />}
+      <Routes>
 
-      {page === "signup" && <SignUp />}
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="/signin" element={<SignIn />} />
+
+        <Route path="/signup" element={<SignUp />} />
+
+      </Routes>
     </>
   );
 }

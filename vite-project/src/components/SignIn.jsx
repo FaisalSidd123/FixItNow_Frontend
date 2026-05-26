@@ -1,13 +1,13 @@
+
 import "./SignIn.css";
+import { FcGoogle } from "react-icons/fc";
 
 const SignIn = () => {
   return (
     <div className="signin">
       <div className="signin-card">
 
-        <a href="/" className="back-home">
-          ← Back to Home
-        </a>
+      
 
         <h1>Welcome Back</h1>
 
@@ -28,6 +28,7 @@ const SignIn = () => {
 </div>
 
 <button className="google-btn">
+  <FcGoogle size={22} />
   Continue with Google
 </button>
       </div>
