@@ -1,38 +1,133 @@
+import { Link, useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
+
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle
+} from "../firebase/auth";
 
 import "./SignUp.css";
-import { FcGoogle } from "react-icons/fc";
 
 const SignUp = () => {
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+
+      await doCreateUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      alert("Account created successfully!");
+
+      navigate("/");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+    setLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+
+      await doSignInWithGoogle();
+
+      alert("Google Sign Up successful!");
+
+      navigate("/");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+    setLoading(false);
+  };
+
   return (
     <div className="signup">
+
       <div className="signup-card">
 
-       
+
         <h1>Create Account</h1>
 
-        <p>Join FixItNow for smart solar solutions</p>
+        <p>
+          Join FixItNow for smart solar solutions
+        </p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
 
-  <input type="text" placeholder="Full Name" />
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            required
+          />
 
-  <input type="email" placeholder="Email Address" />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            required
+          />
 
-  <input type="password" placeholder="Password" />
+          <button type="submit">
 
-  <button type="submit">Sign Up</button>
+            {loading
+              ? "Creating Account..."
+              : "Sign Up"}
 
-</form>
+          </button>
 
-<div className="signin-divider">
-  <span>OR</span>
-</div>
+        </form>
 
-<button className="google-btn">
+        <div className="signin-divider">
+          <span>OR</span>
+        </div>
+
+        <button
+  className="google-btn"
+  onClick={handleGoogleSignIn}
+>
   <FcGoogle size={22} />
   Continue with Google
 </button>
+
       </div>
+
     </div>
   );
 };
