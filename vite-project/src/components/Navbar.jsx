@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Menu, X } from 'lucide-react';
+import { Zap, Menu, X, User } from 'lucide-react';
+import { useAuth } from "../contexts/AuthContext";
+import { doSignOut } from "../firebase/auth";
 import './Navbar.css';
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -18,6 +21,7 @@ const Navbar = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
+
   useEffect(() => {
 
     const onScroll = () => {
@@ -29,6 +33,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
 
   }, []);
+
+  const {userLoggedIn,currentUser} = useAuth();
+
+  const handleLogout = async () => {
+  try {
+    await doSignOut();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const navigate = useNavigate();
 
   return (
     <motion.nav
@@ -61,30 +77,51 @@ const Navbar = () => {
 
         </ul>
 
-        <div className="navbar__actions">
+       <div className="navbar__actions">
 
-          <Link
-            to="/signin"
-            className="navbar__signin"
-          >
-            Sign In
-          </Link>
+  {!userLoggedIn ? (
+    <>
+      <Link to="/signin" className="navbar__signin">
+        Sign In
+      </Link>
 
-          <Link
-            to="/signup"
-            className="navbar__signup"
-          >
-            Sign Up
-          </Link>
+      <Link to="/signup" className="navbar__signup">
+        Sign Up
+      </Link>
+    </>
+  ) : (
+   <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px"
+  }}
+>
 
-          <a
-            href="/#contact"
-            className="navbar__cta"
-          >
-            Get Free Quote
-          </a>
+<div className="avatar">
+  <User size={20} />
+</div>
 
-        </div>
+  <span>
+    {currentUser?.displayName}
+  </span>
+
+  <button
+    className="navbar__signup"
+    onClick={handleLogout}
+  >
+    Logout
+  </button>
+
+</div>
+  )}
+
+  <a href="/#contact" className="navbar__cta">
+    Get Free Quote
+  </a>
+
+</div>
+       
 
         <button
           className="navbar__hamburger"
@@ -141,26 +178,49 @@ const Navbar = () => {
 
             ))}
 
-            <Link
-              to="/signin"
-              className="mobile-signin"
-              onClick={() =>
-                setMobileOpen(false)
-              }
-            >
-              Sign In
-            </Link>
+           {userLoggedIn ? (
+  <div className="mobile-user-profile">
 
-            <Link
-              to="/signup"
-              className="mobile-signup"
-              onClick={() =>
-                setMobileOpen(false)
-              }
-            >
-              Sign Up
-            </Link>
+    <div className="user-profile">
+      <div className="avatar">
+        <User size={20} />
+      </div>
 
+      <span className="user-name">
+        {currentUser?.displayName}
+      </span>
+    </div>
+
+    <button
+      className="mobile-signup"
+      onClick={() => {
+        handleLogout();
+        setMobileOpen(false);
+      }}
+    >
+      Logout
+    </button>
+
+  </div>
+) : (
+  <>
+    <Link
+      to="/signin"
+      className="mobile-signin"
+      onClick={() => setMobileOpen(false)}
+    >
+      Sign In
+    </Link>
+
+    <Link
+      to="/signup"
+      className="mobile-signup"
+      onClick={() => setMobileOpen(false)}
+    >
+      Sign Up
+    </Link>
+  </>
+)}
             <a
               href="/#contact"
               className="navbar__cta navbar__cta--mobile"

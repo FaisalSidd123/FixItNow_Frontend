@@ -195,3 +195,48 @@
   color: var(--gold);
   cursor: pointer;
 }
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-weight: 500;
+}
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 193, 7, 0.2);
+  color: #f5b32f;
+  border: 1px solid rgba(245, 179, 47, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__signup {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+button:hover, .navbar__cta:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+.mobile-user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.mobile-user-profile .user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

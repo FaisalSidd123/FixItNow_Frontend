@@ -13,6 +13,8 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -29,10 +31,11 @@ const SignUp = () => {
 
     try {
 
-      await doCreateUserWithEmailAndPassword(
-        email,
-        password
-      );
+     await doCreateUserWithEmailAndPassword(
+      name,
+      email,
+     password
+     );
 
       alert("Account created successfully!");
 
@@ -83,6 +86,16 @@ const SignUp = () => {
         </p>
 
         <form onSubmit={handleSubmit}>
+
+          <input
+            type="text"
+           placeholder="Full Name"
+            value={name}
+           onChange={(e) =>
+           setName(e.target.value)
+           }
+          required
+          />
 
           <input
             type="email"

@@ -7,17 +7,28 @@ import {
 } from "firebase/auth";
 
 import { auth } from "./firebase";
-
+import { updateProfile } from "firebase/auth";
 export const doCreateUserWithEmailAndPassword = async (
+  name,
   email,
   password
 ) => {
 
-  return createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
+  const userCredential =
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  await updateProfile(
+    userCredential.user,
+    {
+      displayName: name,
+    }
   );
+
+  return userCredential;
 };
 
 export const doSignInWithEmailAndPassword = (
