@@ -1,32 +1,10 @@
 import './App.css';
-
 import { Routes, Route } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Stats from './components/Stats';
-import About from './components/About';
-import Testimonials from './components/Testimonials';
-import CTABanner from './components/CTABanner';
-import Footer from './components/Footer';
-
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-
-function HomePage() {
-  return (
-    <>
-      <Hero />
-      <Services />
-      <Stats />
-      <About />
-      <Testimonials />
-      <CTABanner />
-      <Footer />
-    </>
-  );
-}
+import Navbar from './components/layout/Navbar/Navbar';
+import Home from './pages/Home/Home';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
 
 function App() {
   return (
@@ -34,13 +12,9 @@ function App() {
       <Navbar />
 
       <Routes>
-
-        <Route path="/" element={<HomePage />} />
-
+        <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-
         <Route path="/signup" element={<SignUp />} />
-
       </Routes>
     </>
   );
