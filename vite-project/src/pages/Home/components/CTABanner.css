@@ -1,38 +1,56 @@
 .cta-banner {
+  background: var(--bg-dark);
+  padding: 120px 5% !important;
   position: relative;
-  text-align: center;
-  background: var(--bg-card);
   overflow: hidden;
 }
 
-.cta-banner__glow {
+.cta-banner::before {
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(245, 166, 35, 0.12) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: pulse-glow 3s ease-in-out infinite;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(245, 166, 35, 0.03) 0%, transparent 65%);
   pointer-events: none;
+  z-index: 0;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
-}
-
-.cta-banner__content {
+.cta-banner__container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
   position: relative;
   z-index: 1;
-  max-width: 700px;
-  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── Left Column: Content Copy ─── */
+.cta-banner__content {
+  text-align: left;
+}
+
+.cta-banner__subtitle {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .cta-banner__content h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--white);
   margin-bottom: 20px;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .cta-banner__content p {
@@ -40,11 +58,319 @@
   font-size: 1.05rem;
   line-height: 1.7;
   margin-bottom: 36px;
+  max-width: 500px;
 }
 
 .cta-banner__buttons {
   display: flex;
   gap: 16px;
-  justify-content: center;
   flex-wrap: wrap;
+}
+
+/* ─── Right Column: Interactive Solar Calculator ─── */
+.cta-banner__calculator {
+  position: relative;
+  overflow: hidden;
+  background: rgba(15, 22, 41, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  width: 100%;
+  max-width: 520px;
+  justify-self: end;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cta-banner__calculator:hover {
+  border-color: rgba(245, 166, 35, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 166, 35, 0.03);
+}
+
+.cta-banner__calc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-banner__calc-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  color: var(--white);
+  font-size: 1.05rem;
+}
+
+.cta-banner__calc-badge {
+  font-family: monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  border: 1px solid rgba(245, 166, 35, 0.25);
+  background: rgba(245, 166, 35, 0.06);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.cta-banner__calc-body {
+  position: relative;
+  z-index: 2;
+}
+
+/* Slider */
+.cta-banner__slider-group {
+  margin-bottom: 24px;
+}
+
+.cta-banner__slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.cta-banner__slider-label {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.cta-banner__slider-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.cta-banner__slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+  cursor: pointer;
+}
+
+.cta-banner__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.cta-banner__slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.cta-banner__slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.cta-banner__slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+}
+
+.cta-banner__slider-limits {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 500;
+}
+
+/* Results Cards */
+.cta-banner__results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cta-banner__result-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.cta-banner__result-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.cta-banner__result-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.cta-banner__result-unit {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Environmental Impact Card */
+.cta-banner__impact {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(6, 214, 160, 0.04);
+  border: 1px solid rgba(6, 214, 160, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: left;
+}
+
+.cta-banner__gauge-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cta-banner__gauge-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.03);
+  stroke-width: 3.5;
+}
+
+.cta-banner__gauge-fill {
+  fill: none;
+  stroke: var(--accent-green);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 30px 30px;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.cta-banner__gauge-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-banner__impact-text h5 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 2px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.cta-banner__impact-text p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Ambient Grid overlay */
+.cta-banner__calc-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 10px 10px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .cta-banner__container {
+    gap: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .cta-banner {
+    padding: 80px 24px !important;
+  }
+
+  .cta-banner__container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .cta-banner__content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-banner__content p {
+    text-align: center;
+  }
+
+  .cta-banner__buttons {
+    justify-content: center;
+  }
+
+  .cta-banner__calculator {
+    justify-self: center;
+    padding: 28px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cta-banner__calculator {
+    padding: 24px 20px;
+  }
+
+  .cta-banner__results-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta-banner__result-card {
+    padding: 12px 16px;
+  }
+
+  .cta-banner__result-value {
+    font-size: 1.5rem;
+  }
+
+  .cta-banner__impact {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }
