@@ -24,6 +24,13 @@
   margin-bottom: 16px;
 }
 
+.footer__logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .footer__logo svg {
   color: var(--gold);
 }

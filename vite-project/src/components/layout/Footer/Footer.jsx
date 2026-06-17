@@ -14,6 +14,7 @@ const YoutubeIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
 );
 import './Footer.css';
+import logo from '../../../assets/FixItNow Logo.png';
 
 const Footer = () => {
   return (
@@ -22,8 +23,7 @@ const Footer = () => {
         {/* Column 1: Brand */}
         <div className="footer__col">
           <a href="#home" className="footer__logo">
-            <Zap size={22} />
-            <span>FixItNow</span>
+            <img src={logo} alt="FixItNow Logo" className="footer__logo-img" />
           </a>
           <p className="footer__tagline">
             Pakistan's #1 premium solar energy partner. Powering homes and

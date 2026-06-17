@@ -1,12 +1,15 @@
 import React from 'react';
 import './Overlay.css';
+import logo from '../../assets/FixItNow Logo.png';
 
 const Overlay = React.forwardRef(({ onBookNowClick }, ref) => {
   return (
     <div className="canvas-overlay" ref={ref}>
       {/* Top Header Layer */}
       <header className="overlay-header">
-        <div className="overlay-logo">FixItNow</div>
+        <div className="overlay-logo">
+          <img src={logo} alt="FixItNow Logo" className="overlay-logo-img" />
+        </div>
         <nav className="overlay-nav">
           <a href="#services">Services</a>
           <a href="#about">About</a>
@@ -25,7 +28,7 @@ const Overlay = React.forwardRef(({ onBookNowClick }, ref) => {
       <div className="overlay-bottom scroll-indicator">
         {/* Pulsing scroll hint text */}
         <p className="scroll-hint-text">Scroll to explore</p>
-        
+
         {/* Pulsing thin orange scroll indicator arrow */}
         <div className="pulse-arrow-wrapper">
           <svg
