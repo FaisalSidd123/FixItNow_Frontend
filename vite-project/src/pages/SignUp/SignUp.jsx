@@ -39,7 +39,7 @@ const SignUp = () => {
 
       alert("Account created successfully!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -62,7 +62,7 @@ const SignUp = () => {
 
       alert("Google Sign Up successful!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 

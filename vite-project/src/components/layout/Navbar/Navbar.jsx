@@ -121,9 +121,14 @@ const Navbar = () => {
     {currentUser?.displayName}
   </span>
 
+  <Link to="/dashboard" className="navbar__signin" style={{ marginLeft: '10px' }}>
+    Dashboard
+  </Link>
+
   <button
     className="navbar__signup"
     onClick={handleLogout}
+    style={{ marginLeft: '10px' }}
   >
     Logout
   </button>
@@ -205,6 +210,15 @@ const Navbar = () => {
         {currentUser?.displayName}
       </span>
     </div>
+
+    <Link
+      to="/dashboard"
+      className="mobile-signin"
+      onClick={() => setMobileOpen(false)}
+      style={{ marginBottom: '8px' }}
+    >
+      Dashboard
+    </Link>
 
     <button
       className="mobile-signup"

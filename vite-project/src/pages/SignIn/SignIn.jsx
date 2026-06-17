@@ -40,7 +40,7 @@ const SignIn = () => {
 
       alert("Login successful!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -63,7 +63,7 @@ const SignIn = () => {
 
       alert("Google Sign In successful!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 
