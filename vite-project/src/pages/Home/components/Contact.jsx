@@ -59,14 +59,6 @@ const Contact = () => {
           </p>
 
           <div className="contact__details">
-            <div className="contact__status-card">
-              <div className="contact__status-header">
-                <span className="contact__status-pulse" />
-                <span className="contact__status-tag">CENTRAL SYSTEM DISPATCH // ACTIVE</span>
-              </div>
-              <span className="contact__status-coords">LOC: 33.6844° N, 73.0479° E</span>
-            </div>
-
             <a href="tel:+923001234567" className="contact__item-link">
               <div className="contact__item-icon"><Phone size={18} /></div>
               <div className="contact__item-text">
@@ -104,17 +96,8 @@ const Contact = () => {
           <div className="contact__form-card">
             {/* Top Form Progress Bar */}
             <div className="contact__form-progress">
-              <div className="contact__form-progress-text">
-                <span>PROJECT PROFILE STAGE</span>
-                <span>{progressPercent}%</span>
-              </div>
-              <div className="contact__progress-track">
-                <motion.div
-                  className="contact__progress-fill"
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
+
+
             </div>
 
             <AnimatePresence mode="wait">
