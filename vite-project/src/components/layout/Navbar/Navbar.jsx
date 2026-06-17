@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Menu, X, User } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { useAuth } from "../../../contexts/AuthContext";
 import { doSignOut } from "../../../firebase/auth";
 import './Navbar.css';
 import { useNavigate, useLocation } from "react-router-dom";
+import logo from '../../../assets/FixItNow Logo.png';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -49,7 +50,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleNavbarVisibility);
   }, [isHomePage]);
 
-  const {userLoggedIn,currentUser} = useAuth();
+  const { userLoggedIn, currentUser } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -68,204 +69,147 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-
       <div className="navbar__inner">
-
         <Link to="/" className="navbar__logo">
-          <Zap size={24} />
-          <span>FixItNow</span>
+          <img src={logo} alt="FixItNow Logo" className="navbar__logo-img" />
         </Link>
 
         <ul className="navbar__links">
-
           {navLinks.map((link) => (
-
             <li key={link.label}>
-
               <a href={link.path}>
                 {link.label}
               </a>
-
             </li>
-
           ))}
-
         </ul>
 
-       <div className="navbar__actions">
+        <div className="navbar__actions">
+          {!userLoggedIn ? (
+            <>
+              <Link to="/signin" className="navbar__signin">
+                Sign In
+              </Link>
+              <Link to="/signup" className="navbar__signup">
+                Sign Up
+              </Link>
+            </>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px"
+              }}
+            >
+              <div className="avatar">
+                <User size={20} />
+              </div>
+              <span className="user-name">
+                {currentUser?.displayName}
+              </span>
+              <Link to="/dashboard" className="navbar__signin" style={{ marginLeft: '10px' }}>
+                Dashboard
+              </Link>
+              <button
+                className="navbar__signup"
+                onClick={handleLogout}
+                style={{ marginLeft: '10px' }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
 
-  {!userLoggedIn ? (
-    <>
-      <Link to="/signin" className="navbar__signin">
-        Sign In
-      </Link>
-
-      <Link to="/signup" className="navbar__signup">
-        Sign Up
-      </Link>
-    </>
-  ) : (
-   <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "10px"
-  }}
->
-
-<div className="avatar">
-  <User size={20} />
-</div>
-
-  <span>
-    {currentUser?.displayName}
-  </span>
-
-  <Link to="/dashboard" className="navbar__signin" style={{ marginLeft: '10px' }}>
-    Dashboard
-  </Link>
-
-  <button
-    className="navbar__signup"
-    onClick={handleLogout}
-    style={{ marginLeft: '10px' }}
-  >
-    Logout
-  </button>
-
-</div>
-  )}
-
-  <a href="/#contact" className="navbar__cta">
-    Get Free Quote
-  </a>
-
-</div>
-       
+          <a href="/#contact" className="navbar__cta">
+            Get Free Quote
+          </a>
+        </div>
 
         <button
           className="navbar__hamburger"
-          onClick={() =>
-            setMobileOpen(!mobileOpen)
-          }
+          onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-
-          {mobileOpen
-            ? <X size={26} />
-            : <Menu size={26} />
-          }
-
+          {mobileOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
-
       </div>
 
       <AnimatePresence>
-
         {mobileOpen && (
-
           <motion.div
             className="navbar__mobile"
-            initial={{
-              opacity: 0,
-              height: 0
-            }}
-            animate={{
-              opacity: 1,
-              height: 'auto'
-            }}
-            exit={{
-              opacity: 0,
-              height: 0
-            }}
-            transition={{
-              duration: 0.35,
-              ease: 'easeInOut'
-            }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
           >
-
             {navLinks.map((link) => (
-
               <a
                 key={link.label}
                 href={link.path}
-                onClick={() =>
-                  setMobileOpen(false)
-                }
+                onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </a>
-
             ))}
 
-           {userLoggedIn ? (
-  <div className="mobile-user-profile">
-
-    <div className="user-profile">
-      <div className="avatar">
-        <User size={20} />
-      </div>
-
-      <span className="user-name">
-        {currentUser?.displayName}
-      </span>
-    </div>
-
-    <Link
-      to="/dashboard"
-      className="mobile-signin"
-      onClick={() => setMobileOpen(false)}
-      style={{ marginBottom: '8px' }}
-    >
-      Dashboard
-    </Link>
-
-    <button
-      className="mobile-signup"
-      onClick={() => {
-        handleLogout();
-        setMobileOpen(false);
-      }}
-    >
-      Logout
-    </button>
-
-  </div>
-) : (
-  <>
-    <Link
-      to="/signin"
-      className="mobile-signin"
-      onClick={() => setMobileOpen(false)}
-    >
-      Sign In
-    </Link>
-
-    <Link
-      to="/signup"
-      className="mobile-signup"
-      onClick={() => setMobileOpen(false)}
-    >
-      Sign Up
-    </Link>
-  </>
-)}
+            {userLoggedIn ? (
+              <div className="mobile-user-profile">
+                <div className="user-profile">
+                  <div className="avatar">
+                    <User size={20} />
+                  </div>
+                  <span className="user-name">
+                    {currentUser?.displayName}
+                  </span>
+                </div>
+                <Link
+                  to="/dashboard"
+                  className="mobile-signin"
+                  onClick={() => setMobileOpen(false)}
+                  style={{ marginBottom: '8px' }}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  className="mobile-signup"
+                  onClick={() => {
+                    handleLogout();
+                    setMobileOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  className="mobile-signin"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="mobile-signup"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
             <a
               href="/#contact"
               className="navbar__cta navbar__cta--mobile"
-              onClick={() =>
-                setMobileOpen(false)
-              }
+              onClick={() => setMobileOpen(false)}
             >
               Get Free Quote
             </a>
-
           </motion.div>
-
         )}
-
       </AnimatePresence>
-
     </motion.nav>
   );
 };
