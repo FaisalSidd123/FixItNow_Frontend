@@ -1,5 +1,6 @@
 .about {
   background: var(--bg-dark);
+  padding: 96px 24px;
 }
 
 .about__container {
@@ -15,6 +16,7 @@
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   margin-bottom: 24px;
   line-height: 1.2;
+  color: var(--white);
 }
 
 .about__text p {
@@ -24,36 +26,42 @@
   font-size: 0.95rem;
 }
 
-.about__bars {
-  margin-top: 32px;
+/* ─── Stats: animated counters instead of bars ───────────────────────── */
+.about__stats {
+  margin-top: 36px;
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.about__stat {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 6px;
 }
 
-.about__progress-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+.about__stat-number {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.about__progress-track {
-  width: 100%;
-  height: 8px;
-  background: rgba(245, 166, 35, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
+.about__stat-suffix {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-left: 2px;
 }
 
-.about__progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 8px;
-  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.about__stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: 130px;
+  line-height: 1.4;
 }
 
+/* ─── Image + sunlight wipe reveal ───────────────────────────────────── */
 .about__image {
   position: relative;
   border-radius: 20px;
@@ -68,6 +76,31 @@
   display: block;
 }
 
+/* The mask that covers the photo and sweeps away left-to-right */
+.about__sun-wipe {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+      var(--bg-dark) 0%,
+      var(--gold) 45%,
+      rgba(255, 226, 159, 0.9) 55%,
+      var(--bg-dark) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* A soft traveling glow riding the edge of the wipe — like the sun crossing the frame */
+.about__sun-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  background: radial-gradient(circle, rgba(255, 240, 200, 0.55) 0%, transparent 70%);
+  z-index: 3;
+  pointer-events: none;
+  filter: blur(8px);
+}
+
 .about__image-accent {
   position: absolute;
   bottom: -8px;
@@ -80,6 +113,7 @@
   opacity: 0.3;
 }
 
+/* ─── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .about__container {
     grid-template-columns: 1fr;
@@ -88,5 +122,22 @@
 
   .about__image img {
     height: 320px;
+  }
+
+  .about__stats {
+    gap: 24px;
+  }
+
+  .about__stat-number {
+    font-size: 2rem;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+  .about__sun-wipe,
+  .about__sun-glow {
+    display: none;
   }
 }
