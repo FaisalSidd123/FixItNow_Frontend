@@ -65,11 +65,120 @@
   margin-top: 20px;
 }
 
+/* ─── Grid wrapper: hosts both the connector layer and the card grid ─── */
+.stats__grid-wrapper {
+  position: relative;
+}
+
 /* ─── Grid ─── */
 .stats__grid {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NETWORK CONNECTORS — the live energy lines between adjacent cards.
+   Sits as an absolutely positioned layer behind the cards (z-index 1).
+   3 connectors span the 3 gaps between 4 cards in the row.
+   Positioned at vertical card-center, horizontally bridging each gap.
+   ───────────────────────────────────────────────────────────────────── */
+.stats__network {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+}
+
+.stats__network.is-active {
+  opacity: 1;
+}
+
+.stats__connector {
+  position: absolute;
+  top: 50%;
+  /*
+    4 equal columns with 24px gaps: each connector bridges one gap.
+    Using calc with the column count keeps this accurate without JS measurement —
+    width of one gap is approximated as a thin strip centered on each grid seam.
+  */
+  width: calc(24px + 2px);
+  /* spans the gap plus a sliver into each card edge */
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+/* Position each of the 3 connectors at its respective grid seam (25%, 50%, 75%) */
+.stats__connector:nth-child(1) {
+  left: calc(25% - 13px);
+}
+
+.stats__connector:nth-child(2) {
+  left: calc(50% - 13px);
+}
+
+.stats__connector:nth-child(3) {
+  left: calc(75% - 13px);
+}
+
+.stats__connector-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      rgba(245, 166, 35, 0.25),
+      rgba(255, 209, 102, 0.4),
+      rgba(245, 166, 35, 0.25));
+}
+
+/* The traveling glow — a small bright dot moving left to right across the connector, looping */
+.stats__connector-pulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  box-shadow: 0 0 8px 2px rgba(255, 209, 102, 0.7);
+  transform: translate(-50%, -50%);
+  animation: connector-travel 2.4s ease-in-out infinite;
+}
+
+@keyframes connector-travel {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Port marker on each card — visually anchors where the line "plugs in" */
+.stats__card-port {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%);
+  z-index: 3;
 }
 
 /* ─── Telemetry Block (Card) ─── */
@@ -202,8 +311,13 @@
 }
 
 @keyframes orbit-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* SVG 2: Wave Animation */
@@ -222,12 +336,21 @@
 }
 
 @keyframes wave-glow {
-  0% { opacity: 0.7; stroke-width: 1.5; }
-  100% { opacity: 1; stroke-width: 2.2; filter: drop-shadow(0 0 3px var(--gold-light)); }
+  0% {
+    opacity: 0.7;
+    stroke-width: 1.5;
+  }
+
+  100% {
+    opacity: 1;
+    stroke-width: 2.2;
+    filter: drop-shadow(0 0 3px var(--gold-light));
+  }
 }
 
 /* SVG 3: Radial Complete Circle Animation */
-.radial-fill, .radial-glow {
+.radial-fill,
+.radial-glow {
   stroke-dasharray: 201;
   stroke-dashoffset: 201;
   transform: rotate(-90deg);
@@ -252,13 +375,27 @@
 }
 
 @keyframes radar-sweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes radar-pulse {
-  0% { r: 4px; opacity: 0.9; stroke-width: 1.5px; }
-  100% { r: 40px; opacity: 0; stroke-width: 0.5px; }
+  0% {
+    r: 4px;
+    opacity: 0.9;
+    stroke-width: 1.5px;
+  }
+
+  100% {
+    r: 40px;
+    opacity: 0;
+    stroke-width: 0.5px;
+  }
 }
 
 /* ─── Numbers & Text ─── */
@@ -392,6 +529,12 @@
   .stats__grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+  }
+
+  /* On 2-column layouts the horizontal connector math no longer matches the seams,
+     so we hide the network lines rather than show a broken/misaligned version */
+  .stats__network {
+    display: none;
   }
 }
 

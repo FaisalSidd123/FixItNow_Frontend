@@ -99,6 +99,25 @@ const StatsCounter = ({ value, suffix, inView, delay = 0 }) => {
   );
 };
 
+/*
+  NetworkConnectors: draws the live energy lines between adjacent cards.
+  Positioned with CSS along the natural grid seams (between col 1-2, 2-3, 3-4)
+  rather than calculated via JS measurement — stays accurate across resizes
+  with zero listeners, and the pulse travels via a pure CSS animation.
+*/
+const NetworkConnectors = ({ active }) => {
+  return (
+    <div className={`stats__network ${active ? 'is-active' : ''}`} aria-hidden="true">
+      {[0, 1, 2].map((i) => (
+        <div className="stats__connector" key={i} style={{ animationDelay: `${i * 0.4}s` }}>
+          <div className="stats__connector-line" />
+          <div className="stats__connector-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Stats = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
@@ -115,42 +134,50 @@ const Stats = () => {
           </p>
         </div>
 
-        <div className="stats__grid">
-          {statsData.map((s, i) => (
-            <motion.div
-              className={`stats__block ${s.colorClass} ${inView ? 'is-in-view' : ''}`}
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, amount: 0.1 }}
-            >
-              {/* Tech Corner Details */}
-              <div className="stats__card-corner stats__card-corner--tl" />
-              <div className="stats__card-corner stats__card-corner--tr" />
-              <div className="stats__card-corner stats__card-corner--bl" />
-              <div className="stats__card-corner stats__card-corner--br" />
+        <div className="stats__grid-wrapper">
+          {/* Connector layer sits behind the cards, lines up with the grid seams */}
+          <NetworkConnectors active={inView} />
 
-              <div className="stats__card-header">
-                <span className="stats__card-tag">{s.tag}</span>
-                <div className="stats__card-icon">{s.icon}</div>
-              </div>
+          <div className="stats__grid">
+            {statsData.map((s, i) => (
+              <motion.div
+                className={`stats__block ${s.colorClass} ${inView ? 'is-in-view' : ''}`}
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, amount: 0.1 }}
+              >
+                {/* Tech Corner Details */}
+                <div className="stats__card-corner stats__card-corner--tl" />
+                <div className="stats__card-corner stats__card-corner--tr" />
+                <div className="stats__card-corner stats__card-corner--bl" />
+                <div className="stats__card-corner stats__card-corner--br" />
 
-              <div className="stats__card-body">
-                <div className="stats__svg-container">
-                  {s.svg}
+                {/* Port marker — visually anchors where the network line "plugs in" */}
+                <div className="stats__card-port" />
+
+                <div className="stats__card-header">
+                  <span className="stats__card-tag">{s.tag}</span>
+                  <div className="stats__card-icon">{s.icon}</div>
                 </div>
-                <div className="stats__number">
-                  <StatsCounter value={s.end} suffix={s.suffix} inView={inView} delay={150 * i} />
-                </div>
-                <h3 className="stats__label">{s.label}</h3>
-                <p className="stats__detail">{s.detail}</p>
-              </div>
 
-              {/* Ambient Grid overlay inside card */}
-              <div className="stats__card-grid-pattern" />
-            </motion.div>
-          ))}
+                <div className="stats__card-body">
+                  <div className="stats__svg-container">
+                    {s.svg}
+                  </div>
+                  <div className="stats__number">
+                    <StatsCounter value={s.end} suffix={s.suffix} inView={inView} delay={150 * i} />
+                  </div>
+                  <h3 className="stats__label">{s.label}</h3>
+                  <p className="stats__detail">{s.detail}</p>
+                </div>
+
+                {/* Ambient Grid overlay inside card */}
+                <div className="stats__card-grid-pattern" />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
