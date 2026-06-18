@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { doSignOut } from '../../firebase/auth';
@@ -9,16 +9,63 @@ import {
   TrendingUp,
   Cpu,
   LogOut,
-  CheckCircle2,
+  CheckCircle,
   Calendar,
-  CloudSun,
-  Award
+  Wrench,
+  Clock,
+  CalendarRange,
+  User,
+  AlertCircle,
+  Sparkles
 } from 'lucide-react';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  // Booking form states
+  const [serviceType, setServiceType] = useState('');
+  const [preferredDate, setPreferredDate] = useState('');
+  const [notes, setNotes] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  // Availed services state
+  const [availedServices, setAvailedServices] = useState([
+    {
+      id: 'SRV-9014',
+      type: 'Battery Thermal Tuning',
+      date: '2026-06-12',
+      status: 'Completed',
+      technician: 'Faisal Kamal',
+      cost: '$140'
+    },
+    {
+      id: 'SRV-8942',
+      type: 'Inverter Diagnostic Sweep',
+      date: '2026-05-28',
+      status: 'Completed',
+      technician: 'Kamran Shah',
+      cost: '$120'
+    },
+    {
+      id: 'SRV-8821',
+      type: 'Thermal Panel Washing',
+      date: '2026-04-15',
+      status: 'Completed',
+      technician: 'Zainab Ali',
+      cost: '$85'
+    }
+  ]);
+
+  // Simulated live telemetry logs
+  const telemetryLogs = [
+    { time: '05:32 PM', msg: 'Battery bank temperature stabilized at 28.5°C' },
+    { time: '04:15 PM', msg: 'System completed peak production period' },
+    { time: '02:00 PM', msg: 'Smart grid feedback rate: Optimum (98.4%)' },
+    { time: '11:30 AM', msg: 'Automatic inverter ventilation cooling activated' },
+    { time: '08:00 AM', msg: 'Grid sync complete. Energy export initiated' }
+  ];
 
   const handleLogout = async () => {
     try {
@@ -29,6 +76,34 @@ const Dashboard = () => {
     }
   };
 
+  const handleBookService = (e) => {
+    e.preventDefault();
+    if (!serviceType || !preferredDate) return;
+
+    // Create a new booking
+    const newService = {
+      id: `SRV-${Math.floor(1000 + Math.random() * 9000)}`,
+      type: serviceType,
+      date: preferredDate,
+      status: 'Scheduled',
+      technician: 'Assigning (Pending)',
+      cost: '$110 (Est.)'
+    };
+
+    setAvailedServices([newService, ...availedServices]);
+    setSuccessMessage(`Success! Booking ${newService.id} has been registered.`);
+    
+    // Clear inputs
+    setServiceType('');
+    setPreferredDate('');
+    setNotes('');
+
+    // Clear alert after timeout
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 5000);
+  };
+
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -36,174 +111,241 @@ const Dashboard = () => {
     day: 'numeric'
   });
 
-  // Mock data for 12 solar panels
-  const panels = Array.from({ length: 12 }, (_, i) => ({
-    id: `PNL-${String(i + 1).padStart(3, '0')}`,
-    efficiency: Math.round(92 + Math.random() * 7), // 92% - 99%
-    status: 'Online',
-    output: (280 + Math.random() * 40).toFixed(0) // 280W - 320W
-  }));
-
   return (
     <div className="dashboard-container">
-      {/* Top Welcome Header bar */}
+      {/* Welcome Top Banner */}
       <header className="dash-header">
         <div className="dash-welcome">
-          <h1>Welcome Back, {currentUser?.displayName || 'Solar Owner'}</h1>
+          <div className="dash-status-node">
+            <span className="pulse-green"></span>
+            <span className="dash-node-lbl">GRID ACTIVE // OK</span>
+          </div>
+          <h1>Welcome, {currentUser?.displayName || 'Solar Partner'}</h1>
           <p className="dash-date">
-            <Calendar size={15} style={{ marginRight: '6px' }} />
+            <Calendar size={14} className="calendar-icon-svg" />
             {currentDate}
           </p>
         </div>
         <button className="dash-logout-btn" onClick={handleLogout}>
-          <LogOut size={16} />
+          <LogOut size={15} />
           <span>Sign Out</span>
         </button>
       </header>
 
-      {/* Main Grid Section */}
-      <div className="dash-grid">
-        
-        {/* Row 1: KPI Stats Cards */}
-        <div className="dash-card stat-card current-output">
-          <div className="card-header">
-            <span className="card-lbl">Current Output</span>
-            <span className="card-icon"><Zap size={20} /></span>
+      {/* Modern Minimal Stats Row */}
+      <div className="dash-stats-row">
+        <div className="dash-kpi-card">
+          <div className="kpi-icon-wrapper">
+            <Zap size={18} />
           </div>
-          <div className="card-val">5.42 <span className="val-unit">kW</span></div>
-          <div className="card-change positive">
-            <span className="pulse-green"></span> System Peak Performance
+          <div className="kpi-info">
+            <span className="kpi-label">System Health</span>
+            <span className="kpi-val">98% <span className="kpi-trend">Optimum</span></span>
           </div>
         </div>
 
-        <div className="dash-card stat-card daily-yield">
-          <div className="card-header">
-            <span className="card-lbl">Today's Yield</span>
-            <span className="card-icon"><Sun size={20} /></span>
+        <div className="dash-kpi-card">
+          <div className="kpi-icon-wrapper">
+            <Wrench size={18} />
           </div>
-          <div className="card-val">34.80 <span className="val-unit">kWh</span></div>
-          <div className="card-change text-gold">
-            104% of daily target reached
-          </div>
-        </div>
-
-        <div className="dash-card stat-card cost-savings">
-          <div className="card-header">
-            <span className="card-lbl">Financial Savings</span>
-            <span className="card-icon"><TrendingUp size={20} /></span>
-          </div>
-          <div className="card-val">$412.50 <span className="val-unit">USD</span></div>
-          <div className="card-change positive">
-            +$42.10 saved this week
+          <div className="kpi-info">
+            <span className="kpi-label">Services Availed</span>
+            <span className="kpi-val">{availedServices.length} <span className="kpi-trend">Total</span></span>
           </div>
         </div>
 
-        <div className="dash-card stat-card battery-storage">
-          <div className="card-header">
-            <span className="card-lbl">Battery Storage</span>
-            <span className="card-icon"><Battery size={20} /></span>
+        <div className="dash-kpi-card">
+          <div className="kpi-icon-wrapper">
+            <TrendingUp size={18} />
           </div>
-          <div className="card-val">94 <span className="val-unit">%</span></div>
-          <div className="card-change positive">
-            Status: Fully Charged (Standby)
+          <div className="kpi-info">
+            <span className="kpi-label">Energy Offset</span>
+            <span className="kpi-val">$412.50 <span className="kpi-trend positive">Saved</span></span>
           </div>
         </div>
 
-        {/* Row 2: Graph & Solar Optimization Tips */}
-        <div className="dash-card chart-card">
-          <div className="chart-header">
-            <h3>Solar Generation Curve</h3>
-            <span className="chart-sub">Today vs. Average Peak</span>
+        <div className="dash-kpi-card">
+          <div className="kpi-icon-wrapper">
+            <Battery size={18} />
           </div>
-          <div className="chart-body">
-            {/* Styled inline SVG Chart for clean presentation without dependencies */}
-            <svg viewBox="0 0 500 200" className="dash-chart-svg">
-              <defs>
-                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#EF9F27" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#EF9F27" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {/* Grid Lines */}
-              <line x1="0" y1="50" x2="500" y2="50" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-              <line x1="0" y1="100" x2="500" y2="100" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-              <line x1="0" y1="150" x2="500" y2="150" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-              
-              {/* Curve Fill */}
-              <path
-                d="M 0 180 Q 80 170 120 120 T 250 40 T 380 120 T 500 180 L 500 200 L 0 200 Z"
-                fill="url(#chartGrad)"
+          <div className="kpi-info">
+            <span className="kpi-label">Support SLA</span>
+            <span className="kpi-val">Premium <span className="kpi-trend">Gold</span></span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Services & Booking Interface */}
+      <div className="dash-main-split">
+        {/* Left Side: Booking Desk Form */}
+        <div className="dash-split-card booking-card">
+          <div className="card-top-header">
+            <div className="header-badge">
+              <Sparkles size={12} />
+              <span>REQUEST DESK</span>
+            </div>
+            <h2>Book a Solar Service</h2>
+            <p>Schedule a certified engineer to inspect or clean your installation.</p>
+          </div>
+
+          {successMessage && (
+            <div className="form-success-banner">
+              <CheckCircle size={16} />
+              <span>{successMessage}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleBookService} className="booking-form">
+            <div className="form-group">
+              <label>Select Service Option</label>
+              <div className="service-tiles-group">
+                <button
+                  type="button"
+                  className={`service-tile ${serviceType === 'Thermal Panel Washing' ? 'active' : ''}`}
+                  onClick={() => setServiceType('Thermal Panel Washing')}
+                >
+                  <Sun size={18} />
+                  <div className="tile-text">
+                    <h4>Panel Wash</h4>
+                    <span>Restore solar efficiency</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`service-tile ${serviceType === 'Inverter Diagnostic Sweep' ? 'active' : ''}`}
+                  onClick={() => setServiceType('Inverter Diagnostic Sweep')}
+                >
+                  <Cpu size={18} />
+                  <div className="tile-text">
+                    <h4>Inverter Check</h4>
+                    <span>Calibrate power flow</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`service-tile ${serviceType === 'Battery Thermal Tuning' ? 'active' : ''}`}
+                  onClick={() => setServiceType('Battery Thermal Tuning')}
+                >
+                  <Battery size={18} />
+                  <div className="tile-text">
+                    <h4>Battery Tuning</h4>
+                    <span>Optimize cell longevity</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`service-tile ${serviceType === 'Wiring Quality Audit' ? 'active' : ''}`}
+                  onClick={() => setServiceType('Wiring Quality Audit')}
+                >
+                  <Zap size={18} />
+                  <div className="tile-text">
+                    <h4>Wiring Audit</h4>
+                    <span>Verify line resistance</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="preferred-date">Preferred Booking Date</label>
+              <div className="date-input-wrapper">
+                <CalendarRange size={16} className="date-field-icon" />
+                <input
+                  id="preferred-date"
+                  type="date"
+                  required
+                  value={preferredDate}
+                  min={new Date(Date.now() + 86400000).toISOString().split('T')[0]} // Start tomorrow
+                  onChange={(e) => setPreferredDate(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="special-notes">Special Instructions (Optional)</label>
+              <textarea
+                id="special-notes"
+                placeholder="e.g. Panel access on flat roof, inverter is in garage..."
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
               />
-              
-              {/* Curve Line */}
-              <path
-                d="M 0 180 Q 80 170 120 120 T 250 40 T 380 120 T 500 180"
-                fill="none"
-                stroke="#EF9F27"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-
-              {/* Data points */}
-              <circle cx="250" cy="40" r="5" fill="#EF9F27" stroke="#FFFFFF" strokeWidth="2" />
-            </svg>
-            <div className="chart-labels">
-              <span>06:00 AM</span>
-              <span>12:00 PM (Peak)</span>
-              <span>06:00 PM</span>
             </div>
-          </div>
+
+            <button
+              type="submit"
+              disabled={!serviceType || !preferredDate}
+              className="submit-booking-btn"
+            >
+              <span>Schedule Service Visit</span>
+              <Wrench size={16} />
+            </button>
+          </form>
         </div>
 
-        <div className="dash-card forecast-card">
-          <h3>Optimization Insights</h3>
-          <div className="forecast-item">
-            <div className="forecast-icon"><CloudSun size={24} /></div>
-            <div className="forecast-info">
-              <h4>Sunny Weather Expected</h4>
-              <p>Peak generation predicted between 11:30 AM and 2:00 PM. System efficiency optimal.</p>
+        {/* Right Side: Availed Services & Logs */}
+        <div className="dash-split-card right-panel">
+          <div className="card-top-header">
+            <div className="header-badge">
+              <Clock size={12} />
+              <span>SYSTEM HISTORY</span>
             </div>
+            <h2>Solar Services Availed</h2>
+            <p>Monitor your active support events and past maintenance records.</p>
           </div>
-          <div className="forecast-item">
-            <div className="forecast-icon"><Cpu size={24} fill="rgba(239, 159, 39, 0.15)" stroke="#EF9F27" /></div>
-            <div className="forecast-info">
-              <h4>Inverter Temperature Normal</h4>
-              <p>Thermal ventilation is operating efficiently. Output limit capped at 100%.</p>
-            </div>
-          </div>
-          <div className="forecast-item">
-            <div className="forecast-icon"><Award size={24} /></div>
-            <div className="forecast-info">
-              <h4>Eco Savings Milestone</h4>
-              <p>Your solar production has saved equivalent of 12 mature trees this month!</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Row 3: Panel Array Status Monitor */}
-        <div className="dash-card panels-card">
-          <div className="panels-header">
-            <h3>Panel Array Status</h3>
-            <span className="panels-desc">
-              <CheckCircle2 size={14} className="icon-green" /> 12/12 Panels Active and Reporting
-            </span>
-          </div>
-          
-          <div className="panels-grid">
-            {panels.map((p) => (
-              <div key={p.id} className="panel-item">
-                <div className="panel-id">{p.id}</div>
-                <div className="panel-efficiency">{p.efficiency}% eff</div>
-                <div className="panel-output">{p.output} W</div>
-                <div className="panel-indicator">
-                  <span className="pulse-green"></span>
-                  <span className="lbl-status">{p.status}</span>
+          <div className="services-log-list">
+            {availedServices.map((service) => (
+              <div key={service.id} className="service-log-item">
+                <div className="service-log-top">
+                  <div className="service-log-meta">
+                    <span className="log-id">{service.id}</span>
+                    <h3 className="log-type">{service.type}</h3>
+                  </div>
+                  <span className={`status-badge ${service.status.toLowerCase()}`}>
+                    {service.status === 'Completed' ? (
+                      <CheckCircle size={12} />
+                    ) : (
+                      <Clock size={12} />
+                    )}
+                    {service.status}
+                  </span>
+                </div>
+
+                <div className="service-log-details">
+                  <div className="detail-field">
+                    <Calendar size={12} />
+                    <span>Scheduled: {service.date}</span>
+                  </div>
+                  <div className="detail-field">
+                    <User size={12} />
+                    <span>Engineer: {service.technician}</span>
+                  </div>
+                  <div className="detail-field price-tag">
+                    <span>Fee: {service.cost}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
 
+          {/* Inline Diagnostic Feed */}
+          <div className="diagnostics-feed-section">
+            <h3>Live Diagnostics Feed</h3>
+            <div className="feed-items">
+              {telemetryLogs.map((log, index) => (
+                <div key={index} className="feed-item">
+                  <span className="feed-time">{log.time}</span>
+                  <span className="feed-indicator-dot"></span>
+                  <span className="feed-text">{log.msg}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
