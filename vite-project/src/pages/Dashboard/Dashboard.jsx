@@ -92,7 +92,7 @@ const Dashboard = () => {
 
     setAvailedServices([newService, ...availedServices]);
     setSuccessMessage(`Success! Booking ${newService.id} has been registered.`);
-    
+
     // Clear inputs
     setServiceType('');
     setPreferredDate('');
@@ -116,10 +116,7 @@ const Dashboard = () => {
       {/* Welcome Top Banner */}
       <header className="dash-header">
         <div className="dash-welcome">
-          <div className="dash-status-node">
-            <span className="pulse-green"></span>
-            <span className="dash-node-lbl">GRID ACTIVE // OK</span>
-          </div>
+
           <h1>Welcome, {currentUser?.displayName || 'Solar Partner'}</h1>
           <p className="dash-date">
             <Calendar size={14} className="calendar-icon-svg" />
