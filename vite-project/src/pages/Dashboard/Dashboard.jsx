@@ -67,14 +67,7 @@ const Dashboard = () => {
     { time: '08:00 AM', msg: 'Grid sync complete. Energy export initiated' }
   ];
 
-  const handleLogout = async () => {
-    try {
-      await doSignOut();
-      navigate('/');
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
-  };
+
 
   const handleBookService = (e) => {
     e.preventDefault();
