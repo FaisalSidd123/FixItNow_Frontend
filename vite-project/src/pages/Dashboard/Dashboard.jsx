@@ -123,10 +123,7 @@ const Dashboard = () => {
             {currentDate}
           </p>
         </div>
-        <button className="dash-logout-btn" onClick={handleLogout}>
-          <LogOut size={15} />
-          <span>Sign Out</span>
-        </button>
+
       </header>
 
       {/* Modern Minimal Stats Row */}

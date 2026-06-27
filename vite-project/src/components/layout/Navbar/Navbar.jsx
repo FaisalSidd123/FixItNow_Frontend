@@ -55,6 +55,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await doSignOut();
+      navigate('/signin');
     } catch (error) {
       console.log(error);
     }
