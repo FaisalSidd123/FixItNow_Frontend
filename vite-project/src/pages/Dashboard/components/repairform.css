@@ -1,0 +1,139 @@
+/* ---------- Section ---------- */
+
+.form-section{
+
+    margin-top:40px;
+
+    padding:30px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+}
+
+/* ---------- Heading ---------- */
+
+.form-section h3{
+
+     color:#ffb000;
+
+    font-size:20px;
+
+    margin-bottom:25px;
+
+} 
+
+/* ---------- Labels ---------- */
+
+.field-label{
+
+    display:block;
+
+    margin-bottom:12px;
+
+    margin-top:20px;
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+/* ---------- Radios ---------- */
+
+.radio-group{
+
+    display:flex;
+
+    gap:35px;
+
+    margin-top:10px;
+
+    margin-bottom:20px;
+
+}
+
+.radio-option{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#ddd;
+
+    cursor:pointer;
+
+}
+
+.radio-option input{
+
+    width:18px;
+
+    height:18px;
+
+    accent-color:#ffb000;
+
+}
+
+/* ---------- Select ---------- */
+
+.form-section select{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:#101522;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    color:white;
+
+    outline:none;
+
+    margin-bottom:20px;
+
+}
+
+.form-section select:focus{
+
+    border-color:#ffb000;
+
+}
+
+/* ---------- Textarea ---------- */
+
+.form-section textarea{
+
+    width:100%;
+
+    min-height:120px;
+
+    padding:15px;
+
+    background:#101522;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    color:white;
+
+    border-radius:12px;
+
+    resize:vertical;
+
+    outline:none;
+
+}
+
+.form-section textarea:focus{
+
+    border-color:#ffb000;
+
+}  

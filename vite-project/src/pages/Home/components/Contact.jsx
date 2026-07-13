@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 const Contact = () => {
@@ -22,17 +23,39 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, projectType: type }));
   };
 
-  const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    setSubmitting(true);
-    // Simulate API Intake Submit
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', projectType: 'residential', message: '' });
-    }, 2000);
+setSubmitting(true);
+
+try {
+  await emailjs.send(
+    import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    {
+      name: formData.name,
+      email: formData.email,
+      projectType: formData.projectType,
+      message: formData.message,
+    },
+    import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+  );
+
+  setSubmitted(true);
+
+  setFormData({
+    name: '',
+    email: '',
+    projectType: 'residential',
+    message: '',
+  });
+} catch (error) {
+  console.error('EmailJS Error:', error);
+  alert('Failed to send message. Please try again.');
+} finally {
+  setSubmitting(false);
+}
   };
 
   // Progress calculator

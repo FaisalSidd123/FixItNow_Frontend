@@ -1,0 +1,78 @@
+.service-request-section{
+
+ margin-top:30px;
+ background:rgba(255,255,255,0.05);
+ border:1px solid rgba(255,255,255,0.1);
+ border-radius:20px;
+ padding:25px;
+
+}
+
+
+.request-header{
+
+ display:flex;
+ align-items:center;
+ gap:8px;
+ color:#ffd700;
+ font-size:13px;
+ font-weight:700;
+ margin-bottom:20px;
+
+}
+
+
+.empty-request{
+
+ color:#9ca3af;
+ text-align:center;
+ padding:20px;
+
+}
+
+
+.request-card{
+
+ background:#111827;
+ border-radius:15px;
+ padding:20px;
+ margin-bottom:15px;
+
+}
+
+
+.request-top{
+
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+
+}
+
+
+.request-top h3{
+
+ color:white;
+ margin:0;
+
+}
+
+
+.status-badge.scheduled{
+
+ background:#2563eb;
+ color:white;
+ padding:5px 12px;
+ border-radius:20px;
+ font-size:12px;
+
+}
+
+
+.request-details p{
+
+ color:#cbd5e1;
+ margin:8px 0;
+
+}
+

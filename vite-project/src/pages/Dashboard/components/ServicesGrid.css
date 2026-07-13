@@ -1,0 +1,117 @@
+.services-grid{
+
+display:flex;
+flex-direction:column;
+height:100%;
+
+}
+.service-card{
+
+flex:1;
+
+}
+
+
+.service-card {
+
+  background: rgba(255,255,255,0.015);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  border-radius: 16px;
+
+  padding: 1.3rem;
+
+  display: flex;
+
+  gap: 1rem;
+
+  align-items: flex-start;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.service-card:hover {
+
+  border-color: rgba(239,159,39,0.4);
+
+  transform: translateY(-3px);
+
+  background: rgba(255,255,255,0.03);
+
+}
+
+
+
+.service-card.active {
+
+  border-color: #EF9F27;
+
+  background: rgba(239,159,39,0.08);
+
+  box-shadow: 0 0 20px rgba(239,159,39,0.12);
+
+}
+
+
+
+.service-icon {
+
+  width:45px;
+
+  height:45px;
+
+  border-radius:12px;
+
+  background: rgba(239,159,39,0.08);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:22px;
+
+}
+
+
+
+.service-info h3 {
+
+  margin:0;
+
+  font-size:16px;
+
+}
+
+
+
+.service-info p {
+
+  margin:0.4rem 0;
+
+  color:rgba(255,255,255,0.5);
+
+  font-size:13px;
+
+  line-height:1.4;
+
+}
+
+
+
+.service-price {
+
+  color:#EF9F27;
+
+  font-size:12px;
+
+  font-weight:600;
+
+}

@@ -1,0 +1,555 @@
+/* ===============================
+   AMC FORM MAIN CONTAINER
+================================ */
+
+.booking-card {
+    width: 100%;
+    background: #111827;
+    border-radius: 18px;
+    padding: 30px;
+    color: #f9fafb;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+
+.booking-header h2 {
+
+    font-size: 28px;
+    color: #d4af37;
+    margin-bottom: 10px;
+
+}
+
+
+.booking-header p {
+
+    color: #9ca3af;
+    font-size: 15px;
+    
+
+}
+
+
+
+/* ===============================
+   FORM SECTIONS
+================================ */
+
+.form-section,
+.amc-section {
+
+    background: #1f2937;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    border:1px solid rgba(255,255,255,0.08);
+
+}
+
+
+
+.form-section h3,
+.amc-section h3 {
+
+    color:#d4af37;
+    font-size:20px;
+    margin-bottom:20px;
+
+}
+
+
+
+/* ===============================
+   GRID
+================================ */
+
+
+.form-grid {
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+
+}
+
+
+
+.form-group {
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+
+
+.form-group label {
+
+    color:#e5e7eb;
+    font-size:14px;
+
+}
+
+
+
+
+/* ===============================
+ INPUTS
+================================ */
+
+
+.form-group input,
+.form-group select,
+textarea {
+
+
+    width:100%;
+    background:#111827;
+    color:#f9fafb;
+
+    border:1px solid rgba(212,175,55,0.35);
+
+    border-radius:10px;
+
+    padding:13px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+
+
+.form-group input:focus,
+.form-group select:focus,
+textarea:focus {
+
+    border-color:#d4af37;
+
+    box-shadow:0 0 10px rgba(212,175,55,.25);
+
+}
+
+
+
+/* ===============================
+ TEXTAREA
+================================ */
+
+
+textarea {
+
+    resize:none;
+    min-height:120px;
+
+}
+
+
+
+/* ===============================
+ AMC PLAN CARDS
+================================ */
+
+
+.plan-grid {
+
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+
+}
+
+
+
+.plan-card {
+
+
+    position:relative;
+
+    background:#111827;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(212,175,55,.25);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+
+}
+
+
+
+
+.plan-card:hover {
+
+
+    transform:translateY(-5px);
+
+    border-color:#d4af37;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.4);
+
+}
+
+
+
+
+.plan-card input {
+
+
+    accent-color:#d4af37;
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+.plan-card h4 {
+
+    color:#d4af37;
+
+    font-size:20px;
+
+}
+
+
+
+.plan-price {
+
+    display:block;
+
+    margin:15px 0;
+
+    color:white;
+
+    font-weight:bold;
+
+}
+
+
+
+.plan-card ul {
+
+    padding-left:0;
+
+    list-style:none;
+
+    color:#d1d5db;
+
+    line-height:2;
+
+}
+
+
+
+
+.featured {
+
+
+    border:2px solid #d4af37;
+
+}
+
+
+
+.recommended-badge {
+
+
+    position:absolute;
+
+    top:-12px;
+
+    right:20px;
+
+    background:#d4af37;
+
+    color:#111827;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+
+
+
+/* ===============================
+ AGREEMENT BOX
+================================ */
+
+
+
+.agreement-box {
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+
+}
+
+
+
+.agreement-box label {
+
+
+    background:#111827;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#d1d5db;
+
+
+}
+
+
+
+.agreement-box input {
+
+
+    margin-right:10px;
+
+    accent-color:#d4af37;
+
+
+}
+
+
+
+
+/* ===============================
+ PURCHASE SUMMARY
+================================ */
+
+
+.amc-summary {
+
+
+    background:#111827;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(212,175,55,.3);
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.summary-item,
+.summary-total {
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:15px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+
+}
+
+
+
+.summary-item span,
+.summary-total span {
+
+
+    color:#9ca3af;
+
+}
+
+
+
+.summary-item strong,
+.summary-total strong {
+
+
+    color:#d4af37;
+
+}
+
+
+
+.summary-total {
+
+
+    font-size:18px;
+
+}
+
+
+
+/* ===============================
+ BUTTON
+================================ */
+
+
+
+.activate-amc-btn {
+
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#d4af37;
+
+    color:#111827;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+
+}
+
+
+
+.activate-amc-btn:hover {
+
+
+    background:#f5d76e;
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+.activate-amc-btn:disabled {
+
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+
+
+/* ===============================
+ RESPONSIVE
+================================ */
+
+
+
+@media(max-width:1000px){
+
+
+.form-grid,
+.plan-grid {
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+
+}
+
+
+
+@media(max-width:700px){
+
+
+.form-grid,
+.plan-grid {
+
+    grid-template-columns:1fr;
+
+}
+
+
+.booking-card {
+
+    padding:15px;
+
+}
+
+
+}
+
+.plan-card {
+    position: relative;
+    overflow: hidden; /* important */
+    padding: 25px;
+}
+
+
+.recommended-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    background: #d4af37;
+    color: #000;
+
+    padding: 6px 30px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    /* transform: rotate(45deg); */
+
+    letter-spacing: 0.5px;
+
+    z-index: 2;
+}
+
+
+/* Give premium card more top spacing */
+
+.plan-card.featured {
+    padding-top: 55px;
+}
