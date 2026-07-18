@@ -540,3 +540,31 @@
 }
 
 }
+
+.dashboard-loading{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#D4AF37;
+
+    font-size:22px;
+
+    font-weight:600;
+
+}
+
+/* .dashboard-main-area{
+    width:100%;
+    display:block;
+} */
+.dashboard-main-area {
+    width: 100%;
+    display: block;
+    position: relative;
+}

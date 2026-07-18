@@ -30,7 +30,8 @@ export function AuthProvider({ children }) {
         }
       });
       if (!response.ok) {
-        throw new Error(`Sync failed with status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`Sync failed with status: ${response.status}. Details: ${errorData.details || errorData.error || 'Unknown error'}`);
       }
       const data = await response.json();
       console.log('Backend user sync successful:', data);

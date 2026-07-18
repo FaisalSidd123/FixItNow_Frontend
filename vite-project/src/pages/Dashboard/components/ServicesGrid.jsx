@@ -1,50 +1,93 @@
 import React from "react";
+import { ArrowRight, Clock3, BadgeCheck } from "lucide-react";
 import "./ServicesGrid.css";
 
 const ServicesGrid = ({
-    services,
-    selectedService,
-    handleServiceSelect
+  services,
+  selectedService,
+  handleServiceSelect,
 }) => {
+    console.log("Services received:", services);
+console.log("Selected service:", selectedService);
+  return (
+    <div className="services-section">
 
-    return (
+      <div className="services-header">
 
-        <div className="services-grid">
+        <h2>Available Services</h2>
 
-            {services.map((service)=>(
+        <p>
+          Choose a professional service for your solar system.
+        </p>
 
-                <div
-                    key={service.id}
-                    className={`service-card ${
-                        selectedService===service.id ? "active":""
-                    }`}
-                    onClick={()=>handleServiceSelect(service.id)}
-                >
+      </div>
 
-                    <div className="service-icon">
-                        {service.icon}
-                    </div>
+      <div className="services-grid">
 
-                    <div className="service-info">
+        {services.map((service) => (
 
-                        <h3>{service.title}</h3>
+          <div
+            key={service.id}
+            className={`dashboard-service-card ${
+              selectedService === service.id ? "active" : ""
+            } ${service.id === "amc" ? "featured-card" : ""}`}
+            onClick={() => handleServiceSelect(service.id)}
+          >
 
-                        <p>{service.description}</p>
+            <div className="service-top">
 
-                        <span className="service-price">
-                            {service.price}
-                        </span>
+              <div className="service-icon">
+                {service.icon}
+              </div>
 
-                    </div>
+              <span className="service-badge">
+                {service.badge}
+              </span>
 
-                </div>
+            </div>
 
-            ))}
+            <h3>{service.title}</h3>
 
-        </div>
+            <p>{service.description}</p>
 
-    );
+            <div className="service-meta">
 
+              <div className="meta-item">
+                <Clock3 size={16} />
+                <span>{service.duration}</span>
+              </div>
+
+              <div className="meta-item">
+                <BadgeCheck size={16} />
+                <span>{service.feature}</span>
+              </div>
+
+            </div>
+
+            <div className="service-footer">
+
+              <span className="service-price">
+                {service.price}
+              </span>
+
+              <button className="details-btn">
+
+                View Details
+
+                <ArrowRight size={18} />
+
+              </button>
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    </div>
+  );
 };
 
 export default ServicesGrid;

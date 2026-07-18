@@ -10,6 +10,7 @@ import BookingConfirmation from "./components/BookingConfirmation";
 import RepairForm from "./components/repairform";
 import AMCForm from "./components/AMCform";
 import AMCConfirmation from "./components/AMCConfirmation";
+import { useEffect } from "react";
 
 // import AMCPlans from "./components/AMCPlans";
 
@@ -27,12 +28,19 @@ import {
   CalendarRange,
   User,
   AlertCircle,
-  Sparkles
+  Sparkles,
+    Search,
+  ShieldCheck,
+  ArrowRight,
+  Clock3,
+
 } from 'lucide-react';
 import './Dashboard.css';
 
+
 const Dashboard = () => {
-  const { currentUser } = useAuth();
+  // const { currentUser } = useAuth();
+const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
 
   // Booking form states
@@ -43,11 +51,15 @@ const Dashboard = () => {
 const [selectedService, setSelectedService] = useState(null);
 const [latestBooking, setLatestBooking] = useState(null);
 const [dashboardView, setDashboardView] = useState("services");
-// services
-// details
-// booking
-// confirmation
+console.log("Dashboard View:", dashboardView);
+console.log("Selected Service:", selectedService);
+useEffect(()=>{
+
+
+
+},[]);
 const [amcActivated,setAmcActivated] = useState(false);
+
 const [activeAMC, setActiveAMC] = useState(null);
 
 const [bookingData, setBookingData] = useState({
@@ -315,31 +327,43 @@ const [serviceRequests, setServiceRequests] = useState([]);
     { time: '11:30 AM', msg: 'Automatic inverter ventilation cooling activated' },
     { time: '08:00 AM', msg: 'Grid sync complete. Energy export initiated' }
   ];
-
-  const services = [
+const services = [
   {
     id: "inspection",
     title: "Inspection Service",
-    icon: "🔍",
+    icon: <Search size={42} />,
+    badge: "Most Requested",
+    duration: "45–60 mins",
+    feature: "Certified Engineers",
     price: "Starting from PKR 5,000",
-    description: "Complete system inspection including panels, inverter, wiring & safety check."
+    description:
+      "Complete inspection of panels, inverter, wiring and system performance."
   },
+
   {
     id: "repair",
     title: "Repair Service",
-    icon: "🔧",
+    icon: <Wrench size={42} />,
+    badge: "Emergency Support",
+    duration: "Fast Response",
+    feature: "Expert Technicians",
     price: "Starting from PKR 5,000",
-    description: "Full diagnosis and repair of solar system issues."
+    description:
+      "Professional diagnosis and repair for all solar system issues."
   },
+
   {
     id: "amc",
-    title: "Annual Maintenance Contract (AMC)",
-    icon: "🛡️",
+    title: "Annual Maintenance Contract",
+    icon: <ShieldCheck size={42} />,
+    badge: "Best Value",
+    duration: "12 Months",
+    feature: "Priority Support",
     price: "Starting from PKR 15,000/year",
-    description: "Annual Maintenance Contract with scheduled visits & priority support."
+    description:
+      "Scheduled maintenance with priority support and performance reports."
   }
 ];
-
 const serviceDetails = {
 
   inspection: {
@@ -795,6 +819,29 @@ duration:"12 Months"
   ]
 
 };
+
+// useEffect(() => {
+
+//     setDashboardView("services");
+//     setSelectedService(null);
+
+// }, []);
+
+
+if(loading){
+
+    return (
+
+        <div className="dashboard-loading">
+
+            Loading dashboard...
+
+        </div>
+
+    );
+
+}
+
   return (
     <div className="dashboard-container">
       {/* Welcome Top Banner */}
@@ -872,8 +919,8 @@ handleServiceSelect={handleServiceSelect}
 
 />
 
-)
-}
+ )
+ } 
 
 
 
