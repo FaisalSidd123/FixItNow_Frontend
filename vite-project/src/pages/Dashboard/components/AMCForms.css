@@ -553,3 +553,24 @@ textarea {
 .plan-card.featured {
     padding-top: 55px;
 }
+
+@media (max-width: 768px) {
+  .recommended-badge {
+    top: 10px;
+    right: 10px;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+}
+.plan-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.plan-card-body {
+    flex: 1;
+}
+
+.plan-card-footer {
+    margin-top: auto;
+}

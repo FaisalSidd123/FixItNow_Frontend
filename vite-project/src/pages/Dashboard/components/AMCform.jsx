@@ -87,31 +87,7 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
 
           <div className="form-grid">
 
-            <div className="form-group">
-
-              <label>Existing Installation</label>
-
-              <select
-                name="installation"
-                value={bookingData.installation}
-                onChange={handleBookingChange}
-              >
-
-                <option value="">
-                  Select Installation
-                </option>
-
-                <option>
-                  Solar System #001
-                </option>
-
-                <option>
-                  Solar System #002
-                </option>
-
-              </select>
-
-            </div>
+            
 
             <div className="form-group">
 
@@ -127,15 +103,15 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
                   Select
                 </option>
 
-                <option>
+                <option value="residential">
                   Residential
                 </option>
 
-                <option>
+                <option value="commercial">
                   Commercial
                 </option>
 
-                <option>
+                <option value="industrial">
                   Industrial
                 </option>
 
@@ -157,15 +133,15 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
                   Select
                 </option>
 
-                <option>3 KW</option>
+                <option value="3kw">3 KW</option>
 
-                <option>5 KW</option>
+                <option value="5kw">5 KW</option>
 
-                <option>10 KW</option>
+                <option value="10kw">10 KW</option>
 
-                <option>15 KW+</option>
+                <option value="15kw_plus">15 KW+</option>
 
-                <option>Don't Know</option>
+                <option value="unknown">Don't Know</option>
 
               </select>
 
@@ -187,8 +163,8 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
       <input
         type="radio"
         name="amcPlan"
-        value="Basic"
-        checked={bookingData.amcPlan === "Basic"}
+        value="basic"
+        checked={bookingData.amcPlan === "basic"}
         onChange={handleBookingChange}
       />
 
@@ -217,8 +193,8 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
       <input
         type="radio"
         name="amcPlan"
-        value="Premium"
-        checked={bookingData.amcPlan === "Premium"}
+        value="premium"
+        checked={bookingData.amcPlan === "premium"}
         onChange={handleBookingChange}
       />
 
@@ -251,8 +227,8 @@ const [extraChargesAccepted, setExtraChargesAccepted] = useState(false);
       <input
         type="radio"
         name="amcPlan"
-        value="Enterprise"
-        checked={bookingData.amcPlan === "Enterprise"}
+        value="enterprise"
+        checked={bookingData.amcPlan === "enterprise"}
         onChange={handleBookingChange}
       />
 
@@ -387,12 +363,12 @@ onChange={handleBookingChange}
 
 <option value="">Select</option>
 
-<option>Monday</option>
-<option>Tuesday</option>
-<option>Wednesday</option>
-<option>Thursday</option>
-<option>Friday</option>
-<option>Saturday</option>
+<option value="monday">Monday</option>
+<option value="tuesday">Tuesday</option>
+<option value="wednesday">Wednesday</option>
+<option value="thursday">Thursday</option>
+<option value="friday">Friday</option>
+<option value="saturday">Saturday</option>
 
 </select>
 
@@ -410,11 +386,11 @@ onChange={handleBookingChange}
 
 <option value="">Select</option>
 
-<option>Morning (9-12)</option>
+<option value="morning">Morning (9-12)</option>
 
-<option>Afternoon (12-3)</option>
+<option value="afternoon">Afternoon (12-3)</option>
 
-<option>Evening (3-6)</option>
+<option value="evening">Evening (3-6)</option>
 
 </select>
 
@@ -456,55 +432,33 @@ Agreement & Confirmation
 
 
 <label>
-
-<input
-
-type="checkbox"
-
-checked={agreementAccepted}
-
-onChange={(e)=>setAgreementAccepted(e.target.checked)}
-
-/>
-
-I confirm that the provided solar system information is correct.
-
+  <input
+    type="checkbox"
+    name="informationConfirmed"
+    checked={bookingData.informationConfirmed}
+    onChange={handleBookingChange}
+  />
+  I confirm that the provided solar system information is correct.
 </label>
 
-
-
 <label>
-
-<input
-
-type="checkbox"
-
-checked={termsAccepted}
-
-onChange={(e)=>setTermsAccepted(e.target.checked)}
-
-/>
-
-I agree to the AMC terms and conditions.
-
+  <input
+    type="checkbox"
+    name="termsAccepted"
+    checked={bookingData.termsAccepted}
+    onChange={handleBookingChange}
+  />
+  I agree to the AMC terms and conditions.
 </label>
 
-
-
 <label>
-
-<input
-
-type="checkbox"
-
-checked={extraChargesAccepted}
-
-onChange={(e)=>setExtraChargesAccepted(e.target.checked)}
-
-/>
-
-I understand replacement parts and major repairs may have additional charges.
-
+  <input
+    type="checkbox"
+    name="chargesUnderstood"
+    checked={bookingData.chargesUnderstood}
+    onChange={handleBookingChange}
+  />
+  I understand that additional charges may apply for replacement parts.
 </label>
 
 
@@ -617,15 +571,13 @@ bookingData.amcPlan === "Basic"
 <button
 
 className="activate-amc-btn"
-
 disabled={
-!agreementAccepted ||
-!termsAccepted ||
-!extraChargesAccepted
+  !bookingData.informationConfirmed ||
+  !bookingData.termsAccepted ||
+  !bookingData.chargesUnderstood
 }
 
 >
-
 Activate AMC Contract
 
 </button>

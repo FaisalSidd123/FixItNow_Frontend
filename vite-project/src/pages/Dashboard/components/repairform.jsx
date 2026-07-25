@@ -103,40 +103,6 @@ Solar Installation Details
 </h3>
 
 
-
-<div className="form-group">
-
-<label>
-Existing Installation
-</label>
-
-
-<select
-name="installation"
-onChange={handleBookingChange}
->
-
-<option>
-Select Installation
-</option>
-
-<option>
-Solar System #001
-</option>
-
-<option>
-Solar System #002
-</option>
-
-
-</select>
-
-</div>
-
-
-
-
-
 <div className="radio-group">
 
 
@@ -144,7 +110,7 @@ Solar System #002
 <input
 type="radio"
 name="installationType"
-value="Residential"
+value="residential"
 onChange={handleBookingChange}
 />
 
@@ -161,7 +127,7 @@ type="radio"
 
 name="installationType"
 
-value="Commercial"
+value="commercial"
 
 onChange={handleBookingChange}
 
@@ -181,7 +147,7 @@ type="radio"
 
 name="installationType"
 
-value="Industrial"
+value="industrial"
 
 onChange={handleBookingChange}
 
@@ -210,25 +176,12 @@ name="systemSize"
 onChange={handleBookingChange}
 >
 
-<option>
-Don't Know
-</option>
-
-<option>
-3 KW
-</option>
-
-<option>
-5 KW
-</option>
-
-<option>
-10 KW
-</option>
-
-<option>
-15 KW+
-</option>
+<option value="">Select System Size</option>
+<option value="3kw">3 kW</option>
+<option value="5kw">5 kW</option>
+<option value="10kw">10 kW</option>
+<option value="15kw_plus">15+ kW</option>
+<option value="unknown">Unknown</option>
 
 
 </select>
@@ -264,49 +217,15 @@ onChange={handleBookingChange}
 >
 
 
-<option>
-Select Problem
-</option>
-
-
-<option>
-Inverter Issue
-</option>
-
-
-<option>
-Low Power Generation
-</option>
-
-
-<option>
-No Power Output
-</option>
-
-
-<option>
-Solar Panel Damage
-</option>
-
-
-<option>
-Battery Issue
-</option>
-
-
-<option>
-Electrical Wiring Problem
-</option>
-
-
-<option>
-Monitoring App Problem
-</option>
-
-
-<option>
-Other
-</option>
+<option value="">Select Issue</option>
+<option value="inverter_issue">Inverter Issue</option>
+<option value="low_power_generation">Low Power Generation</option>
+<option value="no_power_output">No Power Output</option>
+<option value="solar_panel_damage">Solar Panel Damage</option>
+<option value="battery_issue">Battery Issue</option>
+<option value="electrical_wiring_problem">Electrical Wiring Problem</option>
+<option value="monitoring_app_problem">Monitoring App Problem</option>
+<option value="other">Other</option>
 
 
 </select>
@@ -356,19 +275,19 @@ onChange={handleBookingChange}
 >
 
 
-<option>
+<option value="today">
 Today
 </option>
 
-<option>
+<option value="few_days_ago">
 Few days ago
 </option>
 
-<option>
+<option value="more_than_a_week">
 More than a week ago
 </option>
 
-<option>
+<option value="not_sure">
 Not sure
 </option>
 
@@ -396,7 +315,7 @@ System Status
 <input
 type="radio"
 name="systemStatus"
-value="Not Working"
+value="not_working"
 onChange={handleBookingChange}
 />
 
@@ -411,7 +330,7 @@ Completely Not Working
 <input
 type="radio"
 name="systemStatus"
-value="Reduced Output"
+value="reduced_output"
 onChange={handleBookingChange}
 />
 
@@ -427,7 +346,7 @@ Working with Reduced Output
 <input
 type="radio"
 name="systemStatus"
-value="Intermittent"
+value="intermittent"
 onChange={handleBookingChange}
 />
 
@@ -437,9 +356,6 @@ Intermittent Problem
 
 
 </div>
-
-
-
 
 
 
@@ -517,8 +433,8 @@ onChange={handleBookingChange}
             <input
                 type="radio"
                 name="batteryInstalled"
-                value="Yes"
-                checked={bookingData.batteryInstalled === "Yes"}
+                value="true"
+                checked={bookingData.batteryInstalled === "true"}
                 onChange={handleBookingChange}
             />
 
@@ -531,8 +447,8 @@ onChange={handleBookingChange}
             <input
                 type="radio"
                 name="batteryInstalled"
-                value="No"
-                checked={bookingData.batteryInstalled === "No"}
+                value="false"
+                checked={bookingData.batteryInstalled === "false"}
                 onChange={handleBookingChange}
             />
 
@@ -542,7 +458,7 @@ onChange={handleBookingChange}
 
     </div>
 
-    {bookingData.batteryInstalled === "Yes" && (
+    {bookingData.batteryInstalled === "true" && (
 
         <>
 
@@ -640,7 +556,7 @@ Upload Video (Optional)
 
 
 <input
-name="address"
+name="serviceAddress"
 placeholder="Service Address"
 onChange={handleBookingChange}
 />
@@ -690,29 +606,11 @@ onChange={handleBookingChange}
 name="preferredTime"
 onChange={handleBookingChange}
 >
-
-
-<option>
-Morning 9 AM - 12 PM
-</option>
-
-
-<option>
-Afternoon 12 PM - 3 PM
-</option>
-
-
-<option>
-Evening 3 PM - 6 PM
-</option>
-
-
+<option value="">Preferred Time</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
 </select>
-
-
-
-
-
 
 
 <h3>
@@ -730,12 +628,6 @@ onChange={handleBookingChange}
 
 />
 
-
-
-
-
-
-
 <h3>
  Confirmation
 </h3>
@@ -746,6 +638,12 @@ onChange={handleBookingChange}
 <input
 
 type="checkbox"
+
+name="informationConfirmed"
+
+checked={bookingData.informationConfirmed}
+
+onChange={handleBookingChange}
 
 />
 
@@ -760,6 +658,12 @@ I confirm information is correct.
 <input
 
 type="checkbox"
+
+name="termsAccepted"
+
+checked={bookingData.termsAccepted}
+
+onChange={handleBookingChange}
 
 />
 

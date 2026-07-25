@@ -17,7 +17,11 @@ handleSubmitBooking
     <>
     
 
-<form className="booking-form-card">
+
+  < form
+  className="booking-form-card"
+  onSubmit={handleSubmitBooking}
+>
   <div className="form-container">
 
 <div className="booking-header">
@@ -79,16 +83,15 @@ value={bookingData.propertyType}
 onChange={handleBookingChange}
 >
 
-<option value="">
-Property Type
-</option>
 
-<option>House</option>
-<option>Apartment</option>
-<option>Commercial Building</option>
-<option>Industrial Building</option>
-<option>Farm</option>
-<option>Other</option>
+<option value="">Property Type</option>
+<option value="house">House</option>
+<option value="apartment">Apartment</option>
+<option value="commercial">Commercial Building</option>
+<option value="industrial">Industrial Building</option>
+<option value="farm">Farm</option>
+<option value="other">Other</option>
+
 
 </select>
 
@@ -144,38 +147,24 @@ onChange={handleBookingChange}
 Roof Type
 </option>
 
-<option>Concrete</option>
-<option>Metal</option>
-<option>Tile</option>
-<option>Flat Roof</option>
-<option>Sloped Roof</option>
-<option>Other</option>
+<option value="concrete">Concrete</option>
+<option value="metal">Metal</option>
+<option value="tile">Tile</option>
+<option value="flat">Flat Roof</option>
+<option value="sloped">Sloped Roof</option>
+<option value="other">Other</option>
 
 </select>
 
 
-<select
-name="floors"
-value={bookingData.floors}
-onChange={handleBookingChange}
->
 
-<option>
-Number of Floors
-</option>
-
-<option>1</option>
-<option>2</option>
-<option>3+</option>
-
-</select>
 <label className="field-label">Roof Access</label>
 <label className="radio-option">
   <input
     type="radio"
     name="roofAccess"
-    value="Easy"
-    checked={bookingData.roofAccess === "Easy"}
+    value="easy"
+    checked={bookingData.roofAccess === "easy"}
     onChange={handleBookingChange}
   />
   <span>Easy</span>
@@ -185,8 +174,8 @@ Number of Floors
   <input
     type="radio"
     name="roofAccess"
-    value="Moderate"
-    checked={bookingData.roofAccess === "Moderate"}
+    value="moderate"
+    checked={bookingData.roofAccess === "moderate"}
     onChange={handleBookingChange}
   />
   <span>Moderate</span>
@@ -196,8 +185,8 @@ Number of Floors
   <input
     type="radio"
     name="roofAccess"
-    value="Difficult"
-    checked={bookingData.roofAccess === "Difficult"}
+    value="difficult"
+    checked={bookingData.roofAccess === "difficult"}
     onChange={handleBookingChange}
   />
   <span>Difficult</span>
@@ -245,7 +234,7 @@ Current Electricity Provider
 <option>IESCO</option>
 <option>FESCO</option>
 <option>K-Electric</option>
-<option>Other</option>
+<option value="other">Other</option>
 
 </select>
 <h3>Preferred Schedule</h3>
@@ -265,32 +254,18 @@ onChange={handleBookingChange}
 
 
 <select
-name="preferredTime"
-value={bookingData.preferredTime}
-onChange={handleBookingChange}
+  name="preferredTime"
+  value={bookingData.preferredTime}
+  onChange={handleBookingChange}
 >
+  <option value="">
+    Preferred Time
+  </option>
 
-<option value="">
-Preferred Time
-</option>
-
-<option>
-9 AM - 11 AM
-</option>
-
-<option>
-11 AM - 1 PM
-</option>
-
-<option>
-2 PM - 4 PM
-</option>
-
-<option>
-4 PM - 6 PM
-</option>
-
-
+  <option value="9-11">9 AM - 11 AM</option>
+  <option value="11-1">11 AM - 1 PM</option>
+  <option value="2-4">2 PM - 4 PM</option>
+  <option value="4-6">4 PM - 6 PM</option>
 </select>
 <h3>Additional Notes</h3>
 
@@ -388,8 +363,8 @@ Back
 
 
 <button 
+type="submit"
 className="submit-booking-btn"
-onClick={handleSubmitBooking}
 >
 Submit Request
 </button>

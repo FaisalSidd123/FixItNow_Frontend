@@ -11,6 +11,9 @@ import RepairForm from "./components/repairform";
 import AMCForm from "./components/AMCform";
 import AMCConfirmation from "./components/AMCConfirmation";
 import { useEffect } from "react";
+import { submitInspection } from "../../api/inspectionApi";
+import { submitRepair } from '../../api/repairApi';
+import { submitAmc } from "../../api/amcApi";
 
 // import AMCPlans from "./components/AMCPlans";
 
@@ -119,8 +122,6 @@ preferredTime: "",
   // Terms
   informationConfirmed: false,
   termsAccepted: false,
-
-  installation:"",
 installationType:"",
 systemSize:"",
 amcPlan:"",
@@ -159,18 +160,162 @@ const handleBookingChange = (e) => {
 
   setBookingData(prev => ({
     ...prev,
-    [name]:
-      type === "file"
-        ? (name === "images" ? Array.from(files) : files[0])
-        : value
+ [name]:
+  type === "checkbox"
+    ? e.target.checked
+    : type === "file"
+      ? (name === "images" ? Array.from(files) : files[0])
+      : value
   }));
 };
 
- const handleSubmitBooking = (e) => {
+ const handleSubmitBooking = async (e) => {
+    e.preventDefault();
 
-  e.preventDefault();
+  try {
+
+    if (selectedService === "inspection") {
+
+    
+const inspectionData = {
+  full_name: bookingData.name,
+  phone: bookingData.phone,
+  email: bookingData.email,
+
+  property_type: bookingData.propertyType,
+
+  roof_type: bookingData.roofType,
+  roof_access: bookingData.roofAccess,
+
+  electricity_bill_url: "",
+
+  electricity_provider: bookingData.electricityProvider,
+
+  preferred_date: bookingData.preferredDate,
+  preferred_time: bookingData.preferredTime,
+
+  additional_notes: bookingData.notes,
+
+  info_confirmed: bookingData.informationConfirmed,
+  terms_agreed: bookingData.termsAccepted
+};
+
+// Optional frontend validation
+if (!bookingData.name || !bookingData.phone || !bookingData.preferredDate) {
+  alert("Missing required fields");
+  return;
+}
 
 
+      await submitInspection(inspectionData);
+
+    }
+
+    else if (selectedService === "repair") {
+console.log("BOOKING DATA:", bookingData);
+console.log("PROBLEM STARTED STATE:", bookingData.problemStarted);
+      const repairData = {
+        full_name: bookingData.name,
+  phone: bookingData.phone,
+  email: bookingData.email,
+
+  installation_type: bookingData.installationType,
+  system_size: bookingData.systemSize,
+
+  issue_category: bookingData.issueCategory,
+  problem_description: bookingData.problemDescription,
+  problem_started: bookingData.problemStarted,
+  system_status: bookingData.systemStatus,
+
+  inverter_brand: bookingData.inverterBrand,
+  inverter_error_code: bookingData.errorCode,
+
+  battery_installed: bookingData.batteryInstalled,
+  battery_brand: bookingData.batteryBrand,
+  battery_issue_description: bookingData.batteryIssue,
+
+  photo_urls: [],
+  video_url: "",
+
+  address: bookingData.serviceAddress,
+  city: bookingData.city,
+
+  preferred_time: bookingData.preferredTime,
+
+  additional_notes: bookingData.additionalNotes,
+
+  info_confirmed: bookingData.informationConfirmed,
+  charges_may_apply_agreed: bookingData.termsAccepted
+      };
+
+      if (
+  !bookingData.name ||
+  !bookingData.phone ||
+  !bookingData.email ||
+  !bookingData.issueCategory ||
+  !bookingData.problemDescription ||
+  !bookingData.serviceAddress ||
+  !bookingData.preferredTime
+) {
+  alert("Missing required fields");
+  return;
+}
+
+console.log(repairData);
+      await submitRepair(repairData);
+
+    }
+
+    else if (selectedService === "amc") {
+
+      const amcData = {
+  full_name: bookingData.name,
+  phone: bookingData.phone,
+  email: bookingData.email,
+
+  installation_type: bookingData.installationType,
+  system_size: bookingData.systemSize,
+
+  plan: bookingData.amcPlan.toLowerCase(),
+
+  contract_duration: "12 Months",
+
+  contract_start_date: bookingData.startDate,
+
+  service_address: bookingData.address,
+  city: bookingData.city,
+
+  map_location: bookingData.location,
+
+  preferred_day: bookingData.preferredDay,
+  preferred_time: bookingData.preferredTime,
+
+  additional_notes: bookingData.notes,
+
+  info_confirmed: bookingData.informationConfirmed,
+  terms_agreed: bookingData.termsAccepted,
+  charges_understood: bookingData.chargesUnderstood
+};
+
+console.log(amcData);
+
+
+      await submitAmc(amcData);
+
+    }
+  
+  } catch (error) {
+
+    console.log(error);
+    alert(error.message);
+    return;
+
+  }
+
+
+
+
+ 
   const selectedServiceData = services.find(
     service => service.id === selectedService
   );
@@ -288,8 +433,8 @@ const handleServiceSelect = (id)=>{
 setSelectedService(id);
 
 setDashboardView("details");
+}
 
-};
 const [serviceRequests, setServiceRequests] = useState([]);
   // Availed services state
   const [availedServices, setAvailedServices] = useState([
@@ -720,6 +865,8 @@ duration:"12 Months"
 };
 
   const handleBookService = (e) => {
+
+
     e.preventDefault();
     if (!serviceType || !preferredDate) return;
 
@@ -820,12 +967,7 @@ duration:"12 Months"
 
 };
 
-// useEffect(() => {
 
-//     setDashboardView("services");
-//     setSelectedService(null);
-
-// }, []);
 
 
 if(loading){
