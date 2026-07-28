@@ -325,19 +325,6 @@ onChange={handleBookingChange}
 
 </div>
 
-<div className="form-group">
-
-<label>Google Map Location</label>
-
-<input
-type="text"
-name="location"
-placeholder="Paste Google Maps link"
-value={bookingData.location}
-onChange={handleBookingChange}
-/>
-
-</div>
 
 </div>
 

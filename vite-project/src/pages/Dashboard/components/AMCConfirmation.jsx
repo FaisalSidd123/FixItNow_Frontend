@@ -1,7 +1,7 @@
 import React from "react";
 import "./AMCConfirmation.css";
 
-const AMCConfirmation = ({ bookingData, latestBooking,
+const AMCConfirmation = ({ bookingData, latestBooking,activeAMC,
 setDashboardView }) => {
 
   return (
@@ -39,15 +39,15 @@ setDashboardView }) => {
         <div className="contract-row">
           <span>Contract ID</span>
           <strong>
-            AMC-{Math.floor(10000 + Math.random()*90000)}
-          </strong>
+ {activeAMC?.id || "-"}
+</strong>
         </div>
 
 
         <div className="contract-row">
           <span>Customer</span>
           <strong>
-            {bookingData.name}
+        {activeAMC?.full_name || bookingData.name}
           </strong>
         </div>
 
@@ -55,7 +55,7 @@ setDashboardView }) => {
         <div className="contract-row">
           <span>Selected Plan</span>
           <strong>
-            {bookingData.amcPlan}
+            {activeAMC?.plan || bookingData.amcPlan}
           </strong>
         </div>
 
@@ -70,46 +70,31 @@ setDashboardView }) => {
 
 
 
-        <div className="contract-row">
-          <span>Maintenance Visits</span>
-
-          <strong>
-
-          {
-            bookingData.amcPlan === "Premium"
-            ?
-            "4 Visits / Year"
-            :
-            bookingData.amcPlan === "Basic"
-            ?
-            "2 Visits / Year"
-            :
-            "Customized"
-
-          }
-
-          </strong>
-
-        </div>
+    
 
 
 <div className="contract-row">
   <span>Start Date</span>
-  <strong>{latestBooking?.startDate || "-"}</strong>
+<strong>
+{activeAMC?.contract_start_date || "-"}
+</strong>
 </div>
 
 <div className="contract-row">
   <span>Next Maintenance</span>
-  <strong>{latestBooking?.nextMaintenance || "-"}</strong>
+  <strong>
+To be Scheduled
+</strong>
 </div>
 
         <div className="contract-row">
 
           <span>Status</span>
 
-          <strong className="active-status">
-            Active ✓
-          </strong>
+            <strong className="active-status">
+ {activeAMC?.status || "Pending"}
+</strong>
+        
 
         </div>
 
@@ -120,7 +105,7 @@ setDashboardView }) => {
 
       <button
       className="dashboard-btn"
-      onClick={()=>setDashboardView("services")}
+     onClick={()=>setDashboardView("serviceRequests")}
       >
 
       Back to Dashboard

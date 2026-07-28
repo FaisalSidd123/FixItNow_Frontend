@@ -569,19 +569,6 @@ onChange={handleBookingChange}
 />
 
 
-
-<input
-name="location"
-placeholder="Google Map Location"
-onChange={handleBookingChange}
-/>
-
-
-
-
-
-
-
 {/* Visit */}
 
 

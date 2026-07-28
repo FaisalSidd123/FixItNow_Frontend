@@ -14,6 +14,9 @@ import { useEffect } from "react";
 import { submitInspection } from "../../api/inspectionApi";
 import { submitRepair } from '../../api/repairApi';
 import { submitAmc } from "../../api/amcApi";
+import { getRepairs } from "../../api/repairApi";
+import { getInspections } from "../../api/inspectionApi";
+import { getAMCs,submitAMC } from "../../api/amcApi";
 
 // import AMCPlans from "./components/AMCPlans";
 
@@ -46,6 +49,91 @@ const Dashboard = () => {
 const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
 
+
+const [serviceRequests, setServiceRequests] = useState([]);
+
+const [amcContracts, setAmcContracts] = useState([]);
+
+useEffect(() => {
+
+  const fetchRequests = async () => {
+
+    try {
+
+   const repairResponse = await getRepairs();
+
+const inspectionResponse = await getInspections();
+
+
+
+const amcResponse = await getAMCs();
+
+
+// Format repair requests
+const formattedRepairs = (repairResponse?.data || []).map((request) => ({
+  id: request.id,
+  type: "Repair Request",
+  date: request.created_at,
+  status: request.status || "Pending",
+  technician: "Assigning (Pending)",
+  cost: "Not Estimated",
+}));
+
+// Format inspection requests
+const formattedInspections = (inspectionResponse?.data || []).map((request) => ({
+  id: request.id,
+  type: "Inspection Request",
+  date: request.created_at,
+  status: request.status || "Pending",
+  technician: "Assigning (Pending)",
+  cost: "Not Estimated",
+}));
+
+const formattedAMCs = (amcResponse?.data || []).map((contract) => ({
+  id: contract.id,
+  type: "AMC Contract",
+  plan: contract.plan || "Standard",
+  date: contract.contract_start_date || contract.start_date || contract.created_at,
+  status: contract.status || "Active",
+  technician: "Assigned Later",
+  cost: "Included in Plan",
+}));
+
+setServiceRequests([...formattedRepairs, ...formattedInspections]);
+setAmcContracts(formattedAMCs);
+
+if (formattedAMCs.length > 0) {
+  const latestContract = formattedAMCs[0];
+  setActiveAMC((prev) =>
+    prev || {
+      plan: latestContract.plan,
+      status: latestContract.status,
+      startDate: latestContract.date,
+      nextMaintenance: "To be Scheduled",
+      visits:
+        latestContract.plan?.toLowerCase() === "premium"
+          ? "4 Visits / Year"
+          : latestContract.plan?.toLowerCase() === "basic"
+          ? "2 Visits / Year"
+          : "Customized",
+    }
+  );
+} else {
+  setActiveAMC(null);
+}
+    } catch(error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+
+  fetchRequests();
+
+
+}, []);
   // Booking form states
   const [serviceType, setServiceType] = useState('');
   const [preferredDate, setPreferredDate] = useState('');
@@ -79,7 +167,7 @@ const [bookingData, setBookingData] = useState({
   city: '',
   province: '',
   postalCode: '',
-  googleLocation: '',
+  
 
 
   // Roof Information
@@ -155,6 +243,8 @@ video:null
 
 });
 
+
+
 const handleBookingChange = (e) => {
   const { name, value, type, files } = e.target;
 
@@ -177,28 +267,79 @@ const handleBookingChange = (e) => {
     if (selectedService === "inspection") {
 
     
-const inspectionData = {
-  full_name: bookingData.name,
-  phone: bookingData.phone,
-  email: bookingData.email,
+const inspectionData = new FormData();
 
-  property_type: bookingData.propertyType,
+inspectionData.append(
+  "full_name",
+  bookingData.name
+);
 
-  roof_type: bookingData.roofType,
-  roof_access: bookingData.roofAccess,
+inspectionData.append(
+  "phone",
+  bookingData.phone
+);
 
-  electricity_bill_url: "",
+inspectionData.append(
+  "email",
+  bookingData.email
+);
 
-  electricity_provider: bookingData.electricityProvider,
+inspectionData.append(
+  "property_type",
+  bookingData.propertyType
+);
 
-  preferred_date: bookingData.preferredDate,
-  preferred_time: bookingData.preferredTime,
+inspectionData.append(
+  "roof_type",
+  bookingData.roofType
+);
 
-  additional_notes: bookingData.notes,
+inspectionData.append(
+  "roof_access",
+  bookingData.roofAccess
+);
 
-  info_confirmed: bookingData.informationConfirmed,
-  terms_agreed: bookingData.termsAccepted
-};
+
+inspectionData.append(
+  "electricity_provider",
+  bookingData.electricityProvider
+);
+
+
+inspectionData.append(
+  "preferred_date",
+  bookingData.preferredDate
+);
+
+inspectionData.append(
+  "preferred_time",
+  bookingData.preferredTime
+);
+
+
+inspectionData.append(
+  "additional_notes",
+  bookingData.notes
+);
+
+
+inspectionData.append(
+  "info_confirmed",
+  bookingData.informationConfirmed
+);
+
+
+inspectionData.append(
+  "terms_agreed",
+  bookingData.termsAccepted
+);
+
+
+// Upload file
+inspectionData.append(
+    "media",
+    bookingData.electricityBillFile
+);
 
 // Optional frontend validation
 if (!bookingData.name || !bookingData.phone || !bookingData.preferredDate) {
@@ -206,7 +347,7 @@ if (!bookingData.name || !bookingData.phone || !bookingData.preferredDate) {
   return;
 }
 
-
+console.log(bookingData.electricityBillFile);
       await submitInspection(inspectionData);
 
     }
@@ -214,39 +355,140 @@ if (!bookingData.name || !bookingData.phone || !bookingData.preferredDate) {
     else if (selectedService === "repair") {
 console.log("BOOKING DATA:", bookingData);
 console.log("PROBLEM STARTED STATE:", bookingData.problemStarted);
-      const repairData = {
-        full_name: bookingData.name,
-  phone: bookingData.phone,
-  email: bookingData.email,
 
-  installation_type: bookingData.installationType,
-  system_size: bookingData.systemSize,
 
-  issue_category: bookingData.issueCategory,
-  problem_description: bookingData.problemDescription,
-  problem_started: bookingData.problemStarted,
-  system_status: bookingData.systemStatus,
 
-  inverter_brand: bookingData.inverterBrand,
-  inverter_error_code: bookingData.errorCode,
+const repairData = new FormData();
 
-  battery_installed: bookingData.batteryInstalled,
-  battery_brand: bookingData.batteryBrand,
-  battery_issue_description: bookingData.batteryIssue,
 
-  photo_urls: [],
-  video_url: "",
+repairData.append(
+  "full_name",
+  bookingData.name
+);
 
-  address: bookingData.serviceAddress,
-  city: bookingData.city,
+repairData.append(
+  "phone",
+  bookingData.phone
+);
 
-  preferred_time: bookingData.preferredTime,
+repairData.append(
+  "email",
+  bookingData.email
+);
 
-  additional_notes: bookingData.additionalNotes,
 
-  info_confirmed: bookingData.informationConfirmed,
-  charges_may_apply_agreed: bookingData.termsAccepted
-      };
+repairData.append(
+  "installation_type",
+  bookingData.installationType
+);
+
+repairData.append(
+  "system_size",
+  bookingData.systemSize
+);
+
+
+repairData.append(
+  "issue_category",
+  bookingData.issueCategory
+);
+
+repairData.append(
+  "problem_description",
+  bookingData.problemDescription
+);
+
+repairData.append(
+  "problem_started",
+  bookingData.problemStarted
+);
+
+repairData.append(
+  "system_status",
+  bookingData.systemStatus
+);
+
+
+repairData.append(
+  "inverter_brand",
+  bookingData.inverterBrand
+);
+
+repairData.append(
+  "inverter_error_code",
+  bookingData.errorCode
+);
+
+
+repairData.append(
+  "battery_installed",
+  bookingData.batteryInstalled
+);
+
+repairData.append(
+  "battery_brand",
+  bookingData.batteryBrand
+);
+
+repairData.append(
+  "battery_issue_description",
+  bookingData.batteryIssue
+);
+
+
+repairData.append(
+  "address",
+  bookingData.serviceAddress
+);
+
+repairData.append(
+  "city",
+  bookingData.city
+);
+
+
+repairData.append(
+  "preferred_time",
+  bookingData.preferredTime
+);
+
+
+repairData.append(
+  "additional_notes",
+  bookingData.additionalNotes
+);
+
+
+repairData.append(
+  "info_confirmed",
+  bookingData.informationConfirmed
+);
+
+
+repairData.append(
+  "charges_may_apply_agreed",
+  bookingData.termsAccepted
+);
+if (bookingData.images) {
+
+  bookingData.images.forEach((image)=>{
+
+    repairData.append(
+      "images",
+      image
+    );
+
+  });
+
+}
+if (bookingData.video) {
+
+  repairData.append(
+    "video",
+    bookingData.video
+  );
+
+}
 
       if (
   !bookingData.name ||
@@ -261,9 +503,24 @@ console.log("PROBLEM STARTED STATE:", bookingData.problemStarted);
   return;
 }
 
-console.log(repairData);
-      await submitRepair(repairData);
+for (let pair of repairData.entries()) {
+  console.log(pair[0], pair[1]);
+}
+      // await submitRepair(repairData);
+      const response = await submitRepair(repairData);
 
+
+setLatestBooking({
+    type:"Repair Request",
+    id:response.data.id,
+    date:response.data.created_at,
+    status:response.data.status || "Pending",
+    technician:"Assigning (Pending)",
+    cost:"Not Estimated"
+});
+
+
+setDashboardView("serviceRequests");
     }
 
     else if (selectedService === "amc") {
@@ -285,8 +542,6 @@ console.log(repairData);
   service_address: bookingData.address,
   city: bookingData.city,
 
-  map_location: bookingData.location,
-
   preferred_day: bookingData.preferredDay,
   preferred_time: bookingData.preferredTime,
 
@@ -299,8 +554,44 @@ console.log(repairData);
 
 console.log(amcData);
 
+const response = await submitAMC(amcData);
 
-      await submitAmc(amcData);
+
+console.log("AMC SAVED:", response);
+
+const savedContract = response?.data || {
+  plan: amcData.plan,
+  status: "Active",
+  contract_start_date: amcData.contract_start_date,
+};
+
+setAmcContracts((prev) => [
+  {
+    id: savedContract.id,
+    type: "AMC Contract",
+    plan: savedContract.plan || "Standard",
+    date: savedContract.contract_start_date || savedContract.start_date || bookingData.startDate,
+    status: savedContract.status || "Active",
+    technician: "Assigned Later",
+    cost: "Included in Plan",
+  },
+  ...prev,
+]);
+
+setActiveAMC({
+  plan: savedContract.plan || bookingData.amcPlan,
+  status: savedContract.status || "Active",
+  startDate: savedContract.contract_start_date || bookingData.startDate,
+  nextMaintenance: "To be Scheduled",
+  visits:
+    (savedContract.plan || bookingData.amcPlan || "").toLowerCase() === "premium"
+      ? "4 Visits / Year"
+      : (savedContract.plan || bookingData.amcPlan || "").toLowerCase() === "basic"
+      ? "2 Visits / Year"
+      : "Customized",
+});
+
+setDashboardView("amcConfirmation");
 
     }
   
@@ -312,130 +603,22 @@ console.log(amcData);
 
   }
 
-
-
-
- 
-  const selectedServiceData = services.find(
-    service => service.id === selectedService
-  );
-
-
-  const newBooking = {
-
-    id: `SRV-${Math.floor(1000 + Math.random() * 9000)}`,
-
-    type: selectedServiceData.title,
-
-    date: bookingData.preferredDate,
-
-    status:
-  selectedService === "amc"
-    ? "AMC Activated"
-    : "Scheduled",
-
-    technician: "Assigning (Pending)",
-
-    cost: serviceDetails[selectedService].price
-
-  };
-if (selectedService === "amc") {
-  setLatestBooking({
-    ...newBooking,
-    contractType: bookingData.amcPlan,
-    startDate: bookingData.startDate,
-    endDate: "12 Months from Activation",
-    contractStatus: "Active"
-  });
-} else {
-  setLatestBooking(newBooking);
-  
-  setDashboardView("amcConfirmation");
-}
-if (selectedService === "amc") {
-
-  const visits =
-    bookingData.amcPlan === "Basic"
-      ? "2 Visits / Year"
-      : bookingData.amcPlan === "Premium"
-      ? "4 Visits / Year"
-      : "Customized";
-
-  const contract = {
-    contractId: `AMC-${Math.floor(10000 + Math.random() * 90000)}`,
-    customer: bookingData.name,
-    plan: bookingData.amcPlan,
-    startDate: bookingData.startDate,
-    nextMaintenance: "To be Scheduled",
-    visits,
-    status: "Active"
-  };
-
-  setLatestBooking(contract);
-  setActiveAMC(contract);
-
-  setDashboardView("amcConfirmation");
-  return;
-}
-  setServiceRequests(prev => [
-  newBooking,
-  ...prev
-]);
-
-
-  // Add new booking to history
-
-  setAvailedServices(prev => [
-    newBooking,
-    ...prev
-  ]);
-
-
-
-  alert(
-    `${selectedServiceData.title} booked successfully!`
-  );
-
-
-
-  // Reset form
-
-  setBookingData({
-
-    name:"",
-    phone:"",
-    email:"",
-    address:"",
-    systemSize:"",
-    date:"",
-    notes:""
-  
-
-  });
-
-
-  // Close booking form
-
- if(selectedService === "amc")
-{
-   setDashboardView("amcConfirmation");
-}
-else
-{
-   setDashboardView("confirmation");
-}
-
-};
+ }
 
 
 const handleServiceSelect = (id)=>{
 
 setSelectedService(id);
 
-setDashboardView("details");
+if(id === "amc"){
+    setDashboardView("amcplans");
+}
+else{
+    setDashboardView("details");
+}
 }
 
-const [serviceRequests, setServiceRequests] = useState([]);
+// const [serviceRequests, setServiceRequests] = useState([]);
   // Availed services state
   const [availedServices, setAvailedServices] = useState([
     {
@@ -1149,15 +1332,17 @@ setDashboardView={setDashboardView}
 
 {
 dashboardView === "amcConfirmation" && (
-
 <AMCConfirmation
 
 bookingData={bookingData}
 
+activeAMC={activeAMC}
+
+latestBooking={activeAMC}
+
 setDashboardView={setDashboardView}
 
 />
-
 )
 }
 
@@ -1216,11 +1401,36 @@ activeAMC && (
 
 
 
-<ServiceRequests
+<div className="service-request-section">
+  <ServiceRequests serviceRequests={serviceRequests} />
 
-serviceRequests={serviceRequests}
+  <div className="request-header" style={{ marginTop: "1.5rem" }}>
+    <Sparkles size={14} />
+    <span>MY AMC CONTRACTS</span>
+  </div>
 
-/>
+  {amcContracts.length === 0 ? (
+    <div className="empty-request">No AMC contracts yet.</div>
+  ) : (
+    <div className="request-list">
+      {amcContracts.map((contract) => (
+        <div className="request-card" key={contract.id}>
+          <div className="request-top">
+            <h3>{contract.type}</h3>
+            <span className="status-badge scheduled">{contract.status}</span>
+          </div>
+
+          <div className="request-details">
+            <p>Plan: {contract.plan}</p>
+            <p>Date: {new Date(contract.date).toLocaleDateString()}</p>
+            <p>Engineer: {contract.technician}</p>
+            <p>Cost: {contract.cost}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
           {/* Inline Diagnostic Feed */}
           <div className="diagnostics-feed-section">
             <h3>Live Diagnostics Feed</h3>
@@ -1238,6 +1448,6 @@ serviceRequests={serviceRequests}
       </div>
     
   );
-};
+ };
 
 export default Dashboard;

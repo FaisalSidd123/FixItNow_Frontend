@@ -43,7 +43,9 @@ const ServiceRequests = ({ serviceRequests }) => {
 
                 <p>Request ID: {request.id}</p>
 
-                <p>Date: {request.date}</p>
+                <p>
+               Date: {new Date(request.date).toLocaleDateString()}
+                </p>
 
                 <p>Engineer: {request.technician}</p>
 
