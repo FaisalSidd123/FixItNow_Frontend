@@ -140,10 +140,10 @@ const Navbar = () => {
         {mobileOpen && (
           <motion.div
             className="navbar__mobile"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
           >
             {navLinks.map((link) => (
               <a

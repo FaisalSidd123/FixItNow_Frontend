@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-
+import { checkAdminStatus } from "../../api/adminApi";
 import { useState } from "react";
-
+import { auth } from "../../firebase/firebase";
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle
@@ -33,37 +33,28 @@ const SignIn = () => {
 
     try {
 
-      await doSignInWithEmailAndPassword(
-        email,
-        password
-      );
+    await doSignInWithEmailAndPassword(
+  email,
+  password
+);
 
-      alert("Login successful!");
+const user = auth.currentUser;
+const token = await user.getIdToken();
 
-      navigate("/dashboard");
+const adminStatus = await checkAdminStatus(token);
 
-    } catch (error) {
+if (adminStatus.isAdmin) {
 
-      alert(error.message);
+  alert("Admin accounts must use the Admin Portal.");
 
-    }
+  await auth.signOut();
 
-    setLoading(false);
-  };
+  return;
+}
 
-  const handleGoogleSignIn = async () => {
+alert("Login successful!");
 
-    if (loading) return;
-
-    setLoading(true);
-
-    try {
-
-      await doSignInWithGoogle();
-
-      alert("Google Sign In successful!");
-
-      navigate("/dashboard");
+navigate("/dashboard");
 
     } catch (error) {
 
@@ -73,6 +64,37 @@ const SignIn = () => {
 
     setLoading(false);
   };
+const handleGoogleSignIn = async () => {
+  if (loading) return;
+
+  setLoading(true);
+
+  try {
+    await doSignInWithGoogle();
+
+    const user = auth.currentUser;
+    const token = await user.getIdToken();
+
+    const adminStatus = await checkAdminStatus(token);
+
+    if (adminStatus.isAdmin) {
+      alert("Admin accounts must use the Admin Portal.");
+
+      await auth.signOut();
+
+      return;
+    }
+
+    alert("Google Sign In successful!");
+
+    navigate("/dashboard");
+
+  } catch (error) {
+    alert(error.message);
+  }
+
+  setLoading(false);
+};
 
   const handlePasswordReset = async () => {
 
