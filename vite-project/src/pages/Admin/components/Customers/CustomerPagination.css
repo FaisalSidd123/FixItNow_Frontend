@@ -1,0 +1,122 @@
+/* =========================================
+   CUSTOMER PAGINATION
+========================================= */
+
+.customer-pagination {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 16px;
+
+    padding: 4px 2px;
+}
+
+
+/* =========================================
+   INFO
+========================================= */
+
+.pagination-info {
+    color: #555555;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.pagination-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.pagination-btn,
+.pagination-page {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 7px;
+
+    background: #111111;
+
+    color: #777777;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.pagination-btn:hover,
+.pagination-page:hover {
+    color: #ffffff;
+
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+
+.pagination-page.active {
+    background: rgba(212, 175, 55, 0.12);
+
+    border-color: rgba(212, 175, 55, 0.3);
+
+    color: #d4af37;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+    .customer-pagination {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-top: 12px;
+    }
+
+    .pagination-info {
+        font-size: 10px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .pagination-controls {
+        width: 100%;
+    }
+
+    .pagination-btn,
+    .pagination-page {
+        flex: 1;
+
+        max-width: 38px;
+    }
+
+}

@@ -1,0 +1,308 @@
+/* =========================================
+   CUSTOMER TOOLBAR
+========================================= */
+
+.customer-toolbar {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.customer-search {
+    flex: 1;
+
+    max-width: 420px;
+
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 13px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    color: #666;
+
+    transition: 0.25s ease;
+}
+
+
+.customer-search:focus-within {
+    border-color: rgba(212, 175, 55, 0.45);
+
+    box-shadow:
+        0 0 0 3px rgba(212, 175, 55, 0.05);
+}
+
+
+.customer-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 12px;
+}
+
+
+.customer-search input::placeholder {
+    color: #555;
+}
+
+
+/* =========================================
+   TOOLBAR ACTIONS
+========================================= */
+
+.customer-toolbar-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+/* =========================================
+   FILTER + SORT
+========================================= */
+
+.customer-filter-btn,
+.customer-sort-btn {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 13px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    color: #999;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.customer-filter-btn:hover,
+.customer-sort-btn:hover {
+    color: #ffffff;
+
+    border-color: rgba(212, 175, 55, 0.35);
+}
+
+
+/* =========================================
+   ADD CUSTOMER
+========================================= */
+
+.add-customer-btn {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(212, 175, 55, 0.35);
+
+    border-radius: 10px;
+
+    background: rgba(212, 175, 55, 0.12);
+
+    color: #d4af37;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.add-customer-btn:hover {
+    background: rgba(212, 175, 55, 0.18);
+
+    border-color: rgba(212, 175, 55, 0.55);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .customer-toolbar {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .customer-search {
+        max-width: none;
+
+        width: 100%;
+    }
+
+
+    .customer-toolbar-actions {
+        width: 100%;
+    }
+
+
+    .customer-filter-btn,
+    .customer-sort-btn,
+    .add-customer-btn {
+        flex: 1;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .customer-toolbar {
+        gap: 10px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .customer-toolbar-actions {
+        gap: 7px;
+    }
+
+
+    .customer-filter-btn,
+    .customer-sort-btn,
+    .add-customer-btn {
+        height: 40px;
+
+        padding: 0 8px;
+
+        font-size: 11px;
+    }
+
+
+    .add-customer-btn span {
+        display: none;
+    }
+
+
+    .add-customer-btn {
+        flex: 0 0 40px;
+    }
+
+}
+/* =========================================
+   FILTER DROPDOWN
+========================================= */
+
+.customer-filter-wrapper {
+    position: relative;
+}
+
+
+.customer-filter-menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    min-width: 160px;
+
+    padding: 6px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.4);
+
+    z-index: 100;
+}
+
+
+.customer-filter-menu button {
+    width: 100%;
+
+    padding: 9px 11px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #999;
+
+    text-align: left;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.customer-filter-menu button:hover {
+    background: rgba(212, 175, 55, 0.08);
+
+    color: #ffffff;
+}
+
+
+.customer-filter-menu button.selected {
+    background: rgba(212, 175, 55, 0.12);
+
+    color: #d4af37;
+}

@@ -6,6 +6,11 @@ import CustomerChart from "./components/overview/CustomerChart";
 import ServiceChart from "./components/overview/ServiceChart";
 import RecentActivity from "./components/overview/RecentActivity";
 import { useState } from "react";
+import CustomerStats from "./components/customers/CustomerStats";
+import CustomerToolbar from "./components/customers/CustomerToolbar";
+import CustomerTable from "./components/customers/CustomerTable";
+import CustomerPagination from "./components/customers/CustomerPagination";
+import CustomerDetails from "./components/customers/CustomerDetails";
 import {
     LayoutDashboard,
     Users,
@@ -20,7 +25,83 @@ function AdminDashboard() {
    
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dateRange, setDateRange] = useState("Last 30 Days");
+    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [activeTab, setActiveTab] = useState("overview");
+    const [statusFilter, setStatusFilter] = useState("All");
+ 
+    const customers = [
+    {
+        id: 1,
+        name: "Ali Khan",
+        email: "ali.khan@example.com",
+        phone: "+92 300 1234567",
+        services: 4,
+        joined: "Aug 02, 2026",
+        status: "Active"
+    },
+    {
+        id: 2,
+        name: "Sara Ahmed",
+        email: "sara.ahmed@example.com",
+        phone: "+92 301 7654321",
+        services: 2,
+        joined: "Aug 01, 2026",
+        status: "Active"
+    },
+    {
+        id: 3,
+        name: "Hamza Ali",
+        email: "hamza.ali@example.com",
+        phone: "+92 302 9876543",
+        services: 6,
+        joined: "Jul 28, 2026",
+        status: "Active"
+    },
+    {
+        id: 4,
+        name: "Ayesha Khan",
+        email: "ayesha.khan@example.com",
+        phone: "+92 303 4567890",
+        services: 1,
+        joined: "Jul 25, 2026",
+        status: "Pending"
+    },
+    {
+        id: 5,
+        name: "Usman Raza",
+        email: "usman.raza@example.com",
+        phone: "+92 304 1122334",
+        services: 3,
+        joined: "Jul 21, 2026",
+        status: "Active"
+    },
+    {
+        id: 6,
+        name: "Maham Shah",
+        email: "maham.shah@example.com",
+        phone: "+92 305 5566778",
+        services: 2,
+        joined: "Jul 18, 2026",
+        status: "Inactive"
+    }
+];
+const filteredCustomers = customers.filter((customer) => {
 
+    const search = searchTerm.toLowerCase();
+
+    const matchesSearch =
+        customer.name.toLowerCase().includes(search) ||
+        customer.email.toLowerCase().includes(search) ||
+        customer.phone.includes(search);
+
+    const matchesStatus =
+        statusFilter === "All" ||
+        customer.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+});
+   
     return (
         <div className="admin-dashboard">
 
@@ -35,15 +116,28 @@ function AdminDashboard() {
 
                 <nav className="admin-nav">
 
-                    <button className="nav-item active">
-                      <LayoutDashboard size={19} strokeWidth={1.8} />
-                        <span>Overview</span>
-                    </button>
+                    <button
+    className={`nav-item ${activeTab === "overview" ? "active" : ""}`}
+    onClick={() => {
+        setActiveTab("overview");
+        setSidebarOpen(false);
+    }}
+>
+    <LayoutDashboard size={19} strokeWidth={1.8} />
+    <span>Overview</span>
+</button>
 
-                    <button className="nav-item">
-                       <Users size={19} strokeWidth={1.8} />
-                        <span>Customers</span>
-                    </button>
+
+                   <button
+    className={`nav-item ${activeTab === "customers" ? "active" : ""}`}
+    onClick={() => {
+        setActiveTab("customers");
+        setSidebarOpen(false);
+    }}
+>
+    <Users size={19} strokeWidth={1.8} />
+    <span>Customers</span>
+</button>
 
                     <button className="nav-item">
                        <Package size={19} strokeWidth={1.8} />
@@ -140,100 +234,195 @@ function AdminDashboard() {
 
   <section className="admin-content">
 
-    <div className="overview-heading">
+    {activeTab === "overview" && (
+        <>
+            {/* =========================
+                OVERVIEW
+            ========================= */}
 
-        <div>
-            <h2>Good to see you again </h2>
+            <div className="overview-heading">
 
-            <p className="content-subtitle">
-                Here's what's happening with FixItNow today.
-            </p>
-        </div>
+                <div>
+                    <h2>Good to see you again</h2>
+
+                    <p className="content-subtitle">
+                        Here's what's happening with FixItNow today.
+                    </p>
+                </div>
+
+                <div className="date-filter">
+
+                    <span>Period</span>
+
+                    <select
+                        value={dateRange}
+                        onChange={(e) => setDateRange(e.target.value)}
+                    >
+                        <option value="Last 7 Days">
+                            Last 7 Days
+                        </option>
+
+                        <option value="Last 30 Days">
+                            Last 30 Days
+                        </option>
+
+                        <option value="Last 3 Months">
+                            Last 3 Months
+                        </option>
+
+                        <option value="Last 6 Months">
+                            Last 6 Months
+                        </option>
+
+                        <option value="This Year">
+                            This Year
+                        </option>
+                    </select>
+
+                </div>
+
+            </div>
 
 
-        <div className="date-filter">
+            {/* STATISTICS */}
 
-            <span>Period</span>
+            <div className="stats-grid">
 
-            <select
-                value={dateRange}
-                onChange={(e) => setDateRange(e.target.value)}
-            >
+                <StatCard
+                    title="Total Sales"
+                    value="Rs. 1.24M"
+                    change="↑ 12.5%"
+                    description="vs last month"
+                    icon={
+                        <CircleDollarSign
+                            size={19}
+                            strokeWidth={1.8}
+                        />
+                    }
+                />
 
-                <option value="Last 7 Days">
-                    Last 7 Days
-                </option>
+                <StatCard
+                    title="New Customers"
+                    value="248"
+                    change="↑ 8.4%"
+                    description="vs last month"
+                    icon={
+                        <Users
+                            size={19}
+                            strokeWidth={1.8}
+                        />
+                    }
+                />
 
-                <option value="Last 30 Days">
-                    Last 30 Days
-                </option>
+                <StatCard
+                    title="Products Sold"
+                    value="386"
+                    change="↑ 15.2%"
+                    description="vs last month"
+                    icon={
+                        <Package
+                            size={19}
+                            strokeWidth={1.8}
+                        />
+                    }
+                />
 
-                <option value="Last 3 Months">
-                    Last 3 Months
-                </option>
+                <StatCard
+                    title="Service Requests"
+                    value="124"
+                    change="18"
+                    description="pending requests"
+                    icon={
+                        <Wrench
+                            size={19}
+                            strokeWidth={1.8}
+                        />
+                    }
+                />
 
-                <option value="Last 6 Months">
-                    Last 6 Months
-                </option>
-
-                <option value="This Year">
-                    This Year
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
+            </div>
 
 
-    <div className="stats-grid">
+            {/* CHARTS */}
 
-      <StatCard
-    title="Total Sales"
-    value="Rs. 1.24M"
-    change="↑ 12.5%"
-    description="vs last month"
-    icon={<CircleDollarSign size={19} strokeWidth={1.8} />}
-/>
+            <div className="charts-grid">
 
-<StatCard
-    title="New Customers"
-    value="248"
-    change="↑ 8.4%"
-    description="vs last month"
-    icon={<Users size={19} strokeWidth={1.8} />}
-/>
+                <SalesChart />
 
-<StatCard
-    title="Products Sold"
-    value="386"
-    change="↑ 15.2%"
-    description="vs last month"
-    icon={<Package size={19} strokeWidth={1.8} />}
-/>
+                <CustomerChart />
 
-<StatCard
-    title="Service Requests"
-    value="124"
-    change="18"
-    description="pending requests"
-    icon={<Wrench size={19} strokeWidth={1.8} />}
-/>
-    </div>
-<div className="charts-grid">
+            </div>
 
-    <SalesChart />
-    <CustomerChart />
-</div>
-<div className="secondary-content-grid">
 
-    <ServiceChart />
+            {/* SECONDARY OVERVIEW */}
 
-    <RecentActivity />
+            <div className="secondary-content-grid">
 
-</div>
+                <ServiceChart />
+
+                <RecentActivity />
+
+            </div>
+        </>
+    )}
+
+
+    {activeTab === "customers" && (
+        <>
+            {/* =========================
+                CUSTOMERS
+            ========================= */}
+
+            <div className="overview-heading">
+
+                <div>
+
+                    <h2>Customers</h2>
+
+                    <p className="content-subtitle">
+                        Manage and view all FixItNow customers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {/* CUSTOMER STATISTICS */}
+
+            <CustomerStats />
+
+
+            {/* CUSTOMER SEARCH / CONTROLS */}
+
+            <CustomerToolbar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                statusFilter={statusFilter}
+    onStatusFilterChange={setStatusFilter}
+            />
+
+
+            {/* CUSTOMER TABLE */}
+
+            <CustomerTable
+                customers={filteredCustomers}
+                onCustomerSelect={setSelectedCustomer}
+            />
+
+
+            {/* PAGINATION */}
+
+            <CustomerPagination />
+
+        </>
+    )}
+
 </section>
+<CustomerDetails
+    customer={selectedCustomer}
+    onClose={() => setSelectedCustomer(null)}
+/>
 
             </main>
 
