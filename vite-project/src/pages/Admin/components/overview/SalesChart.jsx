@@ -33,7 +33,7 @@ function SalesChart() {
                     <h3>Sales Overview</h3>
 
                     <p>
-                        Monthly sales performance
+                      Monthly sales performance
                     </p>
                 </div>
 

@@ -6,11 +6,36 @@ import {
 
 import "./CustomerTable.css";
 
-function CustomerTable({  customers,onCustomerSelect }) {
-        
+function CustomerTable({ customers, onCustomerSelect }) {
+
+    const getInitials = (name) => {
+
+        if (!name) return "CU";
+
+        return name
+            .split(" ")
+            .filter(Boolean)
+            .map(word => word[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+    };
+
+
+    const formatDate = (date) => {
+
+        if (!date) return "—";
+
+        return new Date(date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric"
+        });
+    };
 
 
     return (
+
         <div className="customer-table-container">
 
             {/* Desktop Table */}
@@ -20,6 +45,7 @@ function CustomerTable({  customers,onCustomerSelect }) {
                 <table className="customer-table">
 
                     <thead>
+
                         <tr>
 
                             <th>Customer</th>
@@ -35,139 +61,156 @@ function CustomerTable({  customers,onCustomerSelect }) {
                             <th></th>
 
                         </tr>
+
                     </thead>
+
 
                     <tbody>
 
-                        {customers.map((customer) => (
+                        {customers.map((customer) => {
 
-                            <tr key={customer.id}>
+                            const name =
+                                customer.display_name || "Unnamed Customer";
 
-                                {/* CUSTOMER */}
+                            return (
 
-                                <td>
+                                <tr key={customer.id}>
 
-                                    <div className="customer-name-cell">
+                                    {/* CUSTOMER */}
 
-                                      <div className="customer-avatar">
-                                     {customer.name
-                                       .split(" ")
-                                        .map(word => word[0])
-                                        .join("")
-                                      .slice(0, 2)
-                                        .toUpperCase()
-                                           }
-                                          </div>
+                                    <td>
 
-                                        <div className="customer-name-info">
+                                        <div className="customer-name-cell">
 
-                                            <strong>
-                                                {customer.name}
-                                            </strong>
+                                            <div className="customer-avatar">
 
-                                            <span>
-                                                ID #{customer.id}
-                                            </span>
+                                                {getInitials(name)}
+
+                                            </div>
+
+
+                                            <div className="customer-name-info">
+
+                                                <strong>
+                                                    {name}
+                                                </strong>
+
+                                                <span>
+                                                    ID #{customer.id}
+                                                </span>
+
+                                            </div>
 
                                         </div>
 
-                                    </div>
-
-                                </td>
+                                    </td>
 
 
-                                {/* CONTACT */}
+                                    {/* CONTACT */}
 
-                                <td>
+                                    <td>
 
-                                    <div className="customer-contact">
+                                        <div className="customer-contact">
 
-                                        <div>
-                                            <Mail
-                                                size={13}
+                                            <div>
+
+                                                <Mail
+                                                    size={13}
+                                                    strokeWidth={1.8}
+                                                />
+
+                                                <span>
+                                                    {customer.email || "—"}
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <Phone
+                                                    size={13}
+                                                    strokeWidth={1.8}
+                                                />
+
+                                                <span>
+                                                    {customer.phone || "Not provided"}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    {/* SERVICES */}
+
+                                    <td>
+
+                                        <span className="customer-services">
+
+                                            —
+
+                                        </span>
+
+                                    </td>
+
+
+                                    {/* JOINED */}
+
+                                    <td>
+
+                                        <span className="customer-joined">
+
+                                            {formatDate(customer.created_at)}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    {/* STATUS */}
+
+                                    <td>
+
+                                        <span className="customer-status active">
+
+                                            <span className="status-dot"></span>
+
+                                            Active
+
+                                        </span>
+
+                                    </td>
+
+
+                                    {/* ACTION */}
+
+                                    <td>
+
+                                        <button
+                                            className="customer-action-btn"
+                                            aria-label={`View ${name}`}
+                                            onClick={() =>
+                                                onCustomerSelect(customer)
+                                            }
+                                        >
+
+                                            <MoreHorizontal
+                                                size={18}
                                                 strokeWidth={1.8}
                                             />
-                                            <span>
-                                                {customer.email}
-                                            </span>
-                                        </div>
 
-                                        <div>
-                                            <Phone
-                                                size={13}
-                                                strokeWidth={1.8}
-                                            />
-                                            <span>
-                                                {customer.phone}
-                                            </span>
-                                        </div>
+                                        </button>
 
-                                    </div>
+                                    </td>
 
-                                </td>
+                                </tr>
 
+                            );
 
-                                {/* SERVICES */}
-
-                                <td>
-
-                                    <span className="customer-services">
-                                        {customer.services}
-                                    </span>
-
-                                </td>
-
-
-                                {/* JOINED */}
-
-                                <td>
-
-                                    <span className="customer-joined">
-                                        {customer.joined}
-                                    </span>
-
-                                </td>
-
-
-                                {/* STATUS */}
-
-                                <td>
-
-                                    <span
-                                        className={`customer-status ${customer.status.toLowerCase()}`}
-                                    >
-
-                                        <span className="status-dot"></span>
-
-                                        {customer.status}
-
-                                    </span>
-
-                                </td>
-
-
-                                {/* ACTIONS */}
-
-                                <td>
-
-                                  <button
-    className="customer-action-btn"
-    aria-label={`View ${customer.name}`}
-    onClick={() => onCustomerSelect(customer)}
->
-
-                                        <MoreHorizontal
-                                            size={18}
-                                            strokeWidth={1.8}
-                                        />
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        ))}
+                        })}
 
                     </tbody>
 
@@ -180,123 +223,146 @@ function CustomerTable({  customers,onCustomerSelect }) {
 
             <div className="customer-mobile-list">
 
-                {customers.map((customer) => (
+                {customers.map((customer) => {
 
-                    <div
-                        className="customer-mobile-card"
-                        key={customer.id}
-                    >
+                    const name =
+                        customer.display_name || "Unnamed Customer";
 
-                        <div className="mobile-card-header">
+                    return (
 
-                            <div className="customer-name-cell">
+                        <div
+                            className="customer-mobile-card"
+                            key={customer.id}
+                        >
 
-                               <div className="customer-avatar">
-    {customer.name
-        .split(" ")
-        .map(word => word[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()
-    }
-</div>
+                            <div className="mobile-card-header">
 
-                                <div className="customer-name-info">
+                                <div className="customer-name-cell">
 
-                                    <strong>
-                                        {customer.name}
-                                    </strong>
+                                    <div className="customer-avatar">
+
+                                        {getInitials(name)}
+
+                                    </div>
+
+
+                                    <div className="customer-name-info">
+
+                                        <strong>
+                                            {name}
+                                        </strong>
+
+                                        <span>
+                                            ID #{customer.id}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    className="customer-action-btn"
+                                    aria-label={`View ${name}`}
+                                    onClick={() =>
+                                        onCustomerSelect(customer)
+                                    }
+                                >
+
+                                    <MoreHorizontal
+                                        size={18}
+                                        strokeWidth={1.8}
+                                    />
+
+                                </button>
+
+                            </div>
+
+
+                            <div className="mobile-card-contact">
+
+                                <div>
+
+                                    <Mail
+                                        size={13}
+                                        strokeWidth={1.8}
+                                    />
 
                                     <span>
-                                        ID #{customer.id}
+                                        {customer.email || "—"}
+                                    </span>
+
+                                </div>
+
+
+                                <div>
+
+                                    <Phone
+                                        size={13}
+                                        strokeWidth={1.8}
+                                    />
+
+                                    <span>
+                                        {customer.phone || "Not provided"}
                                     </span>
 
                                 </div>
 
                             </div>
 
-<button
-    className="customer-action-btn"
-    aria-label={`View ${customer.name}`}
-    onClick={() => onCustomerSelect(customer)}
->
 
-                                <MoreHorizontal
-                                    size={18}
-                                    strokeWidth={1.8}
-                                />
+                            <div className="mobile-card-details">
 
-                            </button>
+                                <div>
 
-                        </div>
+                                    <span>Services</span>
+
+                                    <strong>
+                                        —
+                                    </strong>
+
+                                </div>
 
 
-                        <div className="mobile-card-contact">
+                                <div>
 
-                            <div>
-                                <Mail
-                                    size={13}
-                                    strokeWidth={1.8}
-                                />
+                                    <span>Joined</span>
 
-                                <span>
-                                    {customer.email}
-                                </span>
-                            </div>
+                                    <strong>
+                                        {formatDate(customer.created_at)}
+                                    </strong>
 
-                            <div>
-                                <Phone
-                                    size={13}
-                                    strokeWidth={1.8}
-                                />
-
-                                <span>
-                                    {customer.phone}
-                                </span>
-                            </div>
-
-                        </div>
+                                </div>
 
 
-                        <div className="mobile-card-details">
+                                <div>
 
-                            <div>
-                                <span>Services</span>
-                                <strong>
-                                    {customer.services}
-                                </strong>
-                            </div>
+                                    <span>Status</span>
 
-                            <div>
-                                <span>Joined</span>
-                                <strong>
-                                    {customer.joined}
-                                </strong>
-                            </div>
+                                    <strong className="customer-status active">
 
-                            <div>
+                                        <span className="status-dot"></span>
 
-                                <span>Status</span>
+                                        Active
 
-                                <strong
-                                    className={`customer-status ${customer.status.toLowerCase()}`}
-                                >
-                                    <span className="status-dot"></span>
-                                    {customer.status}
-                                </strong>
+                                    </strong>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                    );
 
-                ))}
+                })}
 
             </div>
 
         </div>
+
     );
+
 }
 
 export default CustomerTable;

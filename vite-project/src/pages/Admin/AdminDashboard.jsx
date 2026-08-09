@@ -6,11 +6,8 @@ import CustomerChart from "./components/overview/CustomerChart";
 import ServiceChart from "./components/overview/ServiceChart";
 import RecentActivity from "./components/overview/RecentActivity";
 import { useState } from "react";
-import CustomerStats from "./components/customers/CustomerStats";
-import CustomerToolbar from "./components/customers/CustomerToolbar";
-import CustomerTable from "./components/customers/CustomerTable";
-import CustomerPagination from "./components/customers/CustomerPagination";
-import CustomerDetails from "./components/customers/CustomerDetails";
+import CustomerPage from "./components/customers/CustomerPage";
+import ProductPage from "./components/products/ProductPage";
 import {
     LayoutDashboard,
     Users,
@@ -25,83 +22,10 @@ function AdminDashboard() {
    
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dateRange, setDateRange] = useState("Last 30 Days");
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
     const [activeTab, setActiveTab] = useState("overview");
-    const [statusFilter, setStatusFilter] = useState("All");
- 
-    const customers = [
-    {
-        id: 1,
-        name: "Ali Khan",
-        email: "ali.khan@example.com",
-        phone: "+92 300 1234567",
-        services: 4,
-        joined: "Aug 02, 2026",
-        status: "Active"
-    },
-    {
-        id: 2,
-        name: "Sara Ahmed",
-        email: "sara.ahmed@example.com",
-        phone: "+92 301 7654321",
-        services: 2,
-        joined: "Aug 01, 2026",
-        status: "Active"
-    },
-    {
-        id: 3,
-        name: "Hamza Ali",
-        email: "hamza.ali@example.com",
-        phone: "+92 302 9876543",
-        services: 6,
-        joined: "Jul 28, 2026",
-        status: "Active"
-    },
-    {
-        id: 4,
-        name: "Ayesha Khan",
-        email: "ayesha.khan@example.com",
-        phone: "+92 303 4567890",
-        services: 1,
-        joined: "Jul 25, 2026",
-        status: "Pending"
-    },
-    {
-        id: 5,
-        name: "Usman Raza",
-        email: "usman.raza@example.com",
-        phone: "+92 304 1122334",
-        services: 3,
-        joined: "Jul 21, 2026",
-        status: "Active"
-    },
-    {
-        id: 6,
-        name: "Maham Shah",
-        email: "maham.shah@example.com",
-        phone: "+92 305 5566778",
-        services: 2,
-        joined: "Jul 18, 2026",
-        status: "Inactive"
-    }
-];
-const filteredCustomers = customers.filter((customer) => {
-
-    const search = searchTerm.toLowerCase();
-
-    const matchesSearch =
-        customer.name.toLowerCase().includes(search) ||
-        customer.email.toLowerCase().includes(search) ||
-        customer.phone.includes(search);
-
-    const matchesStatus =
-        statusFilter === "All" ||
-        customer.status === statusFilter;
-
-    return matchesSearch && matchesStatus;
-});
    
+ 
+
     return (
         <div className="admin-dashboard">
 
@@ -138,11 +62,16 @@ const filteredCustomers = customers.filter((customer) => {
     <Users size={19} strokeWidth={1.8} />
     <span>Customers</span>
 </button>
-
-                    <button className="nav-item">
-                       <Package size={19} strokeWidth={1.8} />
-                        <span>Products</span>
-                    </button>
+<button
+    className={`nav-item ${activeTab === "products" ? "active" : ""}`}
+    onClick={() => {
+        setActiveTab("products");
+        setSidebarOpen(false);
+    }}
+>
+    <Package size={19} strokeWidth={1.8} />
+    <span>Products</span>
+</button>
 
                     <button className="nav-item">
                        <Wrench size={19} strokeWidth={1.8} />
@@ -367,62 +296,18 @@ const filteredCustomers = customers.filter((customer) => {
     )}
 
 
-    {activeTab === "customers" && (
-        <>
-            {/* =========================
-                CUSTOMERS
-            ========================= */}
+   {activeTab === "customers" && (
+    <CustomerPage />
+)}
 
-            <div className="overview-heading">
-
-                <div>
-
-                    <h2>Customers</h2>
-
-                    <p className="content-subtitle">
-                        Manage and view all FixItNow customers.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            {/* CUSTOMER STATISTICS */}
-
-            <CustomerStats />
-
-
-            {/* CUSTOMER SEARCH / CONTROLS */}
-
-            <CustomerToolbar
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                statusFilter={statusFilter}
-    onStatusFilterChange={setStatusFilter}
-            />
-
-
-            {/* CUSTOMER TABLE */}
-
-            <CustomerTable
-                customers={filteredCustomers}
-                onCustomerSelect={setSelectedCustomer}
-            />
-
-
-            {/* PAGINATION */}
-
-            <CustomerPagination />
-
-        </>
-    )}
+    {activeTab === "products" && (
+    <>
+        <ProductPage />
+    </>
+)}
 
 </section>
-<CustomerDetails
-    customer={selectedCustomer}
-    onClose={() => setSelectedCustomer(null)}
-/>
+
 
             </main>
 

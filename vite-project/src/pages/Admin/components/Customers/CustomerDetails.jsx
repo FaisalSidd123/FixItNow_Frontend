@@ -4,8 +4,8 @@ import {
     Phone,
     CalendarDays,
     Wrench,
-    User,
-    Clock
+    Clock,
+    ShieldCheck
 } from "lucide-react";
 
 import "./CustomerDetails.css";
@@ -16,8 +16,58 @@ function CustomerDetails({ customer, onClose }) {
         return null;
     }
 
+
+    const name =
+        customer.display_name || "Unnamed Customer";
+
+
+    const getInitials = (name) => {
+
+        return name
+            .split(" ")
+            .filter(Boolean)
+            .map(word => word[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+
+    };
+
+
+    const formatDate = (date) => {
+
+        if (!date) return "—";
+
+        return new Date(date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric"
+        });
+
+    };
+
+
+    const formatDateTime = (date) => {
+
+        if (!date) return "—";
+
+        return new Date(date).toLocaleString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+    };
+
+
     return (
-        <div className="customer-details-overlay" onClick={onClose}>
+
+        <div
+            className="customer-details-overlay"
+            onClick={onClose}
+        >
 
             <aside
                 className="customer-details-drawer"
@@ -29,21 +79,26 @@ function CustomerDetails({ customer, onClose }) {
                 <div className="customer-details-header">
 
                     <div>
+
                         <span className="customer-details-label">
                             CUSTOMER DETAILS
                         </span>
 
                         <h2>
-                            {customer.name}
+                            {name}
                         </h2>
+
                     </div>
+
 
                     <button
                         className="customer-details-close"
                         onClick={onClose}
                         aria-label="Close customer details"
                     >
+
                         <X size={18} />
+
                     </button>
 
                 </div>
@@ -55,20 +110,15 @@ function CustomerDetails({ customer, onClose }) {
 
                     <div className="customer-details-avatar">
 
-                        {customer.name
-                            .split(" ")
-                            .map(word => word[0])
-                            .join("")
-                            .slice(0, 2)
-                            .toUpperCase()
-                        }
+                        {getInitials(name)}
 
                     </div>
+
 
                     <div>
 
                         <strong>
-                            {customer.name}
+                            {name}
                         </strong>
 
                         <span>
@@ -84,17 +134,18 @@ function CustomerDetails({ customer, onClose }) {
 
                 <div className="customer-details-status">
 
-                    <span
-                        className={`customer-status ${customer.status.toLowerCase()}`}
-                    >
+                    <span className="customer-status active">
+
                         <span className="status-dot"></span>
-                        {customer.status}
+
+                        Active
+
                     </span>
 
                 </div>
 
 
-                {/* INFORMATION */}
+                {/* CONTACT INFORMATION */}
 
                 <div className="customer-details-section">
 
@@ -102,13 +153,21 @@ function CustomerDetails({ customer, onClose }) {
                         Contact Information
                     </h3>
 
+
                     <div className="customer-detail-row">
 
                         <Mail size={16} />
 
                         <div>
-                            <span>Email</span>
-                            <strong>{customer.email}</strong>
+
+                            <span>
+                                Email
+                            </span>
+
+                            <strong>
+                                {customer.email || "—"}
+                            </strong>
+
                         </div>
 
                     </div>
@@ -119,8 +178,15 @@ function CustomerDetails({ customer, onClose }) {
                         <Phone size={16} />
 
                         <div>
-                            <span>Phone</span>
-                            <strong>{customer.phone}</strong>
+
+                            <span>
+                                Phone
+                            </span>
+
+                            <strong>
+                                Not provided
+                            </strong>
+
                         </div>
 
                     </div>
@@ -136,13 +202,40 @@ function CustomerDetails({ customer, onClose }) {
                         Account Information
                     </h3>
 
+
                     <div className="customer-detail-row">
 
                         <CalendarDays size={16} />
 
                         <div>
-                            <span>Joined</span>
-                            <strong>{customer.joined}</strong>
+
+                            <span>
+                                Joined
+                            </span>
+
+                            <strong>
+                                {formatDate(customer.created_at)}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="customer-detail-row">
+
+                        <ShieldCheck size={16} />
+
+                        <div>
+
+                            <span>
+                                Account Role
+                            </span>
+
+                            <strong>
+                                {customer.role || "user"}
+                            </strong>
+
                         </div>
 
                     </div>
@@ -153,8 +246,15 @@ function CustomerDetails({ customer, onClose }) {
                         <Wrench size={16} />
 
                         <div>
-                            <span>Service Requests</span>
-                            <strong>{customer.services}</strong>
+
+                            <span>
+                                Service Requests
+                            </span>
+
+                            <strong>
+                                —
+                            </strong>
+
                         </div>
 
                     </div>
@@ -170,13 +270,21 @@ function CustomerDetails({ customer, onClose }) {
                         Account Activity
                     </h3>
 
+
                     <div className="customer-detail-row">
 
                         <Clock size={16} />
 
                         <div>
-                            <span>Last Activity</span>
-                            <strong>Today</strong>
+
+                            <span>
+                                Last Updated
+                            </span>
+
+                            <strong>
+                                {formatDateTime(customer.updated_at)}
+                            </strong>
+
                         </div>
 
                     </div>
@@ -188,7 +296,15 @@ function CustomerDetails({ customer, onClose }) {
 
                 <div className="customer-details-footer">
 
-                    <button className="customer-details-email">
+                    <button
+                        className="customer-details-email"
+                        onClick={() => {
+                            if (customer.email) {
+                                window.location.href =
+                                    `mailto:${customer.email}`;
+                            }
+                        }}
+                    >
 
                         <Mail size={15} />
 
@@ -201,7 +317,9 @@ function CustomerDetails({ customer, onClose }) {
             </aside>
 
         </div>
+
     );
+
 }
 
 export default CustomerDetails;

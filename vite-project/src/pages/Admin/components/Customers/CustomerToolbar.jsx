@@ -3,7 +3,6 @@ import {
     Search,
     Filter,
     ArrowUpDown,
-    UserPlus
 } from "lucide-react";
 
 import "./CustomerToolbar.css";
@@ -106,20 +105,7 @@ function CustomerToolbar({
                     <span>Sort</span>
 
                 </button>
-
-
-                {/* Add Customer */}
-                <button className="add-customer-btn">
-
-                    <UserPlus
-                        size={16}
-                        strokeWidth={1.8}
-                    />
-
-                    <span>Add Customer</span>
-
-                </button>
-
+             
             </div>
 
         </div>

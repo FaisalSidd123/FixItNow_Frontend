@@ -766,28 +766,7 @@
     }
 
 
-    .mobile-menu-btn {
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        flex-shrink: 0;
-
-        width: 38px;
-        height: 38px;
-
-        border: 1px solid rgba(255, 255, 255, 0.08);
-
-        border-radius: 10px;
-
-        background: #101010;
-
-        color: #ffffff;
-
-        cursor: pointer;
-    }
-
+    
 
     .admin-topbar > div:first-of-type {
         flex: 1;
@@ -820,37 +799,6 @@
         flex-shrink: 0;
     }
 
-
-    /* KEEP SEARCH ON MOBILE */
-
-    .admin-search {
-        display: flex;
-
-        width: 38px;
-        height: 38px;
-
-        padding: 0;
-
-        justify-content: center;
-
-        gap: 0;
-
-        align-items: center;
-    }
-
-
-    .admin-search svg {
-        display: block;
-        width: 18px;
-        height: 18px;
-        color: #ffffff;
-        flex-shrink: 0;
-    }
-
-
-    .admin-search input {
-        display: none;
-    }
 
 
     .notification-btn {
