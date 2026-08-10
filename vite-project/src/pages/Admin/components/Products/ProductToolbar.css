@@ -1,181 +1,340 @@
-.product-toolbar {
+/* =========================
+   PRODUCT TOOLBAR
+========================= */
 
+.product-toolbar {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-
-    background: #111;
-    padding: 20px;
-    border-radius: 16px;
-
-    border: 1px solid rgba(212,175,55,0.15);
-
-    margin-bottom: 25px;
-
+    margin: 24px 0;
 }
 
 
+/* =========================
+   SEARCH
+========================= */
 
 .product-search {
+    flex: 1;
+
+    max-width: 420px;
+
+    height: 42px;
 
     display: flex;
     align-items: center;
-    gap: 10px;
 
-    background: #0a0a0a;
+    gap: 9px;
 
-    padding: 12px 15px;
+    padding: 0 13px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
 
     border-radius: 10px;
 
-    flex: 1;
+    color: #666;
 
+    transition: 0.25s ease;
 }
 
-
+.product-search:focus-within {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+}
 
 .product-search svg {
-
-    color: #D4AF37;
-
+    flex-shrink: 0;
 }
 
-
-
 .product-search input {
-
     width: 100%;
+    height: 100%;
+
+    border: none;
+    outline: none;
 
     background: transparent;
 
-    border: none;
-
-    outline: none;
-
-    color: white;
+    color: #f1f1f1;
 
     font-size: 14px;
+}
 
+.product-search input::placeholder {
+    color: #686e78;
 }
 
 
+/* =========================
+   TOOLBAR ACTIONS
+========================= */
 
-
-.product-filters {
-
+.product-toolbar-actions {
     display: flex;
-
-    gap: 12px;
-
-}
-
-
-
-.product-filters select {
-
-
-    background: #0a0a0a;
-
-    color: white;
-
-    border: 1px solid rgba(212,175,55,0.2);
-
-    padding: 12px;
-
-    border-radius: 10px;
-
-    outline: none;
-
-}
-
-
-
-
-.add-product-btn {
-
-
-    display: flex;
-
     align-items: center;
+    justify-content: flex-end;
 
-    gap: 8px;
+    gap: 10px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+}
 
 
-    background: #D4AF37;
+/* =========================
+   FILTER + SORT WRAPPERS
+========================= */
 
-    color: #050505;
+.product-filter-wrapper,
+.product-sort-wrapper {
+    position: relative;
+}
 
 
-    border: none;
+/* =========================
+   FILTER + SORT BUTTONS
+========================= */
 
-    padding: 12px 18px;
+
+ .product-filter-btn,
+.product-sort-btn {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 13px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
 
     border-radius: 10px;
 
-    font-weight: 600;
+    color: #999;
+
+    font-size: 12px;
 
     cursor: pointer;
 
-
+    transition: 0.25s ease;
 }
 
 
+.product-filter-btn:hover,
+.product-sort-btn:hover {
+    color: #ffffff;
 
-
-.add-product-btn:hover {
-
-    opacity: 0.85;
-
+    border-color: rgba(212, 175, 55, 0.35);
 }
-@media (max-width: 900px) {
 
+.product-filter-btn svg,
+.product-sort-btn svg {
+    color: #9da3ad;
+}
+
+
+/* =========================
+   ACTIVE FILTER
+========================= */
+
+.product-filter-btn.active {
+    border-color: #d4af37;
+    color: #d4af37;
+}
+
+
+/* =========================
+   DROPDOWN MENUS
+========================= */
+
+.product-filter-menu,
+.product-sort-menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    min-width: 165px;
+
+    padding: 6px;
+
+    background: #111318;
+
+    border: 1px solid #292e37;
+    border-radius: 10px;
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.4);
+
+    z-index: 50;
+}
+
+
+/* =========================
+   DROPDOWN BUTTONS
+========================= */
+
+.product-filter-menu button,
+.product-sort-menu button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 9px 11px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #aeb3bc;
+
+    font-size: 13px;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.product-filter-menu button:hover,
+.product-sort-menu button:hover {
+    background: #1b1f26;
+    color: #ffffff;
+}
+
+
+/* =========================
+   SELECTED OPTION
+========================= */
+
+.product-filter-menu button.selected,
+.product-sort-menu button.selected {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
 
     .product-toolbar {
-
         flex-direction: column;
-
         align-items: stretch;
-
+        gap: 12px;
     }
 
-
-
-    .product-filters {
-
+    .product-search {
+        max-width: none;
         width: 100%;
-
     }
 
+    .product-toolbar-actions {
+        width: 100%;
+    }
 
-
-    .product-filters select {
-
+    .product-filter-wrapper,
+    .product-sort-wrapper {
         flex: 1;
-
     }
 
+    .product-filter-btn,
+    .product-sort-btn {
+        width: 100%;
+    }
 
 }
 
 
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
 
-
-    .product-filters {
-
-        flex-direction: column;
-
+    .product-toolbar {
+        margin: 18px 0;
     }
 
-
-
-    .add-product-btn {
-
-        justify-content: center;
-
+    .product-search {
+        height: 42px;
     }
 
+    .product-toolbar-actions {
+        gap: 8px;
+    }
 
+    .product-filter-btn,
+    .product-sort-btn {
+        height: 42px;
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    .product-filter-menu,
+    .product-sort-menu {
+        min-width: 150px;
+    }
+
+}
+.add-product-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    height: 42px;
+
+    padding: 0 14px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 10px;
+
+    background: rgba(212, 175, 55, 0.10);
+
+    color: #d4af37;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.add-product-btn:hover {
+    background: rgba(212, 175, 55, 0.16);
+
+    border-color: rgba(212, 175, 55, 0.55);
+
+    transform: translateY(-1px);
+}
+
+.add-product-btn:active {
+    transform: translateY(0);
 }

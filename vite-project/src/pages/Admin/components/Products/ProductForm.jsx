@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProductForm = () => {
   return (
-    <div>ProductForm</div>
+    <div>Produc Form</div>
   )
 }
 

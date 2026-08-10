@@ -1,0 +1,374 @@
+
+  .product-table-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* =========================
+   TABLE WRAPPER
+========================= */
+
+.product-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    background: #0d0d0d;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.product-table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: collapse;
+}
+
+
+/* =========================
+   TABLE HEADER
+========================= */
+
+.product-table th {
+    padding: 14px 16px;
+
+    text-align: left;
+
+    color: #777;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+/* =========================
+   TABLE CELLS
+========================= */
+
+.product-table td {
+    padding: 14px 16px;
+
+    color: #ccc;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================
+   ROW HOVER
+========================= */
+
+.product-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.product-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+
+/* =========================
+   PRODUCT
+========================= */
+
+.product-name-cell {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 220px;
+}
+
+.product-image {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.product-name-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.product-name-info strong {
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-name-info span {
+    color: #666;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+.product-category {
+    color: #999;
+}
+
+
+/* =========================
+   PRICE
+========================= */
+
+.product-price {
+    color: #ffffff;
+
+    font-weight: 500;
+}
+
+
+/* =========================
+   STOCK
+========================= */
+
+.product-stock {
+    color: #aaa;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.product-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #777;
+}
+
+.product-status.in-stock .status-dot {
+    background: #6f9f78;
+}
+
+.product-status.low-stock .status-dot {
+    background: #c19a4a;
+}
+
+.product-status.out-of-stock .status-dot {
+    background: #9a6262;
+}
+
+
+/* =========================
+   ACTION
+========================= */
+
+.product-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: 1px solid transparent;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #777;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.product-action-btn:hover {
+    color: #d4af37;
+
+    background: rgba(212, 175, 55, 0.08);
+
+    border-color: rgba(212, 175, 55, 0.15);
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.product-empty {
+    padding: 40px 20px;
+
+    text-align: center;
+
+    color: #666;
+
+    font-size: 13px;
+
+    background: #0d0d0d;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 12px;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+
+    .product-table th,
+    .product-table td {
+        padding: 13px 14px;
+    }
+
+    .product-name-cell {
+        min-width: 200px;
+    }
+
+    .product-image {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .product-table-container {
+        margin-top: 16px;
+    }
+
+    .product-table-wrapper {
+        border-radius: 10px;
+
+        /*
+         * Scroll stays INSIDE the table.
+         * It will not make the entire dashboard scroll.
+         */
+        overflow-x: auto;
+    }
+
+    .product-table {
+        min-width: 720px;
+    }
+
+    .product-table th {
+        padding: 12px;
+
+        font-size: 10px;
+    }
+
+    .product-table td {
+        padding: 12px;
+
+        font-size: 11px;
+    }
+
+    .product-name-cell {
+        min-width: 200px;
+
+        gap: 10px;
+    }
+
+    .product-image {
+        width: 42px;
+        height: 42px;
+    }
+
+    .product-name-info strong {
+        font-size: 11px;
+    }
+
+    .product-name-info span {
+        font-size: 9px;
+    }
+
+    .product-action-btn {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .product-table {
+        min-width: 680px;
+    }
+
+    .product-table th,
+    .product-table td {
+        padding: 10px;
+    }
+
+}

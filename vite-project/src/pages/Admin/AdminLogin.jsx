@@ -71,7 +71,7 @@ const handleLogin = async (e) => {
           onSubmit={handleLogin}>
 
           <div className="input-group">
-            <label>Email Address</label>
+            <label>EmailAddress</label>
             <input
             type="email"
                placeholder="Enter your email"

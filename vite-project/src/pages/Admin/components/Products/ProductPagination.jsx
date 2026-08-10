@@ -1,56 +1,100 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./ProductPagination.css";
 
+function ProductPagination({
+    currentPage,
+    totalPages,
+    totalProducts,
+    productsPerPage,
+    onPageChange
+}) {
 
-function ProductPagination() {
+    if (totalProducts === 0) {
+        return null;
+    }
+
+    const startItem =
+        (currentPage - 1) * productsPerPage + 1;
+
+    const endItem =
+        Math.min(
+            currentPage * productsPerPage,
+            totalProducts
+        );
 
     return (
-
         <div className="product-pagination">
 
-
-            <button className="pagination-btn">
-
-                <ChevronLeft size={18}/>
-
-                Previous
-
-            </button>
+            <span className="pagination-info">
+                Showing {startItem}–{endItem} of {totalProducts} products
+            </span>
 
 
+            <div className="pagination-controls">
 
-            <div className="pagination-pages">
+                <button
+                    className="pagination-btn"
+                    disabled={currentPage === 1}
+                    onClick={() =>
+                        onPageChange(currentPage - 1)
+                    }
+                >
 
-                <button className="active-page">
-                    1
+                    <ChevronLeft size={17} />
+
+                    Previous
+
                 </button>
 
-                <button>
-                    2
-                </button>
 
-                <button>
-                    3
+                <div className="pagination-pages">
+
+                    {Array.from(
+                        { length: totalPages },
+                        (_, index) => {
+
+                            const page = index + 1;
+
+                            return (
+                                <button
+                                    key={page}
+                                    className={
+                                        currentPage === page
+                                            ? "active-page"
+                                            : ""
+                                    }
+                                    onClick={() =>
+                                        onPageChange(page)
+                                    }
+                                >
+                                    {page}
+                                </button>
+                            );
+
+                        }
+                    )}
+
+                </div>
+
+
+                <button
+                    className="pagination-btn"
+                    disabled={currentPage === totalPages}
+                    onClick={() =>
+                        onPageChange(currentPage + 1)
+                    }
+                >
+
+                    Next
+
+                    <ChevronRight size={17} />
+
                 </button>
 
             </div>
 
-
-
-            <button className="pagination-btn">
-
-                Next
-
-                <ChevronRight size={18}/>
-
-            </button>
-
-
         </div>
-
     );
-
 }
-
 
 export default ProductPagination;

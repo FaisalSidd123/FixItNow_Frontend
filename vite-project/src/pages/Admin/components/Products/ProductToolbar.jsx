@@ -1,92 +1,212 @@
-import { Search, Filter, Plus } from "lucide-react";
+import { useState } from "react";
+import {
+    Search,
+    Filter,
+    ArrowUpDown,
+       Plus
+} from "lucide-react";
+
 import "./ProductToolbar.css";
 
+function ProductToolbar({
+    searchTerm,
+    onSearchChange,
+    categoryFilter,
+    onCategoryFilterChange,
+    sortOption,
+    onSortChange,
+      onAddProduct
+}) {
 
-function ProductToolbar() {
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [sortOpen, setSortOpen] = useState(false);
+
+    const categories = [
+        "All",
+        "Panels",
+        "Battery",
+        "Inverter"
+    ];
+
+    const sortOptions = [
+        "Newest",
+        "Name A-Z",
+        "Name Z-A",
+        "Price Low",
+        "Price High",
+        "Stock Low",
+        "Stock High"
+    ];
 
     return (
-
         <div className="product-toolbar">
 
+            {/* SEARCH */}
 
             <div className="product-search">
 
-                <Search size={18}/>
+                <Search
+                    size={17}
+                    strokeWidth={1.8}
+                />
 
-                <input 
+                <input
                     type="text"
                     placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={(e) =>
+                        onSearchChange(e.target.value)
+                    }
+                    autoComplete="off"
                 />
 
             </div>
 
 
+            {/* ACTIONS */}
 
-            <div className="product-filters">
-
-
-                <select>
-
-                    <option>
-                        All Categories
-                    </option>
-
-                    <option>
-                        Panels
-                    </option>
-
-                    <option>
-                        Batteries
-                    </option>
-
-                    <option>
-                        Inverters
-                    </option>
-
-                </select>
+            <div className="product-toolbar-actions">
 
 
+                {/* CATEGORY FILTER */}
 
-                <select>
+                <div className="product-filter-wrapper">
 
-                    <option>
-                        All Stock
-                    </option>
+                    <button
+                        className="product-filter-btn"
+                        onClick={() =>
+                            setFilterOpen(!filterOpen)
+                        }
+                    >
 
-                    <option>
-                        In Stock
-                    </option>
+                        <Filter
+                            size={16}
+                            strokeWidth={1.8}
+                        />
 
-                    <option>
-                        Low Stock
-                    </option>
+                        <span>
+                            {categoryFilter === "All"
+                                ? "Filter"
+                                : categoryFilter}
+                        </span>
 
-                    <option>
-                        Out of Stock
-                    </option>
-
-                </select>
-
-
-            </div>
-
-
+                    </button>
 
 
-            <button className="add-product-btn">
+                    {filterOpen && (
 
-                <Plus size={18}/>
+                        <div className="product-filter-menu">
 
-                Add Product
+                            {categories.map((category) => (
 
-            </button>
+                                <button
+                                    key={category}
+                                    className={
+                                        categoryFilter === category
+                                            ? "selected"
+                                            : ""
+                                    }
+                                    onClick={() => {
 
+                                        onCategoryFilterChange(
+                                            category
+                                        );
+
+                                        setFilterOpen(false);
+
+                                    }}
+                                >
+                                    {category === "All"
+                                        ? "All Products"
+                                        : category}
+                                </button>
+
+                            ))}
+
+                        </div>
+
+                    )}
+
+                </div>
+
+               {/* SORT */}
+
+<div className="product-sort-wrapper">
+
+    <button
+        className="product-sort-btn"
+        onClick={() =>
+            setSortOpen(!sortOpen)
+        }
+    >
+
+        <ArrowUpDown
+            size={16}
+            strokeWidth={1.8}
+        />
+
+        <span>Sort</span>
+
+    </button>
+
+
+    {sortOpen && (
+
+        <div className="product-sort-menu">
+
+            {sortOptions.map((option) => (
+
+                <button
+                    key={option}
+                    className={
+                        sortOption === option
+                            ? "selected"
+                            : ""
+                    }
+                    onClick={() => {
+
+                        onSortChange(option);
+
+                        setSortOpen(false);
+
+                    }}
+                >
+                    {option}
+                </button>
+
+            ))}
 
         </div>
 
+    )}
+
+</div>
+
+
+{/* ADD PRODUCT */}
+
+<button
+    className="add-product-btn"
+    onClick={onAddProduct}
+>
+
+    <Plus
+        size={16}
+        strokeWidth={1.8}
+    />
+
+    <span>
+        Add Product
+    </span>
+
+</button>
+
+              
+  </div>
+            </div>
+
+
     );
-
 }
-
 
 export default ProductToolbar;

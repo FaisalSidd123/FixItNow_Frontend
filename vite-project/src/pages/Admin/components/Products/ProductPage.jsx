@@ -1,92 +1,216 @@
+import { useEffect, useState } from "react";
+
+import { fetchProducts } from "../../../../api/productApi";
 import ProductStats from "./ProductStats";
 import ProductToolbar from "./ProductToolbar";
 import ProductTable from "./ProductTable";
-
 import ProductPagination from "./ProductPagination";
-import { useState } from "react";
-
 import ProductDetails from "./ProductDetails";
+import AddProduct from "./AddProduct";
 
 import "./ProductPage.css";
 
-
 function ProductPage() {
 
-const [selectedProduct, setSelectedProduct] = useState(null);
-    const products = [
+    const [products, setProducts] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
-        {
-            id: 1,
-            name: "Solar Panel 550W",
-            category: "Panels",
-            price: 25000,
-            stock: 20,
-            status: "In Stock",
-            image: "https://images.unsplash.com/photo-1509391366360-2e959784a276"
-        },
+    const [addProductOpen, setAddProductOpen] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-        {
-            id: 2,
-            name: "Solar Battery 200Ah",
-            category: "Battery",
-            price: 45000,
-            stock: 5,
-            status: "Low Stock",
-            image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4"
-        },
+    const handleProductAdded = (newProduct) => {
 
+    setProducts((previousProducts) => [
+        newProduct,
+        ...previousProducts
+    ]);
 
-        {
-            id: 3,
-            name: "Solar Inverter",
-            category: "Inverter",
-            price: 60000,
-            stock: 0,
-            status: "Out of Stock",
-            image: "https://images.unsplash.com/photo-1592833159155-c62df1b65634"
+};
+
+    const [searchTerm, setSearchTerm] = useState("");
+const [categoryFilter, setCategoryFilter] = useState("All");
+const [sortOption, setSortOption] = useState("Newest");
+
+const [currentPage, setCurrentPage] = useState(1);
+
+const productsPerPage = 6;
+   useEffect(() => {
+
+    const loadProducts = async () => {
+
+        try {
+
+            setLoading(true);
+            setError("");
+
+            const products = await fetchProducts();
+
+            console.log("Products received:", products);
+
+            setProducts(products);
+
+        } catch (err) {
+
+            console.error("Product fetch error:", err);
+
+            setError(
+                err.message ||
+                "Unable to load products."
+            );
+
+        } finally {
+
+            setLoading(false);
+
         }
 
-    ];
+    };
 
+    loadProducts();
+
+}, []);
+const filteredProducts = products
+    .filter((product) => {
+
+        const search = searchTerm.toLowerCase();
+
+        const matchesSearch =
+            product.name
+                ?.toLowerCase()
+                .includes(search) ||
+            product.category
+                ?.toLowerCase()
+                .includes(search);
+
+        const matchesCategory =
+            categoryFilter === "All" ||
+            product.category === categoryFilter;
+
+        return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+
+        switch (sortOption) {
+
+            case "Name A-Z":
+                return a.name.localeCompare(b.name);
+
+            case "Name Z-A":
+                return b.name.localeCompare(a.name);
+
+            case "Price Low":
+                return Number(a.price) - Number(b.price);
+
+            case "Price High":
+                return Number(b.price) - Number(a.price);
+
+            case "Stock Low":
+                return Number(a.stock) - Number(b.stock);
+
+            case "Stock High":
+                return Number(b.stock) - Number(a.stock);
+
+            default:
+                return 0;
+        }
+
+    });
+    const totalPages = Math.ceil(
+    filteredProducts.length / productsPerPage
+);
+
+const startIndex =
+    (currentPage - 1) * productsPerPage;
+
+const paginatedProducts =
+    filteredProducts.slice(
+        startIndex,
+        startIndex + productsPerPage
+    );
+useEffect(() => {
+    setCurrentPage(1);
+}, [searchTerm, categoryFilter, sortOption]);
+
+    if (loading) {
+
+        return (
+            <div className="product-loading">
+                Loading products...
+            </div>
+        );
+
+    }
+
+
+    if (error) {
+
+        return (
+            <div className="product-error">
+                {error}
+            </div>
+        );
+
+    }
 
 
     return (
 
         <div className="product-page">
 
-
-            <ProductStats 
+            <ProductStats
                 products={products}
             />
 
 
-            <ProductToolbar />
+          <ProductToolbar
+    searchTerm={searchTerm}
+    onSearchChange={setSearchTerm}
+    categoryFilter={categoryFilter}
+    onCategoryFilterChange={setCategoryFilter}
+    sortOption={sortOption}
+    onSortChange={setSortOption}
+      onAddProduct={() => setAddProductOpen(true)}
+/>
 
 
-            <ProductTable 
-                products={products}
-                 setSelectedProduct={setSelectedProduct}
-            />
-{
-    selectedProduct && (
+    <ProductTable
+    products={paginatedProducts}
+    setSelectedProduct={setSelectedProduct}
+/>
 
-        <ProductDetails
-            product={selectedProduct}
-            closeDetails={() => setSelectedProduct(null)}
-        />
 
-    )
-}
+            {selectedProduct && (
 
-            <ProductPagination />
+                <ProductDetails
+                    product={selectedProduct}
+                    closeDetails={() =>
+                        setSelectedProduct(null)
+                    }
+                />
 
+
+            )}
+{addProductOpen && (
+    <AddProduct
+        onClose={() => setAddProductOpen(false)}
+        onProductAdded={handleProductAdded}
+    />
+)}
+
+        <ProductPagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    totalProducts={filteredProducts.length}
+    productsPerPage={productsPerPage}
+    onPageChange={setCurrentPage}
+/>
 
         </div>
 
     );
 
 }
-
 
 export default ProductPage;

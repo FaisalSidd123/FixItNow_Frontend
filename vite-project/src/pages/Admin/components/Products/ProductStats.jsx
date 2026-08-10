@@ -1,23 +1,43 @@
 import "./ProductStats.css";
 
-function ProductStats({products}) {
+function ProductStats({ products = [] }) {
+
+    const totalProducts = products.length;
+
+    const totalStock = products.reduce(
+        (total, product) =>
+            total + Number(product.stock || 0),
+        0
+    );
+
+    const lowStock = products.filter(
+        (product) =>
+            Number(product.stock || 0) > 0 &&
+            Number(product.stock || 0) <= 10
+    ).length;
+
+    const outOfStock = products.filter(
+        (product) =>
+            Number(product.stock || 0) === 0
+    ).length;
+
 
     const stats = [
         {
             title: "Total Products",
-            value: 120
+            value: totalProducts
         },
         {
             title: "Total Stock",
-            value: 450
+            value: totalStock
         },
         {
             title: "Low Stock",
-            value: 12
+            value: lowStock
         },
         {
             title: "Out of Stock",
-            value: 5
+            value: outOfStock
         }
     ];
 
@@ -27,14 +47,18 @@ function ProductStats({products}) {
 
             {stats.map((item, index) => (
 
-                <div 
+                <div
                     className="product-stat-card"
                     key={index}
                 >
 
-                    <h3>{item.title}</h3>
+                    <h3>
+                        {item.title}
+                    </h3>
 
-                    <p>{item.value}</p>
+                    <p>
+                        {item.value}
+                    </p>
 
                 </div>
 
