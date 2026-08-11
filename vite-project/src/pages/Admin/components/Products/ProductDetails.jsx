@@ -1,8 +1,8 @@
 
-import { X, Pencil } from "lucide-react";
+import { X, Pencil, Trash2 } from "lucide-react";
 import "./ProductDetails.css";
 
-function ProductDetails({ product, closeDetails }) {
+function ProductDetails({ product, closeDetails,  onEdit,  onDelete }) {
 
     if (!product) {
         return null;
@@ -99,13 +99,23 @@ function ProductDetails({ product, closeDetails }) {
 
 
                 {/* EDIT BUTTON */}
-                <button className="edit-product-btn">
+                <button
+    className="edit-product-btn"
+    onClick={() => onEdit(product)}
+>
 
-                    <Pencil size={17} />
+    <Pencil size={17} />
 
-                    Edit Product
+    Edit Product
 
-                </button>
+</button>
+<button
+    className="delete-product-btn"
+    onClick={() => onDelete(product)}
+>
+    <Trash2 size={17} />
+    Delete Product
+</button>
 
             </div>
 

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { fetchProducts } from "../../../../api/productApi";
+import { fetchProducts, deleteProduct } from "../../../../api/productApi";
 import ProductStats from "./ProductStats";
 import ProductToolbar from "./ProductToolbar";
 import ProductTable from "./ProductTable";
 import ProductPagination from "./ProductPagination";
 import ProductDetails from "./ProductDetails";
 import AddProduct from "./AddProduct";
+import EditProduct from "./EditProduct";
 
 import "./ProductPage.css";
 
@@ -14,6 +15,7 @@ function ProductPage() {
 
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [editingProduct, setEditingProduct] = useState(null);
 
     const [addProductOpen, setAddProductOpen] = useState(false);
 
@@ -71,6 +73,55 @@ const productsPerPage = 6;
     loadProducts();
 
 }, []);
+
+const handleEditProduct = (product) => {
+
+    setEditingProduct(product);
+
+    setSelectedProduct(null);
+
+};
+const handleDeleteProduct = async (product) => {
+
+    const confirmed = window.confirm(
+        `Are you sure you want to delete "${product.name}"?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        await deleteProduct(product.id);
+
+
+        setProducts((previousProducts) =>
+            previousProducts.filter(
+                (item) => item.id !== product.id
+            )
+        );
+
+
+        setSelectedProduct(null);
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete product error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to delete product."
+        );
+
+    }
+};
+
 const filteredProducts = products
     .filter((product) => {
 
@@ -183,21 +234,48 @@ useEffect(() => {
 
             {selectedProduct && (
 
-                <ProductDetails
-                    product={selectedProduct}
-                    closeDetails={() =>
-                        setSelectedProduct(null)
-                    }
-                />
+               <ProductDetails
+    product={selectedProduct}
+    closeDetails={() =>
+        setSelectedProduct(null)
+    }
+    onEdit={handleEditProduct}
+    onDelete={handleDeleteProduct}
+/>
+
 
 
             )}
+            {editingProduct && (
+
+    <EditProduct
+        product={editingProduct}
+
+        onClose={() =>
+            setEditingProduct(null)
+        }
+
+        onProductUpdated={(updatedProduct) => {
+
+            setProducts((previousProducts) =>
+                previousProducts.map((product) =>
+                    product.id === updatedProduct.id
+                        ? updatedProduct
+                        : product
+                )
+            );
+
+        }}
+    />
+
+)}
 {addProductOpen && (
     <AddProduct
         onClose={() => setAddProductOpen(false)}
         onProductAdded={handleProductAdded}
     />
 )}
+
 
         <ProductPagination
     currentPage={currentPage}

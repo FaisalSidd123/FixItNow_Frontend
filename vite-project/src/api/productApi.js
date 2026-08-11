@@ -92,3 +92,85 @@ export const createProduct = async (productData) => {
 
     return data.product;
 };
+export const updateProduct = async (productId, productData) => {
+
+    const firebaseUser = auth.currentUser;
+
+    if (!firebaseUser) {
+        throw new Error("User is not authenticated.");
+    }
+
+    const token = await firebaseUser.getIdToken();
+
+
+    const response = await fetch(
+        `${API_URL}/${productId}`,
+        {
+            method: "PUT",
+
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(productData)
+        }
+    );
+
+
+    if (!response.ok) {
+
+        const errorData =
+            await response.json().catch(() => ({}));
+
+        throw new Error(
+            errorData.error ||
+            "Failed to update product"
+        );
+    }
+
+
+    const data = await response.json();
+
+    return data.product;
+};
+export const deleteProduct = async (productId) => {
+
+    const firebaseUser = auth.currentUser;
+
+    if (!firebaseUser) {
+        throw new Error("User is not authenticated.");
+    }
+
+    const token = await firebaseUser.getIdToken();
+
+
+    const response = await fetch(
+        `${API_URL}/${productId}`,
+        {
+            method: "DELETE",
+
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }
+    );
+
+
+    if (!response.ok) {
+
+        const errorData =
+            await response.json().catch(() => ({}));
+
+        throw new Error(
+            errorData.error ||
+            "Failed to delete product"
+        );
+    }
+
+
+    const data = await response.json();
+
+    return data.product;
+};
