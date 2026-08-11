@@ -74,3 +74,34 @@ if(!response.ok){
 return data;
 
 };
+export const getAllRepairs = async () => {
+
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+        throw new Error("User not logged in");
+    }
+
+    const token = await currentUser.getIdToken();
+
+    const response = await fetch(
+        "http://localhost:5000/api/repairs/admin",
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message || "Failed to fetch repair requests"
+        );
+    }
+
+    return data;
+};

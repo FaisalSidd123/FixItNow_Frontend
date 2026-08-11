@@ -105,3 +105,34 @@ export const submitAMC = async (formData) => {
   return data;
 
 };
+export const getAllAMCContracts = async () => {
+
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+        throw new Error("User not logged in");
+    }
+
+    const token = await currentUser.getIdToken();
+
+    const response = await fetch(
+        "http://localhost:5000/api/amc/admin",
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message || "Failed to fetch AMC requests"
+        );
+    }
+
+    return data;
+};

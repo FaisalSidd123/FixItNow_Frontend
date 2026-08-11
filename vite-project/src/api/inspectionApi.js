@@ -71,3 +71,34 @@ export const getInspections = async () => {
   return data;
 
 };
+export const getAllInspections = async () => {
+
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+        throw new Error("User not logged in");
+    }
+
+    const token = await currentUser.getIdToken();
+
+    const response = await fetch(
+        "http://localhost:5000/api/inspections/admin",
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message || "Failed to fetch inspection requests"
+        );
+    }
+
+    return data;
+};

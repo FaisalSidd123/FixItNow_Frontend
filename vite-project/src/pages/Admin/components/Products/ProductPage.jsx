@@ -209,7 +209,15 @@ useEffect(() => {
     return (
 
         <div className="product-page">
+<div className="overview-heading">
+    <div>
+        <h2>Products</h2>
 
+        <p className="content-subtitle">
+            Manage and view all FixItNow products.
+        </p>
+    </div>
+</div>
             <ProductStats
                 products={products}
             />

@@ -8,6 +8,7 @@ import RecentActivity from "./components/overview/RecentActivity";
 import { useState } from "react";
 import CustomerPage from "./components/customers/CustomerPage";
 import ProductPage from "./components/products/ProductPage";
+import ServicePage from "./components/Services/ServicePage";
 import {
     LayoutDashboard,
     Users,
@@ -73,10 +74,15 @@ function AdminDashboard() {
     <span>Products</span>
 </button>
 
-                    <button className="nav-item">
-                       <Wrench size={19} strokeWidth={1.8} />
-                        <span>Services</span>
-                    </button>
+                  <button
+    className={`nav-item ${
+        activeTab === "services" ? "active" : ""
+    }`}
+    onClick={() => setActiveTab("services")}
+>
+    <Wrench size={19} strokeWidth={1.8} />
+    <span>Services</span>
+</button>
 
                 </nav>
 
@@ -306,6 +312,7 @@ function AdminDashboard() {
     </>
 )}
 
+{activeTab === "services" && <ServicePage />}
 </section>
 
 
