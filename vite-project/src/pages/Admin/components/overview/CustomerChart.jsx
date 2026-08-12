@@ -9,22 +9,9 @@ import {
 } from "recharts";
 
 import "./CustomerChart.css";
-const customerData = [
-    { month: "Jan", customers: 28 },
-    { month: "Feb", customers: 35 },
-    { month: "Mar", customers: 31 },
-    { month: "Apr", customers: 42 },
-    { month: "May", customers: 48 },
-    { month: "Jun", customers: 44 },
-    { month: "Jul", customers: 56 },
-    { month: "Aug", customers: 64 },
-];
 
-
-function CustomerChart() {
-
+function CustomerChart({ data, thisMonth }) {
     return (
-
         <div className="customer-chart-card">
 
             <div className="chart-header">
@@ -39,7 +26,7 @@ function CustomerChart() {
 
                 <div className="chart-total">
                     <span>This Month</span>
-                    <strong>64</strong>
+                    <strong>{thisMonth ?? 0}</strong>
                 </div>
 
             </div>
@@ -53,7 +40,7 @@ function CustomerChart() {
                 >
 
                     <BarChart
-                        data={customerData}
+                        data={data || []}
                         margin={{
                             top: 10,
                             right: 5,
@@ -121,9 +108,7 @@ function CustomerChart() {
             </div>
 
         </div>
-
     );
 }
-
 
 export default CustomerChart;

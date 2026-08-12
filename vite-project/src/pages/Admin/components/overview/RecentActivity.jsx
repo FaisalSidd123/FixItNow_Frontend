@@ -5,35 +5,10 @@ import {
 } from "lucide-react";
 
 import "./RecentActivity.css"
-const activities = [
-    {
-        type: "customer",
-        title: "New customer registered",
-        description: "Ali Khan created an account",
-        time: "5 minutes ago",
-    },
-    {
-        type: "service",
-        title: "New service request",
-        description: "Solar panel inspection requested",
-        time: "18 minutes ago",
-    },
-    {
-        type: "product",
-        title: "Product purchased",
-        description: "Solar Panel X1 purchased",
-        time: "42 minutes ago",
-    },
-    {
-        type: "service",
-        title: "Service completed",
-        description: "Installation service completed",
-        time: "1 hour ago",
-    },
-];
 
 
-function RecentActivity() {
+
+function RecentActivity({ activities }) {
 
     return (
         <div className="recent-activity-card">
@@ -57,8 +32,7 @@ function RecentActivity() {
 
             <div className="activity-list">
 
-                {activities.map((activity, index) => (
-
+                {activities.slice(0, 5).map((activity, index) => (
                     <div
                         className="activity-item"
                         key={index}

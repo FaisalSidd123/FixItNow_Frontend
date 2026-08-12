@@ -16,6 +16,7 @@ const { currentUser } = useAuth();
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
+    const [sortOrder, setSortOrder] = useState("newest");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -104,11 +105,25 @@ const matchesStatus =
         return matchesSearch && matchesStatus;
 
     });
+    const sortedCustomers = [...filteredCustomers].sort((a, b) => {
+    const dateA = new Date(a.created_at || 0);
+    const dateB = new Date(b.created_at || 0);
+
+    if (sortOrder === "newest") {
+        return dateB - dateA;
+    }
+
+    if (sortOrder === "oldest") {
+        return dateA - dateB;
+    }
+
+    return 0;
+});
 useEffect(() => {
     setCurrentPage(1);
-}, [searchTerm, statusFilter]);
+}, [searchTerm, statusFilter, sortOrder]);
 
-    const totalCustomers = filteredCustomers.length;
+   const totalCustomers = sortedCustomers.length;
 
 const totalPages = Math.ceil(
     totalCustomers / customersPerPage
@@ -123,7 +138,7 @@ const endIndex = Math.min(
 );
 
 const paginatedCustomers =
-    filteredCustomers.slice(
+    sortedCustomers.slice(
         startIndex,
         endIndex
     );
@@ -174,12 +189,14 @@ const paginatedCustomers =
             />
 
 
-            <CustomerToolbar
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                statusFilter={statusFilter}
-                onStatusFilterChange={setStatusFilter}
-            />
+          <CustomerToolbar
+    searchTerm={searchTerm}
+    onSearchChange={setSearchTerm}
+    statusFilter={statusFilter}
+    onStatusFilterChange={setStatusFilter}
+    sortOrder={sortOrder}
+    onSortChange={setSortOrder}
+/>
 
 
             <CustomerTable

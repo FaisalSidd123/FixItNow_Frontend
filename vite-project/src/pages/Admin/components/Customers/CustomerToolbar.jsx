@@ -11,7 +11,9 @@ function CustomerToolbar({
     searchTerm,
     onSearchChange,
     statusFilter,
-    onStatusFilterChange
+    onStatusFilterChange,
+    sortOrder,
+    onSortChange
 }) {
     const [filterOpen, setFilterOpen] = useState(false);
 
@@ -95,16 +97,27 @@ function CustomerToolbar({
 
 
                 {/* Sort */}
-                <button className="customer-sort-btn">
+              <button
+    className="customer-sort-btn"
+    onClick={() =>
+        onSortChange(
+            sortOrder === "newest"
+                ? "oldest"
+                : "newest"
+        )
+    }
+>
+    <ArrowUpDown
+        size={16}
+        strokeWidth={1.8}
+    />
 
-                    <ArrowUpDown
-                        size={16}
-                        strokeWidth={1.8}
-                    />
-
-                    <span>Sort</span>
-
-                </button>
+    <span>
+        {sortOrder === "newest"
+            ? "Newest"
+            : "Oldest"}
+    </span>
+</button>
              
             </div>
 

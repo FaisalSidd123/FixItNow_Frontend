@@ -7,28 +7,12 @@ import {
 } from "recharts";
 
 import "./ServiceChart.css";
-const serviceData = [
-    {
-        name: "Completed",
-        value: 68,
-    },
-    {
-        name: "In Progress",
-        value: 32,
-    },
-    {
-        name: "Pending",
-        value: 18,
-    },
-    {
-        name: "Cancelled",
-        value: 6,
-    },
-];
 
 
-function ServiceChart() {
 
+function ServiceChart({ serviceChart }) {
+    const serviceData = serviceChart?.statuses || [];
+const totalRequests = serviceChart?.total || 0;
     return (
 
         <div className="service-chart-card">
@@ -45,7 +29,7 @@ function ServiceChart() {
 
                 <div className="chart-total">
                     <span>Total Requests</span>
-                    <strong>124</strong>
+                <strong>{totalRequests}</strong>
                 </div>
 
             </div>
@@ -97,8 +81,7 @@ function ServiceChart() {
 
 
                     <div className="pie-center">
-
-                        <strong>124</strong>
+<strong>{totalRequests}</strong>
 
                         <span>Total</span>
 
