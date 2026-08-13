@@ -53,7 +53,27 @@ export const fetchPublicProducts = async () => {
 
     return data.products || [];
 };
+export const fetchPublicProductById = async (productId) => {
 
+    const response = await fetch(
+        `http://localhost:5000/api/products/public/${productId}`
+    );
+
+    if (!response.ok) {
+
+        const errorData =
+            await response.json().catch(() => ({}));
+
+        throw new Error(
+            errorData.error ||
+            "Failed to fetch product"
+        );
+    }
+
+    const data = await response.json();
+
+    return data.product;
+};
 export const createProduct = async (productData) => {
 
     const firebaseUser = auth.currentUser;

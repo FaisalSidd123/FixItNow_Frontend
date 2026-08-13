@@ -9,6 +9,7 @@ const Testimonials = React.lazy(() => import('./components/Testimonials'));
 const CTABanner = React.lazy(() => import('./components/CTABanner'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const Footer = React.lazy(() => import('../../components/layout/Footer/Footer'));
+const Products = React.lazy(() => import('./components/Products'));
 
 // Premium, visually clean fallback placeholder shown while components load
 const LazySectionPlaceholder = () => (
@@ -54,6 +55,7 @@ function Home() {
         <Services />
         <Stats />
         <About />
+        <Products />
         <Testimonials />
         <CTABanner />
         <Contact />

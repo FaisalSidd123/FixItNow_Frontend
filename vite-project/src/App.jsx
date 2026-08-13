@@ -11,7 +11,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminProtectedRoute from './Routes/AdminProtectedRoute';
-
+import ProductsCatalogue from "./pages/Products/ProductsCatalogue";
+import ProductDetail from "./pages/Products/ProductDetail";
 
 function App() {
   return (
@@ -61,6 +62,20 @@ function App() {
         }
       />
 
+<Route
+    path="/products"
+    element={
+        <>
+            <Navbar />
+            <ProductsCatalogue />
+        </>
+    }
+
+/>
+<Route
+    path="/products/:productId"
+    element={ <> <Navbar /> <ProductDetail /></>}
+/>
 
       {/* ================================
           ADMIN PAGES
