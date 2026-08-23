@@ -317,6 +317,36 @@
   color: #EF9F27;
 }
 
+.status-badge.pending {
+  background: rgba(239, 159, 39, 0.06);
+  border: 1px solid rgba(239, 159, 39, 0.15);
+  color: #EF9F27;
+}
+
+.status-badge.processing {
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.status-badge.shipped {
+  background: rgba(139, 92, 246, 0.06);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+}
+
+.status-badge.delivered {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.status-badge.cancelled {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
 .service-log-details {
   display: flex;
   flex-wrap: wrap;

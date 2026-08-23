@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { checkAdminStatus } from "../../api/adminApi";
 import { useState } from "react";
@@ -16,6 +16,7 @@ import "./SignIn.css";
 const SignIn = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
 
@@ -54,7 +55,7 @@ if (adminStatus.isAdmin) {
 
 alert("Login successful!");
 
-navigate("/dashboard");
+navigate(location.state?.from || "/dashboard");
 
     } catch (error) {
 
@@ -87,7 +88,7 @@ const handleGoogleSignIn = async () => {
 
     alert("Google Sign In successful!");
 
-    navigate("/dashboard");
+    navigate(location.state?.from || "/dashboard");
 
   } catch (error) {
     alert(error.message);

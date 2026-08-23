@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
     ArrowLeft,
     ShoppingCart,
@@ -10,15 +10,37 @@ import {
 } from "lucide-react";
 
 import { fetchPublicProductById } from "../../api/productApi";
+import { useAuth } from "../../contexts/AuthContext";
 import "./ProductDetail.css";
 
 function ProductDetail() {
+    const { userLoggedIn } = useAuth();
+    const navigate = useNavigate();
 
     const { productId } = useParams();
 
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [quantity, setQuantity] = useState(1);
+
+    const handleDecrement = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
+
+    const handleIncrement = () => {
+        if (product && quantity < Number(product.stock)) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const handleBuyNow = () => {
+        if (!userLoggedIn) {
+            navigate("/signin", { state: { from: `/products/${productId}` } });
+            return;
+        }
+        navigate("/checkout", { state: { product, quantity } });
+    };
 
     useEffect(() => {
 
@@ -242,6 +264,32 @@ function ProductDetail() {
                             </div>
                         )}
 
+                        {/* Quantity Selector */}
+                        {isAvailable && (
+                            <div className="product-quantity-selector">
+                                <span className="quantity-label">Quantity:</span>
+                                <div className="quantity-controls">
+                                    <button
+                                        type="button"
+                                        onClick={handleDecrement}
+                                        className="qty-btn"
+                                        disabled={quantity <= 1}
+                                    >
+                                        -
+                                    </button>
+                                    <span className="qty-value">{quantity}</span>
+                                    <button
+                                        type="button"
+                                        onClick={handleIncrement}
+                                        className="qty-btn"
+                                        disabled={quantity >= Number(product.stock)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
 
                         {/* Actions */}
                         <div className="product-detail-actions">
@@ -260,6 +308,7 @@ function ProductDetail() {
                                 type="button"
                                 className="product-buy-btn"
                                 disabled={!isAvailable}
+                                onClick={handleBuyNow}
                             >
                                 <Zap size={18} />
                                 Buy Now

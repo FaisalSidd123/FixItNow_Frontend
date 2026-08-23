@@ -10,6 +10,7 @@ import { getOverview } from "../../api/overviewService";
 import CustomerPage from "./components/customers/CustomerPage";
 import ProductPage from "./components/products/ProductPage";
 import ServicePage from "./components/Services/ServicePage";
+import OrderPage from "./components/orders/OrderPage";
 import NotificationDropdown from "./components/overview/NotificationDropdown";
 import {doSignOut } from "../../firebase/auth";
 import {
@@ -19,7 +20,8 @@ import {
     Wrench,
     Settings,
     LogOut,
-    Menu, Search, Bell, CircleDollarSign
+    Menu, Search, Bell, CircleDollarSign,
+    ShoppingBag
 } from "lucide-react";
 
 function AdminDashboard() {
@@ -115,6 +117,16 @@ useEffect(() => {
 >
     <Package size={19} strokeWidth={1.8} />
     <span>Products</span>
+</button>
+<button
+    className={`nav-item ${activeTab === "orders" ? "active" : ""}`}
+    onClick={() => {
+        setActiveTab("orders");
+        setSidebarOpen(false);
+    }}
+>
+    <ShoppingBag size={19} strokeWidth={1.8} />
+    <span>Orders</span>
 </button>
 
                   <button
@@ -388,6 +400,7 @@ useEffect(() => {
 )}
 
 {activeTab === "services" && <ServicePage />}
+{activeTab === "orders" && <OrderPage />}
 </section>
 
 

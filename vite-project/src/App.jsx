@@ -13,6 +13,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminProtectedRoute from './Routes/AdminProtectedRoute';
 import ProductsCatalogue from "./pages/Products/ProductsCatalogue";
 import ProductDetail from "./pages/Products/ProductDetail";
+import Checkout from "./pages/Products/Checkout";
 
 function App() {
   return (
@@ -75,6 +76,15 @@ function App() {
 <Route
     path="/products/:productId"
     element={ <> <Navbar /> <ProductDetail /></>}
+/>
+<Route
+    path="/checkout"
+    element={
+        <>
+            <Navbar />
+            <Checkout />
+        </>
+    }
 />
 
       {/* ================================

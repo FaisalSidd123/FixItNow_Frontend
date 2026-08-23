@@ -17,6 +17,7 @@ import { submitAmc } from "../../api/amcApi";
 import { getRepairs } from "../../api/repairApi";
 import { getInspections } from "../../api/inspectionApi";
 import { getAMCs,submitAMC } from "../../api/amcApi";
+import { fetchUserOrders } from "../../api/orderApi";
 
 // import AMCPlans from "./components/AMCPlans";
 
@@ -39,6 +40,7 @@ import {
   ShieldCheck,
   ArrowRight,
   Clock3,
+  ShoppingBag,
 
 } from 'lucide-react';
 import './Dashboard.css';
@@ -53,6 +55,7 @@ const { currentUser, loading } = useAuth();
 const [serviceRequests, setServiceRequests] = useState([]);
 
 const [amcContracts, setAmcContracts] = useState([]);
+const [orders, setOrders] = useState([]);
 
 useEffect(() => {
 
@@ -121,6 +124,12 @@ if (formattedAMCs.length > 0) {
 } else {
   setActiveAMC(null);
 }
+    const ordersResponse = await fetchUserOrders().catch(err => {
+      console.error("Error fetching orders in dashboard:", err);
+      return [];
+    });
+    setOrders(ordersResponse);
+
     } catch(error) {
 
       console.log(error);
@@ -1425,6 +1434,33 @@ activeAMC && (
             <p>Date: {new Date(contract.date).toLocaleDateString()}</p>
             <p>Engineer: {contract.technician}</p>
             <p>Cost: {contract.cost}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <div className="request-header" style={{ marginTop: "1.5rem" }}>
+    <ShoppingBag size={14} />
+    <span>MY PRODUCT ORDERS</span>
+  </div>
+
+  {orders.length === 0 ? (
+    <div className="empty-request">No product orders yet.</div>
+  ) : (
+    <div className="request-list">
+      {orders.map((order) => (
+        <div className="request-card" key={order.id}>
+          <div className="request-top">
+            <h3>Order #{order.id.slice(0, 8).toUpperCase()}</h3>
+            <span className={`status-badge ${order.status.toLowerCase()}`}>{order.status}</span>
+          </div>
+
+          <div className="request-details">
+            <p>Total: Rs. {Number(order.total_amount).toLocaleString()}</p>
+            <p>Date: {new Date(order.created_at).toLocaleDateString()}</p>
+            <p>Items: {order.items.map(item => `${item.name} (x${item.quantity})`).join(', ')}</p>
+            <p>Address: {order.shipping_address}</p>
           </div>
         </div>
       ))}
