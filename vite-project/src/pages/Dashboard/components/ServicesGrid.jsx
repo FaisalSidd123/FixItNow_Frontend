@@ -12,15 +12,6 @@ console.log("Selected service:", selectedService);
   return (
     <div className="services-section">
 
-      <div className="services-header">
-
-        <h2>Available Services</h2>
-
-        <p>
-          Choose a professional service for your solar system.
-        </p>
-
-      </div>
 
       <div className="services-grid">
 

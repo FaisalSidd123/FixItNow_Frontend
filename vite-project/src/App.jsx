@@ -57,7 +57,7 @@ function App() {
         path="/dashboard"
         element={
           <>
-            <Navbar />
+          
             <Dashboard />
           </>
         }

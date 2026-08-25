@@ -1,4 +1,5 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import ScrollCanvas from '../../components/ScrollAnimation/ScrollCanvas';
 
 // Lazy load below-the-fold components for optimized page speed and performance
@@ -45,6 +46,25 @@ const LazySectionPlaceholder = () => (
 );
 
 function Home() {
+    const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const scrollToSection = () => {
+      const element = document.querySelector(location.hash);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // Wait for lazy-loaded sections to render
+    setTimeout(scrollToSection, 300);
+  }, [location.hash]);
   return (
     <>
       {/* Premium Full-screen Scroll-driven Canvas Animation */}

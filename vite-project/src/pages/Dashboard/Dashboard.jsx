@@ -18,6 +18,9 @@ import { getRepairs } from "../../api/repairApi";
 import { getInspections } from "../../api/inspectionApi";
 import { getAMCs,submitAMC } from "../../api/amcApi";
 import { fetchUserOrders } from "../../api/orderApi";
+import logo from "../../assets/FixItNow Logo.png";
+
+
 
 // import AMCPlans from "./components/AMCPlans";
 
@@ -41,6 +44,15 @@ import {
   ArrowRight,
   Clock3,
   ShoppingBag,
+    LayoutDashboard,
+  ClipboardList,
+  FileCheck2,
+  Package,
+  Bell,
+Headset,
+  Menu,
+    X,
+    Star,
 
 } from 'lucide-react';
 import './Dashboard.css';
@@ -50,8 +62,11 @@ const Dashboard = () => {
   // const { currentUser } = useAuth();
 const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
-
-
+const [activeTab, setActiveTab] = useState("dashboard");
+const [sidebarOpen, setSidebarOpen] = useState(false);
+const toggleSidebar = () => {
+  setSidebarOpen((prev) => !prev);
+};
 const [serviceRequests, setServiceRequests] = useState([]);
 
 const [amcContracts, setAmcContracts] = useState([]);
@@ -615,18 +630,10 @@ setDashboardView("amcConfirmation");
  }
 
 
-const handleServiceSelect = (id)=>{
-
-setSelectedService(id);
-
-if(id === "amc"){
-    setDashboardView("amcplans");
-}
-else{
-    setDashboardView("details");
-}
-}
-
+const handleServiceSelect = (id) => {
+  setSelectedService(id);
+  setDashboardView("details");
+};
 // const [serviceRequests, setServiceRequests] = useState([]);
   // Availed services state
   const [availedServices, setAvailedServices] = useState([
@@ -1175,315 +1182,592 @@ if(loading){
     );
 
 }
+const sidebarItems = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    id: "requests",
+    label: "My Service Requests",
+    icon: ClipboardList,
+  },
+  {
+    id: "amc",
+    label: "My AMC Contracts",
+    icon: FileCheck2,
+  },
+  {
+    id: "orders",
+    label: "My Product Orders",
+    icon: Package,
+  },
 
+];
   return (
-    <div className="dashboard-container">
-      {/* Welcome Top Banner */}
-      <header className="dash-header">
-        <div className="dash-welcome">
+  <div className="customer-dashboard">
 
-          <h1>Welcome, {currentUser?.displayName || 'Solar Partner'}</h1>
-          <p className="dash-date">
-            <Calendar size={14} className="calendar-icon-svg" />
-            {currentDate}
-          </p>
+   <aside
+  className={`customer-sidebar ${
+    sidebarOpen ? "sidebar-open" : ""
+  }`}
+>
+  <button
+  className="sidebar-close-button"
+  onClick={() => setSidebarOpen(false)}
+  aria-label="Close sidebar"
+>
+  <X size={22} />
+</button>
+
+      {/* Logo */}
+     <div className="sidebar-logo">
+  <img src={logo} alt="FixItNow"  className="sidebar-logo-image"/>
+  <span>Fixitnow</span>
+</div>
+      {/* Navigation */}
+      <nav className="sidebar-nav">
+
+        {sidebarItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <button
+              key={item.id}
+              className={`sidebar-nav-item ${
+                activeTab === item.id ? "active" : ""
+              }`}
+              onClick={() => {
+  setActiveTab(item.id);
+  setSidebarOpen(false);
+}}
+            >
+              <Icon size={20} />
+
+              <span>{item.label}</span>
+
+              {item.id === "requests" &&
+                serviceRequests.length > 0 && (
+                  <span className="sidebar-count">
+                    {serviceRequests.length}
+                  </span>
+                )}
+            </button>
+          );
+        })}
+
+      </nav>
+
+      {/* Bottom help card */}
+     <button
+  className="sidebar-signout"
+  onClick={async () => {
+    try {
+      await doSignOut();
+      navigate("/signin");
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    }
+  }}
+>
+  <LogOut size={19} />
+  <span>Sign Out</span>
+</button>
+
+    </aside>
+
+
+    <main className="customer-main">
+
+      {/* TOP BAR */}
+      <header className="customer-topbar">
+
+         <button
+  className="topbar-menu-button"
+  onClick={() => setSidebarOpen((prev) => !prev)}
+  aria-label="Toggle sidebar"
+>
+  {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
+</button>
+
+
+<div className="topbar-page-title">
+  {activeTab === "dashboard" && "Overview"}
+
+  {activeTab === "requests" && "My Service Requests"}
+
+  {activeTab === "amc" && "My AMC Contracts"}
+
+  {activeTab === "orders" && "My Product Orders"}
+</div>
+
+        <div className="topbar-actions">
+
+          <button className="notification-button">
+            <Bell size={20} />
+          </button>
+
+          <div className="topbar-user">
+            <div className="user-avatar">
+              {currentUser?.displayName?.charAt(0) || "U"}
+            </div>
+
+            <div className="user-info">
+              <span>
+                {currentUser?.displayName || "User"}
+              </span>
+
+              <small>Customer</small>
+            </div>
+          </div>
+
         </div>
 
       </header>
 
-      {/* Modern Minimal Stats Row */}
+
+      {/* PAGE CONTENT */}
+   {/* PAGE CONTENT */}
+<div className="dashboard-page-content">
+
+  {/* =========================
+      DASHBOARD / OVERVIEW
+  ========================= */}
+  {activeTab === "dashboard" && (
+    <div className="dashboard-container">
+
+      {/* Welcome */}
+      <header className="dash-header">
+        <div className="dash-welcome">
+          <h1>
+            Welcome back, {currentUser?.displayName || "User"} 
+          </h1>
+
+          <p>
+            Here's what's happening with your account today.
+          </p>
+        </div>
+      </header>
+
+
+      {/* Summary cards */}
       <div className="dash-stats-row">
+
         <div className="dash-kpi-card">
-          <div className="kpi-icon-wrapper">
-            <Zap size={18} />
+          <div className="kpi-icon-wrapper requests-icon">
+            <ClipboardList size={20} />
           </div>
+
           <div className="kpi-info">
-            <span className="kpi-label">System Health</span>
-            <span className="kpi-val">98% <span className="kpi-trend">Optimum</span></span>
+            <span className="kpi-label">Active Requests</span>
+
+            <span className="kpi-val">
+              {serviceRequests.length}
+            </span>
+
+            <span className="kpi-trend">
+              In Progress
+            </span>
           </div>
         </div>
 
+
         <div className="dash-kpi-card">
-          <div className="kpi-icon-wrapper">
-            <Wrench size={18} />
+          <div className="kpi-icon-wrapper amc-icon">
+            <ShieldCheck size={20} />
           </div>
+
           <div className="kpi-info">
-            <span className="kpi-label">Services Availed</span>
-            <span className="kpi-val">{availedServices.length} <span className="kpi-trend">Total</span></span>
+            <span className="kpi-label">AMC Contracts</span>
+
+            <span className="kpi-val">
+              {amcContracts.length}
+            </span>
+
+            <span className="kpi-trend">
+              Active
+            </span>
           </div>
         </div>
 
+
         <div className="dash-kpi-card">
-          <div className="kpi-icon-wrapper">
-            <TrendingUp size={18} />
+          <div className="kpi-icon-wrapper orders-icon">
+            <ShoppingBag size={20} />
           </div>
+
           <div className="kpi-info">
-            <span className="kpi-label">Energy Offset</span>
-            <span className="kpi-val">$412.50 <span className="kpi-trend positive">Saved</span></span>
+            <span className="kpi-label">Product Orders</span>
+
+            <span className="kpi-val">
+              {orders.length}
+            </span>
+
+            <span className="kpi-trend">
+              Total Orders
+            </span>
           </div>
         </div>
 
-        <div className="dash-kpi-card">
-          <div className="kpi-icon-wrapper">
-            <Battery size={18} />
-          </div>
-          <div className="kpi-info">
-            <span className="kpi-label">Support SLA</span>
-            <span className="kpi-val">Premium <span className="kpi-trend">Gold</span></span>
-          </div>
+
+      <div className="dash-kpi-card">
+  <div className="kpi-icon-wrapper health-icon">
+    <Wrench size={20} />
+  </div>
+
+  <div className="kpi-info">
+    <span className="kpi-label">Total Services</span>
+
+    <span className="kpi-val">
+      {serviceRequests.length + amcContracts.length}
+    </span>
+
+    <span className="kpi-trend">
+      Requested Services
+    </span>
+  </div>
+</div>
+
+      </div>
+    {/* Main Services Area */}
+  
+      <div className="dashboard-main-area">
+
+<div
+  className={`dashboard-content-grid ${
+    dashboardView !== "services" ? "full-width-content" : ""
+  }`}
+>
+ <section className="services-section-box">
+
+    <div className="services-section-header">
+      <div>
+        <h2>Services</h2>
+        <p>Choose a service for your solar system.</p>
+      </div>
+    </div>
+ 
+    <div className="dashboard-services-content">
+
+      {dashboardView === "services" && (
+        <ServicesGrid
+          services={services}
+          selectedService={selectedService}
+          handleServiceSelect={handleServiceSelect}
+        />
+      )}
+
+      {dashboardView === "details" && (
+        <ServiceDetails
+          selectedService={selectedService}
+          services={services}
+          serviceDetails={serviceDetails}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+      {dashboardView === "booking" && selectedService === "inspection" && (
+        <InspectionForm
+          selectedService={selectedService}
+          services={services}
+          bookingData={bookingData}
+          handleBookingChange={handleBookingChange}
+          setBookingData={setBookingData}
+          handleSubmitBooking={handleSubmitBooking}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+      {dashboardView === "booking" && selectedService === "repair" && (
+        <RepairForm
+          selectedService={selectedService}
+          bookingData={bookingData}
+          handleBookingChange={handleBookingChange}
+          setBookingData={setBookingData}
+          handleSubmitBooking={handleSubmitBooking}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+      {dashboardView === "amcplans" && (
+        <AMCForm
+          bookingData={bookingData}
+          handleBookingChange={handleBookingChange}
+          handleSubmitBooking={handleSubmitBooking}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+      {dashboardView === "amcConfirmation" && (
+        <AMCConfirmation
+          bookingData={bookingData}
+          activeAMC={activeAMC}
+          latestBooking={activeAMC}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+      {dashboardView === "confirmation" && (
+        <BookingConfirmation
+          latestBooking={latestBooking}
+          setDashboardView={setDashboardView}
+        />
+      )}
+
+    </div>
+    </section>
+
+    {/* QUICK ACTIONS */}
+    {dashboardView === "services" && (
+      <aside className="quick-actions-card">
+
+        <div className="quick-actions-header">
+          <h3>Quick Actions</h3>
+          <p>Everything you need, in one place.</p>
         </div>
+
+        <button
+          className="quick-action-item"
+          onClick={() => navigate("/products")}
+        >
+          <div className="quick-action-icon products-action">
+            <ShoppingBag size={20} />
+          </div>
+
+          <div className="quick-action-content">
+            <span>Browse Products</span>
+            <small>Explore solar products</small>
+          </div>
+
+          <ArrowRight size={18} className="quick-action-arrow" />
+        </button>
+
+        <button className="quick-action-item"
+           onClick={() => navigate("/#contact")}>
+          <div className="quick-action-icon support-action">
+            <Headset size={20} />
+          </div>
+
+          <div className="quick-action-content">
+            <span>Get Support</span>
+            <small>We're here to help</small>
+          </div>
+
+          <ArrowRight size={18} className="quick-action-arrow" />
+        </button>
+<button className="quick-action-item"
+   onClick={() => navigate("/#testimonials")}>
+  <div className="quick-action-icon reviews-action">
+    <Star size={20} />
+  </div>
+
+  <div className="quick-action-content">
+    <span>Customer Reviews</span>
+    <small>See what our customers say</small>
+  </div>
+
+  <ArrowRight size={18} className="quick-action-arrow" />
+</button>
+      </aside>
+    )}
+
+    </div>
+    {/* SERVICE PROMOTION BANNER */}
+<div className="service-promo-banner">
+
+  <div className="service-promo-content">
+
+    <span className="service-promo-label">
+      SOLAR CARE
+    </span>
+
+    <h2>
+      Get More From Your Solar System
+    </h2>
+
+    <p>
+      Regular maintenance can improve performance, extend equipment life,
+      and help prevent unexpected repairs.
+    </p>
+
+    <button
+      className="service-promo-button"
+      onClick={() => navigate("/#about")}
+    >
+      Learn More
+      <ArrowRight size={17} />
+    </button>
+
+  </div>
+
+  <div className="service-promo-visual">
+    <div className="promo-solar-icon">
+      <Zap size={46} />
+    </div>
+
+    <div className="promo-circle promo-circle-one"></div>
+    <div className="promo-circle promo-circle-two"></div>
+  </div>
+
+</div>
+ </div>
+ </div>
+ )}
+
+
+  {/* =========================
+      SERVICE REQUESTS TAB
+  ========================= */}
+  {activeTab === "requests" && (
+    <div className="tab-page">
+      <ServiceRequests
+        serviceRequests={serviceRequests}
+      />
+    </div>
+  )}
+
+
+  {/* =========================
+      AMC CONTRACTS TAB
+  ========================= */}
+  {activeTab === "amc" && (
+    <div className="tab-page">
+
+      <div className="request-header">
+        <Sparkles size={14} />
+        <span>MY AMC CONTRACTS</span>
       </div>
 
-      {/* Main Services & Booking Interface */}
-   {/* Main Services Flow */}
-
-<div className="dashboard-main-area">
-
-
-{
-dashboardView === "services" && (
-
-<ServicesGrid
-
-services={services}
-
-selectedService={selectedService}
-
-handleServiceSelect={handleServiceSelect}
-
-/>
-
- )
- } 
-
-
-
-{
-dashboardView === "details" && (
-
-<ServiceDetails
-
-selectedService={selectedService}
-
-services={services}
-
-serviceDetails={serviceDetails}
-
-setDashboardView={setDashboardView}
-
-/>
-
-)
-}
-
-
-{
-dashboardView === "booking" && selectedService === "inspection" && (
-
-<InspectionForm
-
-selectedService={selectedService}
-
-services={services}
-
-bookingData={bookingData}
-
-handleBookingChange={handleBookingChange}
-
-setBookingData={setBookingData}
-
-handleSubmitBooking={handleSubmitBooking}
-
-setDashboardView={setDashboardView}
-
-/>
-
-)
-}
-
-
-
-{
-dashboardView === "booking" && selectedService === "repair" && (
-
-<RepairForm
-
-selectedService={selectedService}
-
-bookingData={bookingData}
-
-handleBookingChange={handleBookingChange}
-
-setBookingData={setBookingData}
-
-handleSubmitBooking={handleSubmitBooking}
-
-setDashboardView={setDashboardView}
-
-/>
-
-)
-}
-{
-dashboardView === "amcplans" && (
-
-<AMCForm
-
-bookingData={bookingData}
-handleBookingChange={handleBookingChange}
-handleSubmitBooking={handleSubmitBooking}
-setDashboardView={setDashboardView}
-
-/>
-
-)
-}
-
-{
-dashboardView === "amcConfirmation" && (
-<AMCConfirmation
-
-bookingData={bookingData}
-
-activeAMC={activeAMC}
-
-latestBooking={activeAMC}
-
-setDashboardView={setDashboardView}
-
-/>
-)
-}
-
-{
-dashboardView === "confirmation" && (
-
-<BookingConfirmation
-
-latestBooking={latestBooking}
-
-setDashboardView={setDashboardView}
-
-/>
-
-)
-
-}
-
-{
-activeAMC && (
-
-<div className="active-amc-card">
-
-<h3>🛡 Active AMC Contract</h3>
-
-<div className="summary-row">
-<span>Plan</span>
-<strong>{activeAMC.plan}</strong>
-</div>
-
-<div className="summary-row">
-<span>Status</span>
-<strong>{activeAMC.status}</strong>
-</div>
-
-<div className="summary-row">
-<span>Maintenance Visits</span>
-<strong>{activeAMC.visits}</strong>
-</div>
-
-<div className="summary-row">
-<span>Start Date</span>
-<strong>{activeAMC.startDate}</strong>
-</div>
-
-<div className="summary-row">
-<span>Next Maintenance</span>
-<strong>{activeAMC.nextMaintenance}</strong>
-</div>
-
-</div>
-
-)
-}
-</div>
-
-
-
-<div className="service-request-section">
-  <ServiceRequests serviceRequests={serviceRequests} />
-
-  <div className="request-header" style={{ marginTop: "1.5rem" }}>
-    <Sparkles size={14} />
-    <span>MY AMC CONTRACTS</span>
-  </div>
-
-  {amcContracts.length === 0 ? (
-    <div className="empty-request">No AMC contracts yet.</div>
-  ) : (
-    <div className="request-list">
-      {amcContracts.map((contract) => (
-        <div className="request-card" key={contract.id}>
-          <div className="request-top">
-            <h3>{contract.type}</h3>
-            <span className="status-badge scheduled">{contract.status}</span>
-          </div>
-
-          <div className="request-details">
-            <p>Plan: {contract.plan}</p>
-            <p>Date: {new Date(contract.date).toLocaleDateString()}</p>
-            <p>Engineer: {contract.technician}</p>
-            <p>Cost: {contract.cost}</p>
-          </div>
+      {amcContracts.length === 0 ? (
+        <div className="empty-request">
+          No AMC contracts yet.
         </div>
-      ))}
-    </div>
-  )}
+      ) : (
+        <div className="request-list">
+          {amcContracts.map((contract) => (
+            <div
+              className="request-card"
+              key={contract.id}
+            >
+              <div className="request-top">
+                <h3>{contract.type}</h3>
 
-  <div className="request-header" style={{ marginTop: "1.5rem" }}>
-    <ShoppingBag size={14} />
-    <span>MY PRODUCT ORDERS</span>
-  </div>
+                <span className="status-badge scheduled">
+                  {contract.status}
+                </span>
+              </div>
 
-  {orders.length === 0 ? (
-    <div className="empty-request">No product orders yet.</div>
-  ) : (
-    <div className="request-list">
-      {orders.map((order) => (
-        <div className="request-card" key={order.id}>
-          <div className="request-top">
-            <h3>Order #{order.id.slice(0, 8).toUpperCase()}</h3>
-            <span className={`status-badge ${order.status.toLowerCase()}`}>{order.status}</span>
-          </div>
+              <div className="request-details">
+                <p>Plan: {contract.plan}</p>
 
-          <div className="request-details">
-            <p>Total: Rs. {Number(order.total_amount).toLocaleString()}</p>
-            <p>Date: {new Date(order.created_at).toLocaleDateString()}</p>
-            <p>Items: {order.items.map(item => `${item.name} (x${item.quantity})`).join(', ')}</p>
-            <p>Address: {order.shipping_address}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-          {/* Inline Diagnostic Feed */}
-          <div className="diagnostics-feed-section">
-            <h3>Live Diagnostics Feed</h3>
-            <div className="feed-items">
-              {telemetryLogs.map((log, index) => (
-                <div key={index} className="feed-item">
-                  <span className="feed-time">{log.time}</span>
-                  <span className="feed-indicator-dot"></span>
-                  <span className="feed-text">{log.msg}</span>
-                </div>
-              ))}
+                <p>
+                  Date:{" "}
+                  {new Date(
+                    contract.date
+                  ).toLocaleDateString()}
+                </p>
+
+                <p>
+                  Engineer: {contract.technician}
+                </p>
+
+                <p>
+                  Cost: {contract.cost}
+                </p>
+              </div>
             </div>
-          </div>
-        {/* // </div> */}
-      </div>
-    
-  );
- };
+          ))}
+        </div>
+      )}
 
+    </div>
+  )}
+
+
+  {/* =========================
+      PRODUCT ORDERS TAB
+  ========================= */}
+  {activeTab === "orders" && (
+    <div className="tab-page">
+
+      <div className="request-header">
+        <ShoppingBag size={14} />
+        <span>MY PRODUCT ORDERS</span>
+      </div>
+
+      {orders.length === 0 ? (
+        <div className="empty-request">
+          No product orders yet.
+        </div>
+      ) : (
+        <div className="request-list">
+          {orders.map((order) => (
+            <div
+              className="request-card"
+              key={order.id}
+            >
+              <div className="request-top">
+                <h3>
+                  Order #
+                  {order.id
+                    .slice(0, 8)
+                    .toUpperCase()}
+                </h3>
+
+                <span
+                  className={`status-badge ${
+                    order.status.toLowerCase()
+                  }`}
+                >
+                  {order.status}
+                </span>
+              </div>
+
+              <div className="request-details">
+
+                <p>
+                  Total: Rs.{" "}
+                  {Number(
+                    order.total_amount
+                  ).toLocaleString()}
+                </p>
+
+                <p>
+                  Date:{" "}
+                  {new Date(
+                    order.created_at
+                  ).toLocaleDateString()}
+                </p>
+
+                <p>
+                  Items:{" "}
+                  {order.items
+                    .map(
+                      (item) =>
+                        `${item.name} (x${item.quantity})`
+                    )
+                    .join(", ")}
+                </p>
+
+                <p>
+                  Address: {order.shipping_address}
+                </p>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+    </div>
+  )}
+
+</div>
+ </main>
+ </div>
+  
+  
+);
+}
 export default Dashboard;
