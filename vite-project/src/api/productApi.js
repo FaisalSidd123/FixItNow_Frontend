@@ -84,15 +84,37 @@ export const createProduct = async (productData) => {
 
     const token = await firebaseUser.getIdToken();
 
+
+    const formData = new FormData();
+
+    formData.append("name", productData.name);
+    formData.append("category", productData.category);
+    formData.append("price", productData.price);
+    formData.append("stock", productData.stock);
+
+    if (productData.image) {
+        formData.append(
+            "image",
+            productData.image
+        );
+    }
+
+    if (productData.description) {
+        formData.append(
+            "description",
+            productData.description
+        );
+    }
+
+
     const response = await fetch(API_URL, {
         method: "POST",
 
         headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            Authorization: `Bearer ${token}`
         },
 
-        body: JSON.stringify(productData)
+        body: formData
     });
 
 

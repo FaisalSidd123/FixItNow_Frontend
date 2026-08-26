@@ -12,9 +12,10 @@ import {
 import { fetchPublicProductById } from "../../api/productApi";
 import { useAuth } from "../../contexts/AuthContext";
 import "./ProductDetail.css";
-
+import { useCart } from "../../contexts/CartContext";
 function ProductDetail() {
     const { userLoggedIn } = useAuth();
+      const { addToCart } = useCart();
     const navigate = useNavigate();
 
     const { productId } = useParams();
@@ -41,6 +42,18 @@ function ProductDetail() {
         }
         navigate("/checkout", { state: { product, quantity } });
     };
+  const handleAddToCart = () => {
+    if (!userLoggedIn) {
+        navigate("/signin", {
+            state: { from: `/products/${productId}` }
+        });
+        return;
+    }
+
+    addToCart(product, quantity);
+
+    navigate("/cart");
+};
 
     useEffect(() => {
 
@@ -294,14 +307,15 @@ function ProductDetail() {
                         {/* Actions */}
                         <div className="product-detail-actions">
 
-                            <button
-                                type="button"
-                                className="product-cart-btn"
-                                disabled={!isAvailable}
-                            >
-                                <ShoppingCart size={18} />
-                                Add to Cart
-                            </button>
+                         <button
+    type="button"
+    className="product-cart-btn"
+    disabled={!isAvailable}
+    onClick={handleAddToCart}
+>
+    <ShoppingCart size={18} />
+    Add to Cart
+</button>
 
 
                             <button

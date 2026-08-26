@@ -7,14 +7,15 @@ import "./AddProduct.css";
 
 function AddProduct({ onClose, onProductAdded }) {
 
-    const [formData, setFormData] = useState({
-        name: "",
-        category: "",
-        price: "",
-        stock: "",
-        image: "",
-        description: ""
-    });
+   const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    price: "",
+    stock: "",
+    description: ""
+});
+
+const [imageFile, setImageFile] = useState(null);
 
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
@@ -30,7 +31,13 @@ function AddProduct({ onClose, onProductAdded }) {
         }));
 
     };
+const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
+    if (file) {
+        setImageFile(file);
+    }
+};
 
     const handleSubmit = async (e) => {
 
@@ -61,22 +68,42 @@ function AddProduct({ onClose, onProductAdded }) {
             setSaving(true);
 
 
-            const newProduct = await createProduct({
+         const productData = new FormData();
 
-                name: formData.name.trim(),
+productData.append(
+    "name",
+    formData.name.trim()
+);
 
-                category: formData.category,
+productData.append(
+    "category",
+    formData.category
+);
 
-                price: Number(formData.price),
+productData.append(
+    "price",
+    formData.price
+);
 
-                stock: Number(formData.stock),
+productData.append(
+    "stock",
+    formData.stock
+);
 
-                image: formData.image.trim() || null,
+productData.append(
+    "description",
+    formData.description.trim()
+);
 
-                description:
-                    formData.description.trim() || null
+if (imageFile) {
+    productData.append(
+        "image",
+        imageFile
+    );
+}
 
-            });
+const newProduct =
+    await createProduct(productData);
 
 
             // Tell ProductPage that a product was added
@@ -281,22 +308,21 @@ function AddProduct({ onClose, onProductAdded }) {
 
                     {/* IMAGE */}
 
-                    <div className="form-group">
+                  <div className="form-group">
 
-                        <label htmlFor="product-image">
-                            Product Image
-                        </label>
+    <label htmlFor="product-image">
+        Product Image
+    </label>
 
-                        <input
-                            id="product-image"
-                            name="image"
-                            type="text"
-                            placeholder="Paste image URL"
-                            value={formData.image}
-                            onChange={handleChange}
-                        />
+    <input
+        id="product-image"
+        name="image"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+    />
 
-                    </div>
+</div>
 
 
                     {/* DESCRIPTION */}

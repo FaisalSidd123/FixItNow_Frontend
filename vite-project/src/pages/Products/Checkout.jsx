@@ -1,18 +1,32 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
 import { createOrder } from "../../api/orderApi";
 import { ArrowLeft, CreditCard, Truck, CheckCircle, ShoppingBag } from "lucide-react";
 import "./Checkout.css";
 
 function Checkout() {
     const { currentUser } = useAuth();
+    const { clearCart } = useCart();
     const location = useLocation();
     const navigate = useNavigate();
 
     // Retrieve product details passed from ProductDetail page
-    const checkoutItem = location.state?.product;
-    const checkoutQty = location.state?.quantity || 1;
+  // Support both Buy Now and Cart checkout
+const checkoutItem = location.state?.product;
+const checkoutQty = location.state?.quantity || 1;
+
+const cartItems = location.state?.items || [];
+
+const checkoutItems = checkoutItem
+    ? [
+          {
+              ...checkoutItem,
+              quantity: checkoutQty
+          }
+      ]
+    : cartItems;
 
     // Form inputs
     const [shippingName, setShippingName] = useState(currentUser?.displayName || "");
@@ -25,7 +39,7 @@ function Checkout() {
     const [orderSuccess, setOrderSuccess] = useState(null);
     const [error, setError] = useState("");
 
-    if (!checkoutItem) {
+   if (checkoutItems.length === 0) {
         return (
             <main className="checkout-page">
                 <div className="checkout-empty">
@@ -41,11 +55,20 @@ function Checkout() {
         );
     }
 
-    const price = Number(checkoutItem.price);
-    const subtotal = price * checkoutQty;
-    const shippingFee = subtotal > 15000 ? 0 : 250;
-    const totalAmount = subtotal + shippingFee;
+   const subtotal = checkoutItems.reduce(
+    (total, item) =>
+        total + Number(item.price) * item.quantity,
+    0
+);
 
+const shippingFee =
+    subtotal === 0
+        ? 0
+        : subtotal > 15000
+        ? 0
+        : 250;
+
+const totalAmount = subtotal + shippingFee;
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!shippingName || !shippingAddress || !phone) {
@@ -64,19 +87,22 @@ function Checkout() {
                 phone,
                 paymentMethod,
                 totalAmount,
-                items: [
-                    {
-                        id: checkoutItem.id,
-                        name: checkoutItem.name,
-                        price: price,
-                        quantity: checkoutQty,
-                        image: checkoutItem.image
-                    }
-                ]
+              items: checkoutItems.map((item) => ({
+    id: item.id,
+    name: item.name,
+    price: Number(item.price),
+    quantity: item.quantity,
+    image: item.image
+}))
             };
 
-            const data = await createOrder(orderData);
-            setOrderSuccess(data.order);
+          const data = await createOrder(orderData);
+
+if (location.state?.items) {
+    clearCart();
+}
+
+setOrderSuccess(data.order);
         } catch (err) {
             console.error("Checkout order creation error:", err);
             setError(err.message || "Failed to place your order. Please try again.");
@@ -127,10 +153,13 @@ function Checkout() {
         <main className="checkout-page">
             <div className="checkout-container">
                 {/* Back button */}
-                <Link to={`/products/${checkoutItem.id}`} className="checkout-back-link">
-                    <ArrowLeft size={16} />
-                    Back to Product
-                </Link>
+               <Link
+    to={checkoutItem ? `/products/${checkoutItem.id}` : "/cart"}
+    className="checkout-back-link"
+>
+    <ArrowLeft size={16} />
+    {checkoutItem ? "Back to Product" : "Back to Cart"}
+</Link>
 
                 <h1 className="checkout-title">Checkout Details</h1>
 
@@ -233,17 +262,36 @@ function Checkout() {
                     <div className="checkout-summary-panel">
                         <h2>Order Summary</h2>
 
-                        <div className="checkout-summary-item">
-                            <img src={checkoutItem.image} alt={checkoutItem.name} className="summary-item-img" />
-                            <div className="summary-item-info">
-                                <h3>{checkoutItem.name}</h3>
-                                <span className="summary-item-category">{checkoutItem.category}</span>
-                                <div className="summary-item-pricing">
-                                    <span>Rs. {price.toLocaleString()}</span>
-                                    <span>Qty: {checkoutQty}</span>
-                                </div>
-                            </div>
-                        </div>
+                       {checkoutItems.map((item) => (
+    <div
+        className="checkout-summary-item"
+        key={item.id}
+    >
+        <img
+            src={item.image}
+            alt={item.name}
+            className="summary-item-img"
+        />
+
+        <div className="summary-item-info">
+            <h3>{item.name}</h3>
+
+            <span className="summary-item-category">
+                {item.category}
+            </span>
+
+            <div className="summary-item-pricing">
+                <span>
+                    Rs. {Number(item.price).toLocaleString()}
+                </span>
+
+                <span>
+                    Qty: {item.quantity}
+                </span>
+            </div>
+        </div>
+    </div>
+))}
 
                         <div className="checkout-totals">
                             <div className="totals-row">

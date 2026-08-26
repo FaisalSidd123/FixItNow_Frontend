@@ -14,6 +14,7 @@ import AdminProtectedRoute from './Routes/AdminProtectedRoute';
 import ProductsCatalogue from "./pages/Products/ProductsCatalogue";
 import ProductDetail from "./pages/Products/ProductDetail";
 import Checkout from "./pages/Products/Checkout";
+import Cart from "./pages/Products/Cart";
 
 function App() {
   return (
@@ -76,6 +77,15 @@ function App() {
 <Route
     path="/products/:productId"
     element={ <> <Navbar /> <ProductDetail /></>}
+/>
+<Route
+  path="/cart"
+  element={
+    <>
+      <Navbar />
+      <Cart />
+    </>
+  }
 />
 <Route
     path="/checkout"

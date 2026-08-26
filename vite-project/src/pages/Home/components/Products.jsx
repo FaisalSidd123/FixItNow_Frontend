@@ -135,12 +135,13 @@ const navigate = useNavigate();
 
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="product-details-btn"
-                                >
-                                    View Details
-                                </button>
+                              <button
+    type="button"
+    className="product-details-btn"
+    onClick={() => navigate(`/products/${product.id}`)}
+>
+    View Details
+</button>
 
                             </div>
 

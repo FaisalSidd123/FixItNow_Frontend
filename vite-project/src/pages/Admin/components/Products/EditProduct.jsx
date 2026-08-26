@@ -11,15 +11,15 @@ function EditProduct({
     onProductUpdated
 }) {
 
-    const [formData, setFormData] = useState({
-        name: product.name || "",
-        category: product.category || "",
-        price: product.price ?? "",
-        stock: product.stock ?? "",
-        image: product.image || "",
-        description: product.description || ""
-    });
+  const [formData, setFormData] = useState({
+    name: product.name || "",
+    category: product.category || "",
+    price: product.price ?? "",
+    stock: product.stock ?? "",
+    description: product.description || ""
+});
 
+const [imageFile, setImageFile] = useState(null);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
 
@@ -34,7 +34,13 @@ function EditProduct({
         }));
 
     };
+const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
+    if (file) {
+        setImageFile(file);
+    }
+};
 
     const handleSubmit = async (e) => {
 
@@ -63,18 +69,44 @@ function EditProduct({
             setSaving(true);
 
 
-            const updatedProduct = await updateProduct(
-                product.id,
-                {
-                    name: formData.name.trim(),
-                    category: formData.category,
-                    price: Number(formData.price),
-                    stock: Number(formData.stock),
-                    image: formData.image.trim() || null,
-                    description:
-                        formData.description.trim() || null
-                }
-            );
+          const productData = new FormData();
+
+productData.append(
+    "name",
+    formData.name.trim()
+);
+
+productData.append(
+    "category",
+    formData.category
+);
+
+productData.append(
+    "price",
+    formData.price
+);
+
+productData.append(
+    "stock",
+    formData.stock
+);
+
+productData.append(
+    "description",
+    formData.description.trim()
+);
+
+if (imageFile) {
+    productData.append(
+        "image",
+        imageFile
+    );
+}
+
+const updatedProduct = await updateProduct(
+    product.id,
+    productData
+);
 
 
             if (onProductUpdated) {
@@ -272,20 +304,25 @@ function EditProduct({
 
                     <div className="form-group">
 
-                        <label htmlFor="edit-product-image">
-                            Product Image
-                        </label>
+    <label htmlFor="edit-product-image">
+        Product Image
+    </label>
 
-                        <input
-                            id="edit-product-image"
-                            name="image"
-                            type="text"
-                            placeholder="Paste image URL"
-                            value={formData.image}
-                            onChange={handleChange}
-                        />
+    <input
+        id="edit-product-image"
+        name="image"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+    />
 
-                    </div>
+    {product.image && !imageFile && (
+        <p className="current-image-text">
+            Current image will be kept unless you select a new one.
+        </p>
+    )}
+
+</div>
 
 
                     {/* DESCRIPTION */}
