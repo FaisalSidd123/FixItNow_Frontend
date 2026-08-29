@@ -532,6 +532,10 @@ box-sizing: border-box;
     .products-page-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+        .products-cart-btn {
+        width: 44px;
+        height: 44px;
+    }
 }
 
 
@@ -609,6 +613,28 @@ box-sizing: border-box;
     .products-page-grid .product-card h2 {
         font-size: 1.25rem;
     }
+        .products-cart-btn {
+        width: 42px;
+        height: 42px;
+
+        top: -5px;
+        right: 0;
+    }
+
+    .products-cart-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .products-cart-badge {
+        top: -4px;
+        right: -4px;
+
+        min-width: 18px;
+        height: 18px;
+
+        font-size: 10px;
+    }
 }
 
 
@@ -641,6 +667,17 @@ box-sizing: border-box;
 
         gap: 7px;
     }
+        .products-cart-btn {
+        width: 40px;
+        height: 40px;
+
+        top: -3px;
+    }
+
+    .products-cart-btn svg {
+        width: 17px;
+        height: 17px;
+    }
 }
 
 
@@ -663,4 +700,164 @@ box-sizing: border-box;
     .category-btn:hover {
         transform: none;
     }
+}
+.products-page-hero {
+    position: relative;
+}
+
+/* =========================================================
+   CART BUTTON
+   ========================================================= */
+
+/* =========================================================
+   CART BUTTON
+   ========================================================= */
+
+.products-cart-btn {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: var(--gold);
+
+    background: rgba(245, 166, 35, 0.08);
+
+    border: 1px solid rgba(245, 166, 35, 0.28);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.22);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.products-cart-btn:hover {
+    color: #050608;
+
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(245, 166, 35, 0.18);
+}
+
+.products-cart-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.products-cart-badge {
+    position: absolute;
+
+    top: -6px;
+    right: -6px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: var(--gold);
+    color: #050608;
+
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+
+    border: 2px solid var(--bg-dark);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CART BUTTON — TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    .products-cart-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+}
+
+
+/* =========================================================
+   CART BUTTON — MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+    .products-cart-btn {
+        width: 42px;
+        height: 42px;
+
+        top: -5px;
+        right: 0;
+
+        border-radius: 11px;
+    }
+
+    .products-cart-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .products-cart-badge {
+        top: -5px;
+        right: -5px;
+
+        min-width: 18px;
+        height: 18px;
+
+        font-size: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   CART BUTTON — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .products-cart-btn {
+        width: 40px;
+        height: 40px;
+
+        top: -3px;
+    }
+
+    .products-cart-btn svg {
+        width: 17px;
+        height: 17px;
+    }
+
 }

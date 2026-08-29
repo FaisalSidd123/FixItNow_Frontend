@@ -57,7 +57,23 @@ export const fetchAdminOrders = async () => {
     }
     return data.orders || [];
 };
+// Admin: Fetch sales summary for dashboard
+export const fetchSalesSummary = async () => {
+    const headers = await getHeaders();
 
+    const response = await fetch(`${API_BASE}/admin/sales-summary`, {
+        method: "GET",
+        headers
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || "Failed to fetch sales summary.");
+    }
+
+    return data;
+};
 // Admin: Update order status
 export const updateOrderStatus = async (orderId, status) => {
     const headers = await getHeaders();

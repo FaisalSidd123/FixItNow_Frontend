@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Search,ShoppingCart } from "lucide-react";
 import { fetchPublicProducts } from "../../api/productApi";
 import { Link } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext";
 import "./ProductsCatalogue.css";
 
 function Products() {
+    const { cartItems } = useCart();
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("All");
+   
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -89,6 +92,22 @@ function Products() {
         <main className="products-page">
 
             <section className="products-page-hero">
+   <Link
+        to="/cart"
+        className="products-cart-btn"
+        aria-label="View shopping cart"
+    >
+        <ShoppingCart size={21} />
+
+      {cartItems.length > 0 && (
+    <span className="products-cart-badge">
+        {cartItems.reduce(
+            (total, item) => total + item.quantity,
+            0
+        )}
+    </span>
+)}
+    </Link>
 
                 <p className="products-page-eyebrow">
                     OUR PRODUCTS

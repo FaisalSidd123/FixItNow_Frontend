@@ -18,7 +18,7 @@ const checkoutItem = location.state?.product;
 const checkoutQty = location.state?.quantity || 1;
 
 const cartItems = location.state?.items || [];
-
+const isCartCheckout = Boolean(location.state?.items);
 const checkoutItems = checkoutItem
     ? [
           {
@@ -98,7 +98,7 @@ const totalAmount = subtotal + shippingFee;
 
           const data = await createOrder(orderData);
 
-if (location.state?.items) {
+if (isCartCheckout) {
     clearCart();
 }
 

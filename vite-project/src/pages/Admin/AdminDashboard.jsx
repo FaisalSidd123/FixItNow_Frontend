@@ -11,6 +11,7 @@ import CustomerPage from "./components/customers/CustomerPage";
 import ProductPage from "./components/products/ProductPage";
 import ServicePage from "./components/Services/ServicePage";
 import OrderPage from "./components/orders/OrderPage";
+import { fetchSalesSummary } from "../../api/orderApi";
 import NotificationDropdown from "./components/overview/NotificationDropdown";
 import {doSignOut } from "../../firebase/auth";
 import {
@@ -33,7 +34,8 @@ function AdminDashboard() {
  const [overviewData, setOverviewData] = useState(null);
 const [overviewLoading, setOverviewLoading] = useState(true);
 const [overviewError, setOverviewError] = useState("");
-
+const [totalSales, setTotalSales] = useState(0);
+const [salesLoading, setSalesLoading] = useState(true);
 const [notificationsOpen, setNotificationsOpen] = useState(false);
 useEffect(() => {
 
@@ -71,6 +73,49 @@ useEffect(() => {
     loadOverview();
 
 }, []);
+useEffect(() => {
+
+    const loadSalesSummary = async () => {
+
+        try {
+
+            setSalesLoading(true);
+
+            const data = await fetchSalesSummary();
+
+            setTotalSales(data.totalSales || 0);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to load sales summary:",
+                error
+            );
+
+        } finally {
+
+            setSalesLoading(false);
+
+        }
+
+    };
+
+    loadSalesSummary();
+
+}, []);
+const formatSales = (amount) => {
+
+    if (amount >= 1000000) {
+        return `Rs. ${(amount / 1000000).toFixed(2)}M`;
+    }
+
+    if (amount >= 1000) {
+        return `Rs. ${(amount / 1000).toFixed(1)}K`;
+    }
+
+    return `Rs. ${Number(amount).toLocaleString()}`;
+
+};
 
     return (
         <div className="admin-dashboard">
@@ -304,18 +349,22 @@ useEffect(() => {
 
             <div className="stats-grid">
 
-                <StatCard
-                    title="Total Sales"
-                    value="Rs. 1.24M"
-                    change="↑ 12.5%"
-                    description="vs last month"
-                    icon={
-                        <CircleDollarSign
-                            size={19}
-                            strokeWidth={1.8}
-                        />
-                    }
-                />
+              <StatCard
+    title="Total Sales"
+    value={
+        salesLoading
+            ? "Loading..."
+            : formatSales(totalSales)
+    }
+    change=""
+    description="excluding cancelled orders"
+    icon={
+        <CircleDollarSign
+            size={19}
+            strokeWidth={1.8}
+        />
+    }
+/>
 
                 <StatCard
     title="New Customers"

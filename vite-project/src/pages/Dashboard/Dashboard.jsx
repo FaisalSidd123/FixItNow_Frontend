@@ -18,6 +18,7 @@ import { getRepairs } from "../../api/repairApi";
 import { getInspections } from "../../api/inspectionApi";
 import { getAMCs,submitAMC } from "../../api/amcApi";
 import { fetchUserOrders } from "../../api/orderApi";
+
 import logo from "../../assets/FixItNow Logo.png";
 
 
@@ -30,6 +31,7 @@ import {
   Zap,
   TrendingUp,
   Cpu,
+MapPin,
   LogOut,
   CheckCircle,
   Calendar,
@@ -53,6 +55,7 @@ Headset,
   Menu,
     X,
     Star,
+    FileText
 
 } from 'lucide-react';
 import './Dashboard.css';
@@ -71,6 +74,7 @@ const [serviceRequests, setServiceRequests] = useState([]);
 
 const [amcContracts, setAmcContracts] = useState([]);
 const [orders, setOrders] = useState([]);
+const [selectedAMC, setSelectedAMC] = useState(null);
 
 useEffect(() => {
 
@@ -86,38 +90,68 @@ const inspectionResponse = await getInspections();
 
 const amcResponse = await getAMCs();
 
-
+console.log("INSPECTIONS:", inspectionResponse);
+console.log("REPAIRS:", repairResponse);
+console.log("AMCS:", amcResponse);
 // Format repair requests
 const formattedRepairs = (repairResponse?.data || []).map((request) => ({
-  id: request.id,
+  ...request,
+
   type: "Repair Request",
+
   date: request.created_at,
+
   status: request.status || "Pending",
+
   technician: "Assigning (Pending)",
+
   cost: "Not Estimated",
 }));
 
 // Format inspection requests
 const formattedInspections = (inspectionResponse?.data || []).map((request) => ({
-  id: request.id,
+  ...request,
+
   type: "Inspection Request",
+
   date: request.created_at,
+
   status: request.status || "Pending",
+
   technician: "Assigning (Pending)",
+
   cost: "Not Estimated",
 }));
 
 const formattedAMCs = (amcResponse?.data || []).map((contract) => ({
+  ...contract,
+
   id: contract.id,
+
   type: "AMC Contract",
+
   plan: contract.plan || "Standard",
-  date: contract.contract_start_date || contract.start_date || contract.created_at,
+
+  date:
+    contract.contract_start_date ||
+    contract.start_date ||
+    contract.created_at,
+
   status: contract.status || "Active",
+
   technician: "Assigned Later",
+
   cost: "Included in Plan",
 }));
+console.log("FORMATTED INSPECTIONS:", formattedInspections);
+console.log("FORMATTED REPAIRS:", formattedRepairs);
+console.log("FORMATTED AMCS:", formattedAMCs);
 
-setServiceRequests([...formattedRepairs, ...formattedInspections]);
+setServiceRequests([
+  ...formattedInspections,
+  ...formattedRepairs,
+  ...formattedAMCs
+]);
 setAmcContracts(formattedAMCs);
 
 if (formattedAMCs.length > 0) {
@@ -312,7 +346,25 @@ inspectionData.append(
   "property_type",
   bookingData.propertyType
 );
+inspectionData.append(
+  "street_address",
+  bookingData.streetAddress
+);
 
+inspectionData.append(
+  "city",
+  bookingData.city
+);
+
+inspectionData.append(
+  "province",
+  bookingData.province
+);
+
+inspectionData.append(
+  "postal_code",
+  bookingData.postalCode
+);
 inspectionData.append(
   "roof_type",
   bookingData.roofType
@@ -1631,58 +1683,505 @@ const sidebarItems = [
   {/* =========================
       AMC CONTRACTS TAB
   ========================= */}
-  {activeTab === "amc" && (
-    <div className="tab-page">
+ {activeTab === "amc" && (
+  <div className="tab-page">
 
-      <div className="request-header">
-        <Sparkles size={14} />
-        <span>MY AMC CONTRACTS</span>
+    <div className="request-header">
+      <Sparkles size={14} />
+      <span>MY AMC CONTRACTS</span>
+    </div>
+
+
+    {amcContracts.length === 0 ? (
+
+      <div className="empty-request">
+        No AMC contracts yet.
       </div>
 
-      {amcContracts.length === 0 ? (
-        <div className="empty-request">
-          No AMC contracts yet.
-        </div>
-      ) : (
-        <div className="request-list">
-          {amcContracts.map((contract) => (
-            <div
-              className="request-card"
-              key={contract.id}
-            >
-              <div className="request-top">
-                <h3>{contract.type}</h3>
+    ) : (
 
-                <span className="status-badge scheduled">
-                  {contract.status}
-                </span>
-              </div>
+      <div className="request-list">
 
-              <div className="request-details">
-                <p>Plan: {contract.plan}</p>
+        {amcContracts.map((contract) => (
 
-                <p>
-                  Date:{" "}
-                  {new Date(
-                    contract.date
-                  ).toLocaleDateString()}
-                </p>
+          <div
+            className="request-card"
+            key={contract.id}
+            onClick={() => setSelectedAMC(contract)}
+          >
 
-                <p>
-                  Engineer: {contract.technician}
-                </p>
+            <div className="request-top">
 
-                <p>
-                  Cost: {contract.cost}
-                </p>
-              </div>
+              <h3>
+                {contract.plan
+                  ? `${contract.plan
+                      .charAt(0)
+                      .toUpperCase()}${contract.plan.slice(1)} AMC`
+                  : "AMC Contract"}
+              </h3>
+
+              <span
+                className={`status-badge ${
+                  contract.status || "pending"
+                }`}
+              >
+                {contract.status
+                  ?.replaceAll("_", " ")
+                  .replace(/\b\w/g, (letter) =>
+                    letter.toUpperCase()
+                  )}
+              </span>
+
             </div>
-          ))}
-        </div>
-      )}
 
-    </div>
-  )}
+
+            <div className="request-details">
+
+              <p>
+                Contract ID: {contract.id}
+              </p>
+
+              <p>
+                Start Date:{" "}
+                {contract.contract_start_date
+                  ? new Date(
+                      contract.contract_start_date
+                    ).toLocaleDateString()
+                  : "Not provided"}
+              </p>
+
+              <p>
+                Duration:{" "}
+                {contract.contract_duration ||
+                  "Not provided"}
+              </p>
+
+              <p>
+                Service Address:{" "}
+                {contract.service_address ||
+                  "Not provided"}
+              </p>
+
+            </div>
+
+
+            <div className="request-view-details">
+              View Full Contract Details →
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    )}
+
+
+    {/* =========================
+        AMC DETAILS MODAL
+    ========================= */}
+
+    {selectedAMC && (
+
+      <div
+        className="request-modal-overlay"
+        onClick={() => setSelectedAMC(null)}
+      >
+
+        <div
+          className="request-modal"
+          onClick={(e) => e.stopPropagation()}
+        >
+
+          <div className="request-modal-header">
+
+            <div>
+
+              <span className="modal-label">
+                AMC CONTRACT
+              </span>
+
+              <h2>
+                {selectedAMC.plan
+                  ? `${selectedAMC.plan
+                      .charAt(0)
+                      .toUpperCase()}${selectedAMC.plan.slice(1)} Plan`
+                  : "AMC Contract"}
+              </h2>
+
+              <p>
+                Contract ID:{" "}
+                {selectedAMC.id}
+              </p>
+
+            </div>
+
+
+            <button
+              className="modal-close-btn"
+              onClick={() => setSelectedAMC(null)}
+            >
+              <X size={20} />
+            </button>
+
+          </div>
+
+
+          <div className="modal-status-row">
+
+            <span
+              className={`status-badge ${
+                selectedAMC.status || "pending"
+              }`}
+            >
+              {selectedAMC.status
+                ?.replaceAll("_", " ")
+                .replace(/\b\w/g, (letter) =>
+                  letter.toUpperCase()
+                )}
+            </span>
+
+            <span>
+              Created{" "}
+              {selectedAMC.created_at
+                ? new Date(
+                    selectedAMC.created_at
+                  ).toLocaleDateString()
+                : "Not provided"}
+            </span>
+
+          </div>
+
+
+          <div className="request-full-details">
+
+
+            {/* PERSONAL INFORMATION */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <User size={16} />
+                <h3>Personal Information</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Full Name
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.full_name ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Phone
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.phone ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Email
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.email ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* SOLAR SYSTEM */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <Zap size={16} />
+                <h3>Solar System Information</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Installation Type
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.installation_type ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    System Size
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.system_size ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* CONTRACT INFORMATION */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <ShieldCheck size={16} />
+                <h3>Contract Information</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Plan
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.plan ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Contract Duration
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.contract_duration ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Contract Start Date
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.contract_start_date
+                      ? new Date(
+                          selectedAMC.contract_start_date
+                        ).toLocaleDateString()
+                      : "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* SERVICE LOCATION */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <MapPin size={16} />
+                <h3>Service Location</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Service Address
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.service_address ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    City
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.city ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* SCHEDULE */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <Calendar size={16} />
+                <h3>Preferred Schedule</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Preferred Day
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.preferred_day ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Preferred Time
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.preferred_time ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* ADDITIONAL INFORMATION */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <FileText size={16} />
+                <h3>Additional Information</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Additional Notes
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.additional_notes ||
+                      "Not provided"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* CONFIRMATIONS */}
+
+            <div className="detail-section">
+
+              <div className="detail-section-header">
+                <ShieldCheck size={16} />
+                <h3>Confirmations</h3>
+              </div>
+
+              <div className="detail-grid">
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Information Confirmed
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.info_confirmed
+                      ? "Yes"
+                      : "No"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Terms Agreed
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.terms_agreed
+                      ? "Yes"
+                      : "No"}
+                  </strong>
+                </div>
+
+
+                <div className="detail-item">
+                  <span className="detail-label">
+                    Charges Understood
+                  </span>
+
+                  <strong className="detail-value">
+                    {selectedAMC.charges_understood
+                      ? "Yes"
+                      : "No"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div className="request-modal-footer">
+
+            <button
+              className="modal-close-action"
+              onClick={() => setSelectedAMC(null)}
+            >
+              Close
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    )}
+
+  </div>
+)}
 
 
   {/* =========================

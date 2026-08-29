@@ -128,12 +128,6 @@ onChange={handleBookingChange}
 />
 
 
-<input
-name="googleLocation"
-placeholder="Google Maps Location Link"
-value={bookingData.googleLocation}
-onChange={handleBookingChange}
-/>
 <h3>Roof Information</h3>
 
 

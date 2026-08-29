@@ -12,11 +12,12 @@ import { useCart } from "../../contexts/CartContext";
 import "./Cart.css";
 
 function Cart() {
-    const {
-        cartItems,
-        removeFromCart,
-        updateQuantity
-    } = useCart();
+  const {
+    cartItems,
+    loading,
+    removeFromCart,
+    updateQuantity
+} = useCart();
 
     const navigate = useNavigate();
 const handleContinueShopping = () => {
@@ -62,7 +63,24 @@ const handleContinueShopping = () => {
             }
         });
     };
+if (loading) {
+    return (
+        <main className="cart-page">
+            <div className="cart-empty">
+                <ShoppingCart
+                    size={52}
+                    className="cart-empty-icon"
+                />
 
+                <h1>Loading Cart...</h1>
+
+                <p>
+                    Please wait while we load your cart.
+                </p>
+            </div>
+        </main>
+    );
+}
     if (cartItems.length === 0) {
         return (
             <main className="cart-page">

@@ -84,29 +84,6 @@ export const createProduct = async (productData) => {
 
     const token = await firebaseUser.getIdToken();
 
-
-    const formData = new FormData();
-
-    formData.append("name", productData.name);
-    formData.append("category", productData.category);
-    formData.append("price", productData.price);
-    formData.append("stock", productData.stock);
-
-    if (productData.image) {
-        formData.append(
-            "image",
-            productData.image
-        );
-    }
-
-    if (productData.description) {
-        formData.append(
-            "description",
-            productData.description
-        );
-    }
-
-
     const response = await fetch(API_URL, {
         method: "POST",
 
@@ -114,9 +91,8 @@ export const createProduct = async (productData) => {
             Authorization: `Bearer ${token}`
         },
 
-        body: formData
+        body: productData
     });
-
 
     if (!response.ok) {
 
@@ -128,7 +104,6 @@ export const createProduct = async (productData) => {
             "Failed to create product"
         );
     }
-
 
     const data = await response.json();
 
@@ -144,21 +119,18 @@ export const updateProduct = async (productId, productData) => {
 
     const token = await firebaseUser.getIdToken();
 
-
     const response = await fetch(
         `${API_URL}/${productId}`,
         {
             method: "PUT",
 
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
+                Authorization: `Bearer ${token}`
             },
 
-            body: JSON.stringify(productData)
+            body: productData
         }
     );
-
 
     if (!response.ok) {
 
@@ -170,7 +142,6 @@ export const updateProduct = async (productId, productData) => {
             "Failed to update product"
         );
     }
-
 
     const data = await response.json();
 

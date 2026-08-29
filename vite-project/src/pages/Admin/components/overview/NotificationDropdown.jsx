@@ -1,6 +1,7 @@
 import {
     UserPlus,
     Wrench,
+    ShoppingBag,
     Package,
     Bell
 } from "lucide-react";
@@ -58,7 +59,12 @@ function NotificationDropdown({ notifications = [] }) {
                                         strokeWidth={1.8}
                                     />
                                 )}
-
+{notification.type === "order" && (
+    <ShoppingBag
+        size={16}
+        strokeWidth={1.8}
+    />
+)}
                                 {notification.type === "product" && (
                                     <Package
                                         size={16}

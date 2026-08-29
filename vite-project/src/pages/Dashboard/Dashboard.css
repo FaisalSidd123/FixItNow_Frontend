@@ -898,26 +898,23 @@
 
 .sidebar-nav-item {
   width: 100%;
-
+  min-height: 56px;
   display: flex;
   align-items: center;
+  gap: 18px;
 
-  gap: 14px;
-
-  padding: 13px 14px;
-
+  padding: 12px 18px;
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
 
   background: transparent;
+  color: #aeb8cc;
 
-  color: #8f98a8;
+  font-size: 17px;
+  font-weight: 500;
+  text-align: left;
 
   cursor: pointer;
-
-  font-size: 14px;
-  font-weight: 500;
-
   transition: all 0.25s ease;
 }
 
@@ -1304,10 +1301,6 @@
     gap: 8px;
   }
 
-  /* Optional: hide notification on very small screens */
-  .notification-button {
-    display: none;
-  }
 
   .dashboard-page-content {
     padding: 20px 12px 30px;
@@ -1758,4 +1751,12 @@ border: 1px solid rgba(255, 255, 255, 0.07);
   margin-left: 270px;
   width: calc(100% - 270px);
   min-height: 100vh;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .customer-main {
+    margin-left: 0;
+    width: 100%;
+  }
 }
