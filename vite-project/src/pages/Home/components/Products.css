@@ -1,0 +1,568 @@
+/* /* =========================================================
+   PRODUCTS SECTION
+   ========================================================= */
+
+.products-section {
+    position: relative;
+    padding: 110px 0 120px;
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(245, 166, 35, 0.035) 0%,
+            transparent 45%
+        ),
+        var(--bg-dark);
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.products-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.products-heading {
+    max-width: 720px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+
+
+.products-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+
+.products-heading h2 {
+    margin: 0;
+
+    color: var(--white);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+}
+
+
+.products-heading h2 span {
+    color: var(--gold);
+}
+
+
+.products-intro {
+    max-width: 620px;
+    margin: 20px auto 0;
+
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   PRODUCT GRID
+   ========================================================= */
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+   ========================================================= */
+
+.product-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: rgba(15, 22, 41, 0.72);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+
+    box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+.product-card:hover {
+    transform: translateY(-7px);
+
+    border-color: rgba(245, 166, 35, 0.3);
+
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.42),
+        0 0 28px rgba(245, 166, 35, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+   ========================================================= */
+
+.product-image-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 250px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(245, 166, 35, 0.06),
+            transparent 65%
+        ),
+        rgba(255, 255, 255, 0.025);
+}
+
+
+.product-image-wrapper::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 55%,
+            rgba(5, 6, 8, 0.35) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+.product-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.product-card:hover .product-image {
+    transform: scale(1.06);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
+.product-card-content {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 26px;
+}
+
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+.product-category {
+    margin: 0 0 8px;
+
+    color: var(--gold);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PRODUCT NAME
+   ========================================================= */
+
+.product-card-content h3 {
+    margin: 0;
+
+    color: var(--white);
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: 1.35rem;
+    font-weight: 600;
+
+    line-height: 1.25;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.product-description {
+    display: -webkit-box;
+
+    margin: 12px 0 22px;
+
+    overflow: hidden;
+
+    color: var(--muted);
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+
+/* =========================================================
+   PRICE + STOCK
+   ========================================================= */
+
+.product-card-bottom {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: auto;
+    margin-bottom: 20px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.product-price {
+    color: var(--white);
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+
+.product-stock {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border: 1px solid rgba(245, 166, 35, 0.18);
+    border-radius: 6px;
+
+    background: rgba(245, 166, 35, 0.06);
+
+    color: var(--gold);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* =========================================================
+   DETAILS BUTTON
+   ========================================================= */
+
+.product-details-btn {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 10px;
+
+    background: rgba(245, 166, 35, 0.06);
+
+    color: var(--gold);
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: 0.86rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.product-details-btn:hover {
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+    color: #050608;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LOADING / ERROR STATES
+   ========================================================= */
+
+.products-container > p {
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1023px) {
+
+    .products-section {
+        padding: 90px 0 100px;
+    }
+
+    .products-container {
+        padding: 0 30px;
+    }
+
+    .products-heading {
+        margin-bottom: 45px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .product-image-wrapper {
+        height: 230px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .products-section {
+        padding: 75px 0 85px;
+    }
+
+    .products-container {
+        padding: 0 20px;
+    }
+
+    .products-heading {
+        margin-bottom: 35px;
+    }
+
+    .products-eyebrow {
+        font-size: 0.7rem;
+    }
+
+    .products-heading h2 {
+        font-size: clamp(2rem, 9vw, 2.5rem);
+    }
+
+    .products-intro {
+        margin-top: 16px;
+
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .product-image-wrapper {
+        height: 240px;
+    }
+
+    .product-card-content {
+        padding: 22px;
+    }
+
+    .product-card-content h3 {
+        font-size: 1.25rem;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .products-container {
+        padding: 0 16px;
+    }
+
+    .products-section {
+        padding: 65px 0 75px;
+    }
+
+    .product-image-wrapper {
+        height: 215px;
+    }
+
+    .product-card-content {
+        padding: 20px;
+    }
+
+    .product-card-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .product-card,
+    .product-image,
+    .product-details-btn {
+        transition: none;
+    }
+
+    .product-card:hover {
+        transform: none;
+    }
+
+    .product-card:hover .product-image {
+        transform: none;
+    }
+
+    .product-details-btn:hover {
+        transform: none;
+    }
+
+} 
+/* =========================================================
+   VIEW ALL PRODUCTS
+   ========================================================= */
+
+.products-view-all {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 48px;
+}
+
+.products-view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 0 28px;
+
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    border-radius: 10px;
+
+    background: rgba(245, 166, 35, 0.06);
+
+    color: var(--gold);
+
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.products-view-all-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #050608;
+    transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+
+    .products-view-all-btn {
+        transition: none;
+    }
+
+    .products-view-all-btn:hover {
+        transform: none;
+    }
+}

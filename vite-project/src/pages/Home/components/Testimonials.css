@@ -1,0 +1,182 @@
+.testimonials {
+  position: relative;
+  padding: 96px 0;
+  overflow: hidden;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────── */
+.testimonials__head {
+  text-align: center;
+  margin-bottom: 56px;
+  padding: 0 24px;
+}
+
+.testimonials__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.testimonials__head h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--white);
+}
+
+/* ─── Marquee shell ───────────────────────────────────────────────────── */
+.testimonials__marquee {
+  position: relative;
+  width: 100%;
+}
+
+/* Edge fade so cards don't hard-cut at the viewport edge */
+.testimonials__fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials__fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--bg, #0a0e1a), transparent);
+}
+
+.testimonials__fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--bg, #0a0e1a), transparent);
+}
+
+/* ─── Track: the actual scrolling row ─────────────────────────────────── */
+.testimonials__track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marquee-scroll 38s linear infinite;
+}
+
+/* Pause on hover — the whole row stops, feels intentional rather than glitchy */
+.testimonials__marquee:hover .testimonials__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+
+  /* exactly half, since the list is duplicated once */
+}
+
+/* ─── Card ────────────────────────────────────────────────────────────── */
+.t-card {
+  flex: 0 0 auto;
+  width: 420px;
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(6px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, background 0.35s ease;
+}
+
+.t-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(245, 166, 35, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.t-card__mark {
+  color: var(--gold);
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.t-card__quote {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--white);
+  margin: 0 0 24px;
+  min-height: 110px;
+  /* keeps card heights consistent across varying quote lengths */
+}
+
+.t-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.t-card__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.t-card__author {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.t-card__name {
+  font-weight: 600;
+  color: var(--white);
+}
+
+.t-card__dot {
+  color: var(--muted);
+}
+
+.t-card__city {
+  color: var(--muted);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .t-card {
+    width: 300px;
+    padding: 24px;
+  }
+
+  .t-card__quote {
+    font-size: 0.92rem;
+    min-height: 130px;
+  }
+
+  .testimonials__fade {
+    width: 60px;
+  }
+
+  .testimonials__track {
+    animation-duration: 28s;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .testimonials__track {
+    animation: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .t-card {
+    scroll-snap-align: start;
+  }
+}

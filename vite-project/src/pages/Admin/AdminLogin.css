@@ -1,0 +1,229 @@
+.admin-login-page {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      rgba(10, 14, 26, 0.92),
+      rgba(10, 14, 26, 0.92)
+    ),
+    url("https://images.unsplash.com/photo-1509391366360-2e959784a276");
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+}
+
+
+/* Card */
+
+.admin-login-card {
+
+  width: 100%;
+  max-width: 420px;
+
+  background: rgba(15,20,35,0.95);
+
+  border: 1px solid rgba(245,166,35,0.25);
+
+  backdrop-filter: blur(14px);
+
+  border-radius: 24px;
+
+  padding: 40px;
+
+  box-shadow:
+  0 0 40px rgba(0,0,0,0.5),
+  0 0 50px rgba(245,166,35,0.08);
+
+}
+
+
+
+/* Logo Section */
+
+.admin-logo {
+
+  text-align: center;
+
+  margin-bottom: 35px;
+
+}
+
+
+.admin-logo h1 {
+
+  color: white;
+
+  font-size: 2.2rem;
+
+  margin-bottom: 8px;
+
+  letter-spacing: 1px;
+
+}
+
+
+
+.admin-logo p {
+
+  color: #f5a623;
+
+  font-size: 0.95rem;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+}
+
+
+
+/* Form */
+
+.admin-login-form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+
+
+.input-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+
+
+.input-group label {
+
+  color: #b0b7c3;
+
+  font-size: 0.9rem;
+
+}
+
+
+
+.input-group input {
+
+  padding: 14px 18px;
+
+  border-radius: 12px;
+
+  border: 1px solid #2b3245;
+
+  background: #131a2a;
+
+  color: white;
+
+  font-size: 1rem;
+
+  transition: .3s ease;
+
+}
+
+
+
+.input-group input::placeholder {
+
+  color: #6f7785;
+
+}
+
+
+
+.input-group input:focus {
+
+  outline: none;
+
+  border-color: #f5a623;
+
+  box-shadow:
+  0 0 12px rgba(245,166,35,0.25);
+
+}
+
+
+
+/* Button */
+
+.login-btn {
+
+  margin-top: 10px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 50px;
+
+  background: #f5a623;
+
+  color: #0a0e1a;
+
+  font-weight: 700;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition: .3s ease;
+
+}
+
+
+
+.login-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+  0 0 25px rgba(245,166,35,0.5);
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+  .admin-login-page{
+
+    padding:20px;
+
+  }
+
+
+  .admin-login-card{
+
+    padding:30px 25px;
+
+  }
+
+
+  .admin-logo h1{
+
+    font-size:1.8rem;
+
+  }
+
+}

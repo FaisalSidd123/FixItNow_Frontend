@@ -1,0 +1,237 @@
+.confirmation-card {
+
+    width:100%;
+    max-width:650px;
+
+    margin:40px auto;
+
+    padding:40px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.03)
+    );
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    border-radius:24px;
+
+    color:white;
+
+    text-align:center;
+
+    backdrop-filter:blur(10px);
+
+    animation:fadeIn .4s ease;
+
+}
+
+
+
+/* Success Icon */
+
+.confirmation-card svg {
+
+    color:#10b981;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.confirmation-card h2 {
+
+    font-size:28px;
+
+    margin-bottom:12px;
+
+    color:#ffffff;
+
+}
+
+
+
+.confirmation-card > p {
+
+    color:#d1d5db;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    margin-bottom:30px;
+
+}
+
+
+
+/* Booking Details Box */
+
+.confirmation-details {
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:16px;
+
+    padding:20px;
+
+    text-align:left;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.confirmation-details p {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    margin:0;
+
+    color:#d1d5db;
+
+    border-bottom:1px solid rgba(255,255,255,0.06);
+
+}
+
+
+
+.confirmation-details p:last-child {
+
+    border-bottom:none;
+
+}
+
+
+
+.confirmation-details strong {
+
+    color:white;
+
+}
+
+
+
+/* Dashboard Button */
+
+.confirmation-card button {
+
+
+    width:100%;
+
+    padding:14px 25px;
+
+
+    background:#EF9F27;
+
+    color:white;
+
+
+    border:none;
+
+    border-radius:50px;
+
+
+    font-size:15px;
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.confirmation-card button:hover {
+
+
+    background:#f3ad45;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(239,159,39,.25);
+
+
+}
+
+
+
+/* Animation */
+
+@keyframes fadeIn {
+
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+
+.confirmation-card {
+
+    padding:25px;
+
+    margin:20px auto;
+
+}
+
+
+.confirmation-card h2 {
+
+    font-size:22px;
+
+}
+
+
+
+.confirmation-details p {
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:5px;
+
+}
+
+
+
+}

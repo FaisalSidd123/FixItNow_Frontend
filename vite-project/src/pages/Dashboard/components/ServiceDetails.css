@@ -1,0 +1,813 @@
+/* ===============================
+   SERVICE DETAILS
+================================ */
+
+
+.service-details-card {
+
+  margin-top:1.8rem;
+
+  padding:1.5rem;
+
+  background:rgba(255,255,255,0.02);
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  border-radius:16px;
+
+}
+
+
+
+.detail-section {
+
+  margin-bottom:1.5rem;
+
+}
+
+
+
+.detail-section h3 {
+
+  font-size:14px;
+
+  margin-bottom:0.8rem;
+
+  color:#EF9F27;
+
+}
+
+
+
+.detail-section ul {
+
+  padding-left:1rem;
+
+  margin:0;
+
+}
+
+
+
+.detail-section li {
+
+  list-style:none;
+
+  color:rgba(255,255,255,0.65);
+
+  font-size:13px;
+
+  margin-bottom:0.5rem;
+
+}
+
+
+
+.service-summary {
+
+  border-top:1px solid rgba(255,255,255,0.05);
+
+  padding-top:1rem;
+
+}
+
+
+
+.summary-row {
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:0.8rem;
+
+  font-size:14px;
+
+}
+
+
+
+.summary-row span {
+
+  color:rgba(255,255,255,0.45);
+
+}
+
+
+
+.summary-row strong {
+
+  color:white;
+
+}
+
+
+
+.continue-btn {
+
+  width:100%;
+
+  margin-top:1.5rem;
+
+  padding:0.9rem;
+
+  border:none;
+
+  border-radius:50px;
+
+  background:#EF9F27;
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+}
+.continue-btn:hover {
+
+  transform:translateY(-2px);
+
+  box-shadow:0 8px 20px rgba(239,159,39,0.3);
+
+}
+.book-now-btn{
+
+width:100%;
+
+margin-top:25px;
+
+padding:14px;
+
+border:none;
+
+border-radius:50px;
+
+background:#EF9F27;
+
+color:white;
+
+font-weight:700;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+
+.book-now-btn:hover{
+
+transform:translateY(-2px);
+
+background:#f3ad45;
+
+}
+.problem-grid{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+
+}
+
+
+.problem-card{
+
+background:rgba(255,255,255,0.05);
+
+border:1px solid rgba(255,255,255,0.1);
+
+padding:14px;
+
+border-radius:12px;
+
+color:white;
+
+font-size:14px;
+
+}
+
+
+
+.process-list{
+
+list-style:none;
+
+padding:0;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+
+
+.process-list li{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+}
+
+
+
+.process-list span{
+
+width:28px;
+
+height:28px;
+
+border-radius:50%;
+
+background:#EF9F27;
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-weight:700;
+
+}
+
+
+@media(max-width:700px){
+
+.problem-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+/* ===============================
+AMC Benefit Cards
+===============================*/
+
+.benefit-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:22px;
+
+margin-top:25px;
+
+}
+
+.benefit-card{
+
+background:#1c1c1c;
+
+border:1px solid rgba(212,175,55,.18);
+
+border-radius:18px;
+
+padding:24px;
+
+transition:.35s;
+
+text-align:center;
+
+}
+
+.benefit-card:hover{
+
+transform:translateY(-6px);
+
+border-color:#d4af37;
+
+box-shadow:0 15px 35px rgba(212,175,55,.10);
+
+}
+
+.benefit-icon{
+
+width:65px;
+
+height:65px;
+
+margin:auto;
+
+margin-bottom:18px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:30px;
+
+background:rgba(212,175,55,.12);
+
+}
+
+.benefit-card h4{
+
+color:#f5f5f5;
+
+margin-bottom:12px;
+
+font-size:18px;
+
+}
+
+.benefit-card p{
+
+color:#bdbdbd;
+
+line-height:1.7;
+
+font-size:14px;
+
+}
+
+@media(max-width:1000px){
+
+.benefit-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+
+@media(max-width:650px){
+
+.benefit-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/* ===============================
+AMC Maintenance Plans
+================================*/
+
+
+.maintenance-plans{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:22px;
+
+margin-top:25px;
+
+}
+
+
+
+.plan-card{
+
+position:relative;
+
+background:#161f2b;
+
+border:1px solid rgba(212,175,55,.15);
+
+border-radius:18px;
+
+padding:25px;
+
+transition:.35s;
+
+overflow:hidden;
+
+}
+
+
+
+.plan-card:hover{
+
+transform:translateY(-7px);
+
+border-color:#d4af37;
+
+box-shadow:0 15px 35px rgba(212,175,55,.12);
+
+}
+
+
+
+.plan-card h4{
+
+color:#fff;
+
+font-size:20px;
+
+margin-bottom:12px;
+
+}
+
+
+
+.plan-card span{
+
+display:block;
+
+color:#d4af37;
+
+font-weight:700;
+
+margin-bottom:15px;
+
+}
+
+
+
+.plan-card p{
+
+color:#c5ccd5;
+
+line-height:1.7;
+
+font-size:14px;
+
+}
+
+
+
+.plan-card ul{
+
+padding-left:18px;
+
+margin-top:18px;
+
+}
+
+
+
+.plan-card li{
+
+color:#d1d5db;
+
+margin-bottom:10px;
+
+}
+
+
+
+.recommended-plan{
+
+border:1px solid #d4af37;
+
+}
+
+.recommended-badge{
+    position: absolute;
+    top: 55px;      /* Move it lower */
+    right: 20px;
+
+    background: #d4af37;
+    color: #111;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+@media(max-width:1000px){
+
+.maintenance-plans{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+
+@media(max-width:650px){
+
+.maintenance-plans{
+
+grid-template-columns:1fr;
+
+}
+
+}
+/* =================================
+AMC Comparison Table
+================================= */
+
+
+.comparison-wrapper{
+
+width:100%;
+
+overflow-x:auto;
+
+margin-top:25px;
+
+}
+
+
+.amc-table{
+
+width:100%;
+
+border-collapse:separate;
+
+border-spacing:0;
+
+background:#161f2b;
+
+border-radius:18px;
+
+overflow:hidden;
+
+border:1px solid rgba(212,175,55,.15);
+
+}
+
+
+
+.amc-table th{
+
+padding:18px;
+
+background:#1d2633;
+
+color:#d4af37;
+
+font-size:15px;
+
+text-align:center;
+
+}
+
+
+
+.amc-table th:first-child{
+
+text-align:left;
+
+}
+
+
+
+.amc-table td{
+
+padding:17px;
+
+text-align:center;
+
+color:#d1d5db;
+
+border-top:1px solid rgba(255,255,255,.06);
+
+}
+
+
+
+.amc-table td:first-child{
+
+text-align:left;
+
+font-weight:600;
+
+color:white;
+
+}
+
+
+
+.amc-table tr{
+
+transition:.3s;
+
+}
+
+
+
+.amc-table tbody tr:hover{
+
+background:#1c2633;
+
+}
+
+
+
+/* Premium Highlight */
+
+
+.premium-column{
+
+background:rgba(212,175,55,.08);
+
+color:#d4af37 !important;
+
+font-weight:700;
+
+}
+
+
+
+/* Round table corners */
+
+
+.amc-table th:first-child{
+
+border-top-left-radius:18px;
+
+}
+
+
+.amc-table th:last-child{
+
+border-top-right-radius:18px;
+
+}
+
+/* ==============================
+   AMC FAQ SECTION
+============================== */
+
+
+.faq-container{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+margin-top:25px;
+
+}
+
+
+
+.faq-item{
+
+background:#161f2b;
+
+border:1px solid rgba(212,175,55,.15);
+
+border-radius:18px;
+
+padding:22px 25px;
+
+transition:.35s;
+
+position:relative;
+
+}
+
+
+
+.faq-item:hover{
+
+border-color:#d4af37;
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+}
+
+
+
+.faq-question{
+
+color:#ffffff;
+
+font-size:17px;
+
+font-weight:700;
+
+margin-bottom:12px;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+
+
+.faq-question::before{
+
+content:"?";
+
+width:28px;
+
+height:28px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+background:rgba(212,175,55,.15);
+
+color:#d4af37;
+
+font-weight:800;
+
+}
+
+
+
+.faq-answer{
+
+color:#c5ccd5;
+
+font-size:15px;
+
+line-height:1.8;
+
+padding-left:38px;
+
+}
+
+.details-navigation{
+    display:flex;
+    margin-bottom:18px;
+}
+
+.back-btn{
+    background:transparent;
+    border:1px solid rgba(212,175,55,.35);
+    color:#d4af37;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:.92rem;
+    font-weight:600;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#d4af37;
+    color:#111;
+}
+
+.details-navigation{
+    display:flex;
+    margin:20px 0;
+}
+
+.details-back-btn{
+    background:#181818;
+    color:#d4af37;
+    border:1px solid rgba(212,175,55,.4);
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:.9rem;
+    cursor:pointer;
+    transition:.3s;
+    font-weight:600;
+}
+
+.details-back-btn:hover{
+    background:#d4af37;
+    color:#111;
+}
+ @media (max-width:768px){
+
+    .recommended-badge{
+
+        position: static;
+
+        display: block;
+
+        width: fit-content;
+
+        margin: 0 auto 15px;
+
+        padding: 6px 14px;
+
+        font-size: 11px;
+ 
+        border-radius: 20px;
+    }
+
+} 

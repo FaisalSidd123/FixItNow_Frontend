@@ -1,0 +1,509 @@
+/* =========================================
+   CUSTOMER TABLE CONTAINER
+========================================= */
+
+.customer-table-container {
+    width: 100%;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   DESKTOP TABLE
+========================================= */
+
+.customer-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.customer-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 850px;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.customer-table thead {
+    background: rgba(255, 255, 255, 0.015);
+}
+
+
+.customer-table th {
+    padding: 14px 18px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    color: #666666;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLE ROW
+========================================= */
+
+.customer-table td {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    vertical-align: middle;
+}
+
+
+.customer-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+
+.customer-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+
+.customer-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   CUSTOMER NAME
+========================================= */
+
+.customer-name-cell {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 170px;
+}
+
+
+.customer-name-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    min-width: 0;
+}
+
+
+.customer-name-info strong {
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+.customer-name-info span {
+    color: #555555;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   CONTACT
+========================================= */
+
+.customer-contact {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 210px;
+}
+
+
+.customer-contact div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777777;
+}
+
+
+.customer-contact svg {
+    flex-shrink: 0;
+}
+
+
+.customer-contact span {
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   SERVICES
+========================================= */
+
+.customer-services {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 28px;
+    height: 28px;
+
+    padding: 0 7px;
+
+    border-radius: 7px;
+
+    background: rgba(212, 175, 55, 0.08);
+
+    color: #d4af37;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   JOINED
+========================================= */
+
+.customer-joined {
+    color: #777777;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.customer-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+
+.customer-status.active {
+    color: #d4af37;
+}
+
+
+.customer-status.active .status-dot {
+    background: #d4af37;
+}
+
+
+.customer-status.pending {
+    color: #b7a46a;
+}
+
+
+.customer-status.pending .status-dot {
+    background: #b7a46a;
+}
+
+
+.customer-status.inactive {
+    color: #666666;
+}
+
+
+.customer-status.inactive .status-dot {
+    background: #555555;
+}
+
+
+/* =========================================
+   ACTION BUTTON
+========================================= */
+
+.customer-action-btn {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #666666;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.customer-action-btn:hover {
+    color: #d4af37;
+
+    background: rgba(212, 175, 55, 0.08);
+
+    border-color: rgba(212, 175, 55, 0.15);
+}
+
+
+/* =========================================
+   MOBILE LIST
+========================================= */
+
+.customer-mobile-list {
+    display: none;
+}
+
+
+/* =========================================
+   MOBILE CARDS
+========================================= */
+
+.customer-mobile-card {
+    padding: 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+.customer-mobile-card:last-child {
+    border-bottom: none;
+}
+
+
+.mobile-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.mobile-card-contact {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 15px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+.mobile-card-contact div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #666666;
+
+    font-size: 10px;
+
+    min-width: 0;
+}
+
+
+.mobile-card-contact svg {
+    flex-shrink: 0;
+}
+
+
+.mobile-card-contact span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.mobile-card-details {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.mobile-card-details > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.mobile-card-details > div > span {
+    color: #555555;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.mobile-card-details strong {
+    color: #cccccc;
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .customer-table {
+        min-width: 760px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+    .customer-table-wrapper {
+        display: none;
+    }
+
+
+    .customer-mobile-list {
+        display: block;
+    }
+
+
+    .customer-table-container {
+        border-radius: 12px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .customer-mobile-card {
+        padding: 14px;
+    }
+
+
+    .mobile-card-details {
+        gap: 6px;
+    }
+
+
+    .mobile-card-details strong {
+        font-size: 10px;
+    }
+
+}
+.customer-avatar {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(212, 175, 55, 0.12);
+
+    border: 1px solid rgba(212, 175, 55, 0.15);
+
+    color: #d4af37;
+
+    font-size: 11px;
+    font-weight: 600;
+}

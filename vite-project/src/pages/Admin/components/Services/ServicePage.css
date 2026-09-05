@@ -1,0 +1,75 @@
+.service-page {
+    width: 100%;
+}
+
+.service-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.service-page-header h1 {
+    margin: 0;
+}
+
+.service-page-header p {
+    margin: 6px 0 0;
+}
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+
+    .service-page-header {
+        margin-bottom: 24px;
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .service-page {
+        width: 100%;
+    }
+
+    .service-page-header {
+        margin-bottom: 20px;
+    }
+
+    .service-page-header h1 {
+        font-size: 24px;
+    }
+
+    .service-page-header p {
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .service-page-header {
+        margin-bottom: 18px;
+    }
+
+    .service-page-header h1 {
+        font-size: 22px;
+    }
+
+    .service-page-header p {
+        font-size: 12px;
+    }
+
+}

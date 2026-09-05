@@ -1,0 +1,181 @@
+/* =========================================
+   RECENT ACTIVITY
+========================================= */
+
+.recent-activity-card {
+    min-width: 0;
+
+    padding: 22px;
+
+    background: #111111;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 14px;
+}
+
+
+.activity-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+
+.activity-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.activity-header p {
+    margin: 5px 0 0;
+
+    color: #666;
+
+    font-size: 12px;
+}
+
+
+.view-all-btn {
+    border: none;
+
+    background: transparent;
+
+    color: #D4AF37;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: opacity 0.2s ease;
+}
+
+
+.view-all-btn:hover {
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   ACTIVITY ITEMS
+========================================= */
+
+.activity-list {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.activity-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+
+.activity-icon.customer {
+    background: rgba(212, 175, 55, 0.10);
+}
+
+
+.activity-icon.service {
+    background: rgba(140, 122, 59, 0.12);
+}
+
+
+.activity-icon.product {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+
+.activity-details {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.activity-details strong {
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+.activity-details span {
+    color: #666;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+.activity-time {
+    flex-shrink: 0;
+
+    color: #555;
+
+    font-size: 10px;
+}
+@media (max-width: 767px) {
+
+    .secondary-content-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100%;
+    }
+
+}

@@ -1,0 +1,11 @@
+.customer-loading,
+.customer-error {
+    padding: 40px 20px;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.customer-error {
+    color: #d4af37;
+}
