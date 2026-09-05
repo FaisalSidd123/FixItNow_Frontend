@@ -18,6 +18,8 @@ const ScrollCanvas = () => {
 
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [fadeExit, setFadeExit] = useState(false);
+  const [imagesReady, setImagesReady] = useState(false);
 
   // ─── Preload ────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -25,14 +27,22 @@ const ScrollCanvas = () => {
 
     preloadFrames(paths, (pct) => {
       setProgress(pct);
+      if (pct >= 10) {
+        setFadeExit(true);
+      }
     })
       .then((loadedImages) => {
         imagesRef.current = loadedImages.filter(Boolean);
-        setLoading(false);
+        setFadeExit(true);
+        setImagesReady(true);
+        if (canvasRef.current && imagesRef.current.length > 0) {
+          fitCanvas();
+          drawFrame(0);
+        }
       })
       .catch((err) => {
-        console.error('Preload error:', err);
-        setLoading(false);
+        console.error("Preload error:", err);
+        setFadeExit(true);
       });
 
     return () => {
@@ -40,18 +50,28 @@ const ScrollCanvas = () => {
     };
   }, []);
 
+  // Handles the smooth DOM unmounting after the CSS fade animation completes
+  useEffect(() => {
+    if (fadeExit) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [fadeExit]);
+
   // ─── GSAP ScrollTrigger + Canvas ────────────────────────────────────────────
   useEffect(() => {
-    if (loading || imagesRef.current.length === 0) return;
+    if (!imagesReady || imagesRef.current.length === 0) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     fitCanvas();
-    drawFrame(0);
+    drawFrame(frameIndexRef.current);
 
     const totalFrames = imagesRef.current.length;
-    const frameObj = { index: 0 };
+    const frameObj = { index: frameIndexRef.current };
 
     const animation = gsap.to(frameObj, {
       index: totalFrames - 1,
@@ -60,21 +80,18 @@ const ScrollCanvas = () => {
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        /**
-         * FIX 1: scrub: 0.3 instead of scrub: 1
-         * scrub: 1 means GSAP waits 1 full second to catch up — feels laggy.
-         * scrub: 0.3 = 300ms catch-up — snappy but still smooth.
-         * scrub: true = instant/no lag (use this if 0.3 still feels slow)
-         */
-        scrub: 0.3,
+        scrub: 0.2,
       },
       onUpdate: () => {
-        const idx = Math.round(frameObj.index);
+        const idx = Math.min(
+          totalFrames - 1,
+          Math.max(0, Math.round(frameObj.index))
+        );
         if (frameIndexRef.current !== idx) {
           frameIndexRef.current = idx;
-          scheduleDrawFrame(idx);
+          drawFrame(idx);
         }
-      },
+      }
     });
 
     // Fade heading on early scroll
@@ -102,6 +119,10 @@ const ScrollCanvas = () => {
 
     window.addEventListener('resize', fitCanvas);
 
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
     return () => {
       window.removeEventListener('resize', fitCanvas);
       animation.scrollTrigger?.kill();
@@ -112,7 +133,7 @@ const ScrollCanvas = () => {
       indicatorTween.kill();
       if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
     };
-  }, [loading]);
+  }, [imagesReady]);
 
   // ─── Canvas Helpers ──────────────────────────────────────────────────────────
 
@@ -139,7 +160,7 @@ const ScrollCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d', { alpha: false }); // FIX 3: alpha:false skips alpha compositing = faster
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const img = imagesRef.current[index];
@@ -186,7 +207,7 @@ const ScrollCanvas = () => {
   return (
     <>
       {loading && (
-        <div className="loader-screen">
+        <div className={`loader-screen ${fadeExit ? "fade-out" : ""}`}>
           <div className="loader-content">
             <h2 className="loader-title">FixItNow</h2>
             <p className="loader-subtitle">Loading cinematic experience...</p>

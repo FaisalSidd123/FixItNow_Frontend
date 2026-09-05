@@ -3,11 +3,13 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
   sendPasswordResetEmail
 } from "firebase/auth";
 
 import { auth } from "./firebase";
 import { updateProfile } from "firebase/auth";
+
 export const doCreateUserWithEmailAndPassword = async (
   name,
   email,

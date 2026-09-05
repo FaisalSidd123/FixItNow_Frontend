@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminProtectedRoute from './Routes/AdminProtectedRoute';
+import ProtectedRoute from './Routes/ProtectedRoute';
 import ProductsCatalogue from "./pages/Products/ProductsCatalogue";
 import ProductDetail from "./pages/Products/ProductDetail";
 import Checkout from "./pages/Products/Checkout";
@@ -57,10 +58,9 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          <>
-          
+          <ProtectedRoute>
             <Dashboard />
-          </>
+          </ProtectedRoute>
         }
       />
 

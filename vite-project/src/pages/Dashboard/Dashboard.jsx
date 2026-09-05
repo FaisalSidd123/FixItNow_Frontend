@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { doSignOut } from '../../firebase/auth';
@@ -10,7 +10,6 @@ import BookingConfirmation from "./components/BookingConfirmation";
 import RepairForm from "./components/repairform";
 import AMCForm from "./components/AMCform";
 import AMCConfirmation from "./components/AMCConfirmation";
-import { useEffect } from "react";
 import { submitInspection } from "../../api/inspectionApi";
 import { submitRepair } from '../../api/repairApi';
 import { submitAmc } from "../../api/amcApi";
@@ -75,6 +74,36 @@ const [serviceRequests, setServiceRequests] = useState([]);
 const [amcContracts, setAmcContracts] = useState([]);
 const [orders, setOrders] = useState([]);
 const [selectedAMC, setSelectedAMC] = useState(null);
+const [showNotifications, setShowNotifications] = useState(false);
+
+const userNotifications = useMemo(() => {
+  const list = [];
+  serviceRequests.forEach((req) => {
+    list.push({
+      id: req.id,
+      title: `${req.type} Update`,
+      description: `Your request #${String(req.id).slice(0, 8)} status is currently "${req.status}".`,
+      time: req.date ? new Date(req.date).toLocaleDateString() : "Recent"
+    });
+  });
+  amcContracts.forEach((amc) => {
+    list.push({
+      id: amc.id,
+      title: `AMC Contract (${amc.plan})`,
+      description: `Contract #${String(amc.id).slice(0, 8)} status is "${amc.status}".`,
+      time: amc.date ? new Date(amc.date).toLocaleDateString() : "Recent"
+    });
+  });
+  orders.forEach((ord) => {
+    list.push({
+      id: ord.id,
+      title: `Product Order Status`,
+      description: `Order #${String(ord.id).slice(0, 8).toUpperCase()} is "${ord.status}". Total: Rs. ${Number(ord.total_amount).toLocaleString()}`,
+      time: ord.created_at ? new Date(ord.created_at).toLocaleDateString() : "Recent"
+    });
+  });
+  return list;
+}, [serviceRequests, amcContracts, orders]);
 
 useEffect(() => {
 
@@ -1354,11 +1383,41 @@ const sidebarItems = [
   {activeTab === "orders" && "My Product Orders"}
 </div>
 
-        <div className="topbar-actions">
+        <div className="topbar-actions" style={{ position: "relative" }}>
 
-          <button className="notification-button">
+          <button
+            className="notification-button"
+            onClick={() => setShowNotifications(!showNotifications)}
+            title="Notifications"
+            style={{ position: "relative" }}
+          >
             <Bell size={20} />
+            {userNotifications.length > 0 && (
+              <span className="notif-badge">{userNotifications.length}</span>
+            )}
           </button>
+
+          {showNotifications && (
+            <div className="user-notif-dropdown">
+              <div className="notif-dropdown-header">
+                <strong>Activity & Notifications</strong>
+                <span>{userNotifications.length} items</span>
+              </div>
+              <div className="notif-dropdown-list">
+                {userNotifications.length === 0 ? (
+                  <div className="notif-empty">No active notifications yet.</div>
+                ) : (
+                  userNotifications.map((notif, i) => (
+                    <div key={i} className="notif-card-item">
+                      <div className="notif-card-title">{notif.title}</div>
+                      <div className="notif-card-desc">{notif.description}</div>
+                      <small className="notif-card-time">{notif.time}</small>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="topbar-user">
             <div className="user-avatar">

@@ -14,6 +14,10 @@ import {
     AlertCircle
 } from "lucide-react";
 
+import { useState, useEffect } from "react";
+import { updateInspectionStatus } from "../../../../api/inspectionApi";
+import { updateRepairStatus } from "../../../../api/repairApi";
+import { updateAMCStatus } from "../../../../api/amcApi";
 import "./ServiceRequestDetails.css";
 
 function ServiceRequestDetails({
@@ -21,10 +25,37 @@ function ServiceRequestDetails({
     service,
     onClose
 }) {
-
     if (!request) {
         return null;
     }
+
+    const [currentStatus, setCurrentStatus] = useState(request.status || "Pending");
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    useEffect(() => {
+        if (request) {
+            setCurrentStatus(request.status || "Pending");
+        }
+    }, [request]);
+
+    const handleStatusChange = async (newStatus) => {
+        setIsUpdating(true);
+        try {
+            if (service === "inspection") {
+                await updateInspectionStatus(request.id, newStatus);
+            } else if (service === "repair") {
+                await updateRepairStatus(request.id, newStatus);
+            } else if (service === "amc") {
+                await updateAMCStatus(request.id, newStatus);
+            }
+            setCurrentStatus(newStatus);
+            request.status = newStatus;
+        } catch (err) {
+            alert("Failed to update status: " + err.message);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
 
     const serviceNames = {
         inspection: "Inspection",
@@ -95,16 +126,37 @@ function ServiceRequestDetails({
                 </div>
 
 
-                {/* REQUEST STATUS */}
-
-                <div className="service-details-status">
-
-                    <span>Status</span>
-
-                    <strong className={`status-${request.status}`}>
-                        {formatValue(request.status)}
-                    </strong>
-
+                {/* REQUEST STATUS & UPDATE SELECTOR */}
+                <div className="service-details-status" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div>
+                        <span>Status: </span>
+                        <strong className={`status-${currentStatus}`} style={{ marginLeft: "8px" }}>
+                            {formatValue(currentStatus)}
+                        </strong>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.6)" }}>Update: </span>
+                        <select
+                            value={String(currentStatus).toLowerCase()}
+                            onChange={(e) => handleStatusChange(e.target.value)}
+                            disabled={isUpdating}
+                            style={{
+                                background: "#111827",
+                                color: "#ffffff",
+                                border: "1px solid rgba(255, 255, 255, 0.15)",
+                                borderRadius: "8px",
+                                padding: "6px 12px",
+                                fontSize: "13px",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
                 </div>
 
 

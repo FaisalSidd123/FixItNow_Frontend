@@ -74,7 +74,11 @@ function CustomerTable({ customers, onCustomerSelect }) {
 
                             return (
 
-                                <tr key={customer.id}>
+                                <tr
+                                    key={customer.id}
+                                    onClick={() => onCustomerSelect(customer)}
+                                    style={{ cursor: "pointer" }}
+                                >
 
                                     {/* CUSTOMER */}
 
@@ -148,11 +152,25 @@ function CustomerTable({ customers, onCustomerSelect }) {
 
                                     <td>
 
-                                        <span className="customer-services">
-
-                                            —
-
-                                        </span>
+                                        <button
+                                            className="customer-services"
+                                            style={{
+                                                background: "rgba(239, 159, 39, 0.1)",
+                                                border: "1px solid rgba(239, 159, 39, 0.25)",
+                                                color: "#EF9F27",
+                                                borderRadius: "6px",
+                                                padding: "4px 10px",
+                                                fontSize: "12px",
+                                                cursor: "pointer",
+                                                fontWeight: "600"
+                                            }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onCustomerSelect(customer);
+                                            }}
+                                        >
+                                            View Activity
+                                        </button>
 
                                     </td>
 
@@ -317,9 +335,24 @@ function CustomerTable({ customers, onCustomerSelect }) {
 
                                     <span>Services</span>
 
-                                    <strong>
-                                        —
-                                    </strong>
+                                    <button
+                                        style={{
+                                            background: "rgba(239, 159, 39, 0.1)",
+                                            border: "1px solid rgba(239, 159, 39, 0.25)",
+                                            color: "#EF9F27",
+                                            borderRadius: "6px",
+                                            padding: "2px 8px",
+                                            fontSize: "11px",
+                                            cursor: "pointer",
+                                            fontWeight: "600"
+                                        }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onCustomerSelect(customer);
+                                        }}
+                                    >
+                                        View Activity
+                                    </button>
 
                                 </div>
 

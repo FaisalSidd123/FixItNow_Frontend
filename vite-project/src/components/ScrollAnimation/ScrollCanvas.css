@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Scroll Animation Container & Sticky Wrapper styles */
 
 .scroll-animation-container {
@@ -30,13 +32,22 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #0c0c0c;
+  background-color: #080b13; /* Deep dark blue-black to match main brand theme */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999; /* Float above everything including the default navbar */
-  font-family: 'Outfit', 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #FFFFFF;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
+}
+
+.loader-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .loader-content {
@@ -57,6 +68,12 @@
   background: linear-gradient(135deg, #FFFFFF 60%, #EF9F27 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: loaderTitlePulse 2s infinite ease-in-out;
+}
+
+@keyframes loaderTitlePulse {
+  0%, 100% { opacity: 0.85; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
 }
 
 .loader-subtitle {

@@ -7,10 +7,11 @@ import ServiceChart from "./components/overview/ServiceChart";
 import RecentActivity from "./components/overview/RecentActivity";
 import { useState,useEffect } from "react";
 import { getOverview } from "../../api/overviewService";
-import CustomerPage from "./components/customers/CustomerPage";
-import ProductPage from "./components/products/ProductPage";
+import CustomerPage from "./components/Customers/CustomerPage";
+import ProductPage from "./components/Products/ProductPage";
 import ServicePage from "./components/Services/ServicePage";
 import OrderPage from "./components/orders/OrderPage";
+import ReviewPage from "./components/reviews/ReviewPage";
 import { fetchSalesSummary } from "../../api/orderApi";
 import NotificationDropdown from "./components/overview/NotificationDropdown";
 import {doSignOut } from "../../firebase/auth";
@@ -22,7 +23,8 @@ import {
     Settings,
     LogOut,
     Menu, Search, Bell, CircleDollarSign,
-    ShoppingBag
+    ShoppingBag,
+    Star
 } from "lucide-react";
 
 function AdminDashboard() {
@@ -46,7 +48,7 @@ useEffect(() => {
             setOverviewLoading(true);
             setOverviewError("");
 
-            const data = await getOverview();
+            const data = await getOverview(dateRange);
 
             setOverviewData(data);
 
@@ -72,7 +74,7 @@ useEffect(() => {
 
     loadOverview();
 
-}, []);
+}, [dateRange]);
 useEffect(() => {
 
     const loadSalesSummary = async () => {
@@ -182,6 +184,17 @@ const formatSales = (amount) => {
 >
     <Wrench size={19} strokeWidth={1.8} />
     <span>Services</span>
+</button>
+
+<button
+    className={`nav-item ${activeTab === "reviews" ? "active" : ""}`}
+    onClick={() => {
+        setActiveTab("reviews");
+        setSidebarOpen(false);
+    }}
+>
+    <Star size={19} strokeWidth={1.8} />
+    <span>Reviews</span>
 </button>
 
                 </nav>
@@ -450,6 +463,7 @@ const formatSales = (amount) => {
 
 {activeTab === "services" && <ServicePage />}
 {activeTab === "orders" && <OrderPage />}
+{activeTab === "reviews" && <ReviewPage />}
 </section>
 
 

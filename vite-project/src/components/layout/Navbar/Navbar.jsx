@@ -104,28 +104,23 @@ const Navbar = () => {
                 gap: "10px"
               }}
             >
-              <div className="avatar">
-                <User size={20} />
-              </div>
-              <span className="user-name">
-                {currentUser?.displayName}
-              </span>
-              <Link to="/dashboard" className="navbar__signin" style={{ marginLeft: '10px' }}>
+              <Link to="/dashboard" className="navbar__signin">
                 Dashboard
               </Link>
               <button
                 className="navbar__signup"
                 onClick={handleLogout}
-                style={{ marginLeft: '10px' }}
               >
                 Logout
               </button>
+              <div className="avatar" title={currentUser?.displayName || "Account"}>
+                <User size={20} />
+              </div>
+              <span className="user-name">
+                {currentUser?.displayName}
+              </span>
             </div>
           )}
-
-          <a href="/#contact" className="navbar__cta">
-            Get Free Quote
-          </a>
         </div>
 
         <button
@@ -202,13 +197,6 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <a
-              href="/#contact"
-              className="navbar__cta navbar__cta--mobile"
-              onClick={() => setMobileOpen(false)}
-            >
-              Get Free Quote
-            </a>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
+import { getSiteReviews } from '../../../api/reviewApi';
 import './Testimonials.css';
 
-const testimonials = [
+const defaultTestimonials = [
   {
     quote: "FixItNow transformed our energy bills completely. Within 3 months, we were saving over 80% on electricity. The installation was seamless.",
     name: 'Ahmed Khan',
@@ -21,19 +22,7 @@ const testimonials = [
     name: 'Bilal Hussain',
     city: 'Karachi',
     stars: 5,
-  },
-  {
-    quote: "The whole process took less time than I expected. Six months in, the panels have already paid for a third of themselves.",
-    name: 'Fatima Raza',
-    city: 'Faisalabad',
-    stars: 5,
-  },
-  {
-    quote: "What stood out was the after-sales support. Any time I had a question, someone from the team picked up within minutes.",
-    name: 'Usman Tariq',
-    city: 'Lahore',
-    stars: 5,
-  },
+  }
 ];
 
 const Card = ({ t }) => (
@@ -42,14 +31,13 @@ const Card = ({ t }) => (
     <p className="t-card__quote">{t.quote}</p>
     <div className="t-card__footer">
       <div className="t-card__stars">
-        {Array.from({ length: t.stars }).map((_, i) => (
+        {Array.from({ length: t.stars || 5 }).map((_, i) => (
           <Star key={i} size={13} fill="var(--gold)" color="var(--gold)" />
         ))}
       </div>
       <div className="t-card__author">
         <span className="t-card__name">{t.name}</span>
-        <span className="t-card__dot">·</span>
-        <span className="t-card__city">{t.city}</span>
+        {t.city && <><span className="t-card__dot">·</span><span className="t-card__city">{t.city}</span></>}
       </div>
     </div>
   </div>
@@ -57,9 +45,29 @@ const Card = ({ t }) => (
 
 const Testimonials = () => {
   const trackRef = useRef(null);
+  const [list, setList] = useState(defaultTestimonials);
 
-  // Duplicate the list so the CSS marquee loop is seamless
-  const loopList = [...testimonials, ...testimonials];
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const fetched = await getSiteReviews();
+        if (fetched && fetched.length > 0) {
+          const mapped = fetched.map(r => ({
+            quote: r.comment,
+            name: r.author_name,
+            city: r.author_email ? r.author_email.split('@')[0] : 'Verified Client',
+            stars: r.rating || 5
+          }));
+          setList(mapped);
+        }
+      } catch (err) {
+        console.error("Error loading site reviews:", err);
+      }
+    };
+    loadReviews();
+  }, []);
+
+  const loopList = [...list, ...list];
 
   return (
     <section id="testimonials" className="testimonials">

@@ -64,7 +64,7 @@ const CTABanner = () => {
             Join thousands of smart homeowners and businesses saving up to 90% on utility bills while securing energy independence. Get your customized proposal today.
           </p>
           <div className="cta-banner__buttons">
-            <a href="#contact" className="btn btn--primary">Get Free Quote</a>
+            <a href="/products" className="btn btn--primary">Explore Products</a>
             <a href="tel:+923001234567" className="btn btn--outline">
               <PhoneCall size={18} /> Call Us Now
             </a>

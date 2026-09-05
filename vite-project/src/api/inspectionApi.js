@@ -102,3 +102,22 @@ export const getAllInspections = async () => {
 
     return data;
 };
+
+export const updateInspectionStatus = async (id, status) => {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) throw new Error("User not logged in");
+    const token = await currentUser.getIdToken();
+
+    const response = await fetch(`http://localhost:5000/api/inspections/admin/${id}/status`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ status })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to update inspection status");
+    return data;
+};

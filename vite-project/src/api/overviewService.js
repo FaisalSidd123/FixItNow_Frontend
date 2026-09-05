@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-export const getOverview = async () => {
+export const getOverview = async (range = "Last 30 Days") => {
 
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -12,8 +12,7 @@ export const getOverview = async () => {
     const token = await currentUser.getIdToken();
 
     const response = await fetch(
-    
-    "http://localhost:5000/api/overview",
+        `http://localhost:5000/api/overview?range=${encodeURIComponent(range)}`,
         {
             method: "GET",
             headers: {
