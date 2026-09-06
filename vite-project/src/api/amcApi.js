@@ -10,7 +10,7 @@ export const submitAmc = async (formData) => {
 
   const token = await currentUser.getIdToken();
 
-  const response = await fetch('http://localhost:5000/api/amc', {
+  const response = await fetch('https://fixitnowbackend-production.up.railway.app/api/amc', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const getAMCs = async () => {
 
 
   const response = await fetch(
-    "http://localhost:5000/api/amc",
+    "https://fixitnowbackend-production.up.railway.app/api/amc",
     {
       method:"GET",
       headers:{
@@ -80,7 +80,7 @@ export const submitAMC = async (formData) => {
 
 
   const response = await fetch(
-    "http://localhost:5000/api/amc",
+    "https://fixitnowbackend-production.up.railway.app/api/amc",
     {
       method: "POST",
 
@@ -117,7 +117,7 @@ export const getAllAMCContracts = async () => {
     const token = await currentUser.getIdToken();
 
     const response = await fetch(
-        "http://localhost:5000/api/amc/admin",
+        "https://fixitnowbackend-production.up.railway.app/api/amc/admin",
         {
             method: "GET",
             headers: {
@@ -143,7 +143,7 @@ export const updateAMCStatus = async (id, status) => {
     if (!currentUser) throw new Error("User not logged in");
     const token = await currentUser.getIdToken();
 
-    const response = await fetch(`http://localhost:5000/api/amc/admin/${id}/status`, {
+    const response = await fetch(`https://fixitnowbackend-production.up.railway.app/api/amc/admin/${id}/status`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,

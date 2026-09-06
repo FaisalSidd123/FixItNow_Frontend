@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-const BASE_URL = "http://localhost:5000/api/reviews";
+const BASE_URL = "https://fixitnowbackend-production.up.railway.app/api/reviews";
 
 export const getSiteReviews = async () => {
   const res = await fetch(`${BASE_URL}/site`);

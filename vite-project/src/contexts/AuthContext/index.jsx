@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
   const syncUserWithBackend = async (firebaseUser) => {
     try {
       const token = await firebaseUser.getIdToken();
-      const response = await fetch('http://localhost:5000/api/users/sync', {
+      const response = await fetch('https://fixitnowbackend-production.up.railway.app/api/users/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
     const token = await firebaseUser.getIdToken();
 
     const response = await fetch(
-      "http://localhost:5000/api/users/admin-check",
+      "https://fixitnowbackend-production.up.railway.app/api/users/admin-check",
       {
         method: "GET",
         headers: {

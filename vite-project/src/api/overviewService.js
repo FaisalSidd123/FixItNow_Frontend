@@ -12,7 +12,7 @@ export const getOverview = async (range = "Last 30 Days") => {
     const token = await currentUser.getIdToken();
 
     const response = await fetch(
-        `http://localhost:5000/api/overview?range=${encodeURIComponent(range)}`,
+        `https://fixitnowbackend-production.up.railway.app/api/overview?range=${encodeURIComponent(range)}`,
         {
             method: "GET",
             headers: {

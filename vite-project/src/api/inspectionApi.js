@@ -11,7 +11,7 @@ export const submitInspection = async (formData) => {
   const token = await currentUser.getIdToken();
 
   const response = await fetch(
-    'http://localhost:5000/api/inspections',
+    'https://fixitnowbackend-production.up.railway.app/api/inspections',
     {
       method: 'POST',
 
@@ -50,7 +50,7 @@ export const getInspections = async () => {
 
 
   const response = await fetch(
-    "http://localhost:5000/api/inspections",
+    "https://fixitnowbackend-production.up.railway.app/api/inspections",
     {
       method: "GET",
       headers: {
@@ -83,7 +83,7 @@ export const getAllInspections = async () => {
     const token = await currentUser.getIdToken();
 
     const response = await fetch(
-        "http://localhost:5000/api/inspections/admin",
+        "https://fixitnowbackend-production.up.railway.app/api/inspections/admin",
         {
             method: "GET",
             headers: {
@@ -109,7 +109,7 @@ export const updateInspectionStatus = async (id, status) => {
     if (!currentUser) throw new Error("User not logged in");
     const token = await currentUser.getIdToken();
 
-    const response = await fetch(`http://localhost:5000/api/inspections/admin/${id}/status`, {
+    const response = await fetch(`https://fixitnowbackend-production.up.railway.app/api/inspections/admin/${id}/status`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,

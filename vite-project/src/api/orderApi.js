@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-const API_BASE = "http://localhost:5000/api/orders";
+const API_BASE = "https://fixitnowbackend-production.up.railway.app/api/orders";
 
 const getHeaders = async () => {
     const auth = getAuth();

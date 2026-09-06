@@ -11,7 +11,7 @@ export const submitRepair = async (formData) => {
   const token = await currentUser.getIdToken();
 
   const response = await fetch(
-    "http://localhost:5000/api/repairs",
+    "https://fixitnowbackend-production.up.railway.app/api/repairs",
     {
       method: "POST",
 
@@ -48,7 +48,7 @@ const token = await currentUser.getIdToken();
 
 
 const response = await fetch(
-"http://localhost:5000/api/repairs",
+"https://fixitnowbackend-production.up.railway.app/api/repairs",
 {
  method:"GET",
 
@@ -86,7 +86,7 @@ export const getAllRepairs = async () => {
     const token = await currentUser.getIdToken();
 
     const response = await fetch(
-        "http://localhost:5000/api/repairs/admin",
+        "https://fixitnowbackend-production.up.railway.app/api/repairs/admin",
         {
             method: "GET",
             headers: {
@@ -112,7 +112,7 @@ export const updateRepairStatus = async (id, status) => {
     if (!currentUser) throw new Error("User not logged in");
     const token = await currentUser.getIdToken();
 
-    const response = await fetch(`http://localhost:5000/api/repairs/admin/${id}/status`, {
+    const response = await fetch(`https://fixitnowbackend-production.up.railway.app/api/repairs/admin/${id}/status`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,

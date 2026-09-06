@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/users";
+const API_URL = "https://fixitnowbackend-production.up.railway.app/api/users";
 
 
 export const checkAdminStatus = async (token) => {

@@ -1,6 +1,6 @@
 import { auth } from "../firebase/firebase";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "https://fixitnowbackend-production.up.railway.app/api/products";
 
 export const fetchProducts = async () => {
     const firebaseUser = auth.currentUser;
@@ -35,7 +35,7 @@ export const fetchProducts = async () => {
 export const fetchPublicProducts = async () => {
 
     const response = await fetch(
-        "http://localhost:5000/api/products/public"
+        "https://fixitnowbackend-production.up.railway.app/api/products/public"
     );
 
     if (!response.ok) {
@@ -56,7 +56,7 @@ export const fetchPublicProducts = async () => {
 export const fetchPublicProductById = async (productId) => {
 
     const response = await fetch(
-        `http://localhost:5000/api/products/public/${productId}`
+        `https://fixitnowbackend-production.up.railway.app/api/products/public/${productId}`
     );
 
     if (!response.ok) {
